@@ -813,9 +813,11 @@
         washi.addQuad([W/2, yTop, zTop], [W/2, yLip, zLip], [W/2, yVal, zVal], [W/2, yWallDrop, zTop], cGreen);
 
         // 4. Structural Black Iron Cantilever Framework
-        // Front tubular crossbar (continuous 40mm diameter iron pipe capped within side skirts)
-        master.addCylinder([-W/2 + 0.01, yLip - 0.02, zLip - 0.02], [W/2 - 0.01, yLip - 0.02, zLip - 0.02], 0.020, cIron, 8);
-        washi.addCylinder([-W/2 + 0.01, yLip - 0.02, zLip - 0.02], [W/2 - 0.01, yLip - 0.02, zLip - 0.02], 0.020, cIron, 8);
+        // Front tubular crossbar (continuous 36mm diameter iron pipe safely set back behind front valance)
+        const yCross = yLip - 0.025;
+        const zCross = zLip - 0.035;
+        master.addCylinder([-W/2 + 0.02, yCross, zCross], [W/2 - 0.02, yCross, zCross], 0.018, cIron, 8);
+        washi.addCylinder([-W/2 + 0.02, yCross, zCross], [W/2 - 0.02, yCross, zCross], 0.018, cIron, 8);
 
         // Rear wall mounting timber ledger beam
         master.addBox([0, yTop + 0.01, zTop - 0.015], [W, 0.05, 0.03], [0.20, 0.14, 0.10, 1.0]);
@@ -840,19 +842,19 @@
           master.addBox([sx, 0.72, 0.035], [0.018, 0.07, 0.040], cIron);
           washi.addBox([sx, 0.72, 0.035], [0.018, 0.07, 0.040], cIron);
 
-          // Front eave knuckle joint bracket
-          master.addBox([sx, yLip - 0.02, zLip - 0.02], [0.038, 0.044, 0.044], cIron);
-          washi.addBox([sx, yLip - 0.02, zLip - 0.02], [0.038, 0.044, 0.044], cIron);
+          // Front eave knuckle joint bracket (housed cleanly on underside behind valance fabric)
+          master.addBox([sx, yCross - 0.012, zCross], [0.036, 0.036, 0.034], cIron);
+          washi.addBox([sx, yCross - 0.012, zCross], [0.036, 0.036, 0.034], cIron);
 
           // Upper slope rafter tube (under canvas, supporting roof span)
           const pRafterRear = [sx, yTop - 0.025, 0.02];
-          const pRafterFront = [sx, yLip - 0.02, zLip - 0.02];
+          const pRafterFront = [sx, yCross, zCross];
           master.addCylinder(pRafterRear, pRafterFront, 0.014, cIron, 8);
           washi.addCylinder(pRafterRear, pRafterFront, 0.014, cIron, 8);
 
           // Diagonal Cantilever Strut (Continuous coaxial line from wall clevis to front knuckle)
           const pWall = [sx, 0.72, 0.045];
-          const pFront = [sx, yLip - 0.02, zLip - 0.02];
+          const pFront = [sx, yCross, zCross];
           const dx = pFront[0] - pWall[0], dy = pFront[1] - pWall[1], dz = pFront[2] - pWall[2];
 
           // Concentric turnbuckle positions along the exact strut axis
