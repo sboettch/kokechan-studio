@@ -9,6 +9,7 @@ An interactive WebGL viewer for 173 cultural landmarks in the Kyojima / Koganech
 
 | Studio | URL | Description |
 |--------|-----|-------------|
+| Metaverse Exploration | https://kokechan.preattention.ai | 3D living corridor world with full composite Kyojima Eki landmark house (Objects 01–04) |
 | Monolithic Studio | https://kokechan.preattention.ai/studio | All textures pre-loaded at startup |
 | Streaming Studio | https://kokechan.preattention.ai/studio-stream | Lazy LRU streaming, 0ms first paint |
 | Object 04 Studio Fork | https://kokechan.preattention.ai/studio-test | Standalone & integrated preview for Object 04 (Striped Sun Awning) |

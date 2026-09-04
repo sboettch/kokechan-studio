@@ -354,3 +354,26 @@ Streaming studio typical results:
 
 The monolithic approach is still acceptable because the startup decode happens
 before the canvas is shown (user sees a loading state, not a pop-in).
+
+---
+
+## 10. Metaverse Exploration Landmark Mapping & Instant Fallback
+
+The primary cultural landmark house at Kyojima Eki in the 3D metaverse exploration at `https://kokechan.preattention.ai` is constructed by mapping and fusing all four finalized objects:
+
+- **Object 01**: Crimson Vending Machine (自販機) [27-call master with showcase window, coin slot, louvers, PVC tube]
+- **Object 02**: Timber Facade & Lattice Doors (木造ファサード・格子戸) [Apron foundation, sliding doors, Kumiko windows, timber frame]
+- **Object 03**: Kawara Ceramic Roof & Sheltering Eaves (瓦屋根・庇) [24 Hon-gawara corrugated flutes, Tomoe medallions, 3-tier Munegawara ridge crown, Onigawara, Nokidoi gutter & downspout, 16 rafter tails]
+- **Object 04**: Striped Sun Awning & Cantilever Hardware (日除けテント・天幕) [18 alternating green/cream stripes, scallop hem, piping, 4 cantilever struts with coaxial turnbuckles & brass lock nuts]
+
+### Spatial Coordinate Translation (Studio to Metaverse Anchor)
+In the metaverse engine (`WorldEngine-C2hBfGVL.js`), the Kyojima Eki landmark anchor `o` is centered at world coordinates `[-11, 3.43, -11.84]`, with dimensions `width = 10.15m`, `height = 6.76m` (`r = 6.76m`):
+- `X_anchor = X_studio`
+- `Y_anchor = Y_studio - r/2 = Y_studio - 3.38m` (ground plane aligns at `Y = -3.38m` relative to anchor origin)
+- `Z_anchor = Z_studio - 2.41m` (facade front wall aligns at `Z = 0.0m` relative to anchor origin)
+
+### Triple-Tier Fail-Safe Fallback System
+1. **Runtime Query Parameter**: Append `?legacy_house=1` or `?legacy_awning=1` to the URL (e.g., `https://kokechan.preattention.ai/?legacy_house=1`) to immediately activate `buildLegacyKyojimaEki(o, n, s, r)`.
+2. **Automated Error Guard**: The composite construction is wrapped in a `try/catch` block that automatically falls back to `buildLegacyKyojimaEki` if any runtime exception occurs.
+3. **Byte-for-Byte File Backup**: A verified backup file `WorldEngine-C2hBfGVL.js.bak-legacy-house` is maintained in `dist/assets/` for instant recovery.
+
