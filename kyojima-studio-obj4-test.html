@@ -75,10 +75,10 @@
                color:#fbbf24;border-radius:7px;padding:6px 14px;
                cursor:pointer;white-space:nowrap;flex-shrink:0;"
         title="Merge all finalized objects into a single scene composite. Manual trigger only.">
-        🍳 Bake Obj 16
+        🍳 Bake Obj 16 (Fuse All: 01+02+03+04)
       </button>
       <span style="font-size:11px;color:#92400e;font-family:monospace;">
-        Merges Obj 01 + 02 + 03 → single draw call · Press once · switches dropdown automatically
+        Fuses Obj 01 (Vending Machine) + 02 (Timber Facade) + 03 (Kawara Roof) + 04 (Sun Awning) → single unified scene draw call · Press once
       </span>
     </div>
 
@@ -658,6 +658,138 @@
       obj1Master.upload();
 
       // =========================================================================
+      // OBJECT 04: STRIPED SUN AWNING & HARDWARE [ACTIVE 3D TEST FORK]
+      // 18 alternating green/cream stripes, watertight double-sided canvas,
+      // contoured scallop hem, enclosed side valances, 4 black iron cantilever struts.
+      // Zero stray cylinders, zero see-through gaps, zero co-planar Z-fighting.
+      // =========================================================================
+      const obj4Master = new GeometryBuffer();
+      const obj4Washi = new GeometryBuffer();
+
+      (function buildAwning(master, washi) {
+        const cGreen  = [0.12, 0.38, 0.24, 1.0]; // Hunter green dye
+        const cCream  = [0.93, 0.90, 0.82, 1.0]; // Warm unbleached cotton cream
+        const cLining = [0.82, 0.79, 0.72, 1.0]; // Underside canvas lining
+        const cPipe   = [0.96, 0.96, 0.94, 1.0]; // White cloth piping tape
+        const cIron   = [0.16, 0.16, 0.18, 1.0]; // Black painted tubular iron
+        const cBolt   = [0.28, 0.28, 0.30, 1.0]; // Dark hex lag bolt hardware
+
+        const W = 6.40;
+        const numStripes = 18;
+        const stripeW = W / numStripes; // ~0.3556m
+        const xStart = -W / 2;
+
+        // Awning profile:
+        // Top rear wall junction: Y = 1.45, Z = 0.00
+        // Front eave lip:         Y = 1.04, Z = 1.25 (drop = 0.41m, pitch = 18.2°)
+        // Valance bottom edge:    Y = 0.82, Z = 1.25 (hanging drop = 0.22m)
+        const yTop = 1.45, zTop = 0.00;
+        const yLip = 1.04, zLip = 1.25;
+        const yVal = 0.82, zVal = 1.25;
+        const valDrop = yLip - yVal; // 0.22m
+        const yWallDrop = yTop - valDrop; // 1.23m
+
+        // 1. Top sloped canopy, hanging valance & scallop tabs (18 alternating stripe panels)
+        for (let i = 0; i < numStripes; i++) {
+          const x0 = xStart + i * stripeW;
+          const x1 = x0 + stripeW;
+          const col = (i % 2 === 0) ? cGreen : cCream;
+
+          // Sloped roof panel
+          master.addQuad([x0, yTop, zTop], [x1, yTop, zTop], [x1, yLip, zLip], [x0, yLip, zLip], col);
+          washi.addQuad([x0, yTop, zTop], [x1, yTop, zTop], [x1, yLip, zLip], [x0, yLip, zLip], col);
+
+          // Front hanging valance panel
+          master.addQuad([x0, yLip, zLip], [x1, yLip, zLip], [x1, yVal, zVal], [x0, yVal, zVal], col);
+          washi.addQuad([x0, yLip, zLip], [x1, yLip, zLip], [x1, yVal, zVal], [x0, yVal, zVal], col);
+
+          // Scalloped hem tab (clean forward-facing triangle)
+          const xMid = (x0 + x1) / 2;
+          const yScallop = yVal - 0.035;
+          master.addQuad([x0, yVal, zVal], [xMid, yScallop, zVal], [x1, yVal, zVal], [x0, yVal, zVal], col);
+          washi.addQuad([x0, yVal, zVal], [xMid, yScallop, zVal], [x1, yVal, zVal], [x0, yVal, zVal], col);
+        }
+
+        // 2. Continuous white cloth piping hem tape along front scallop bottom (strictly width W)
+        master.addBox([0, yVal - 0.018, zVal + 0.001], [W, 0.012, 0.012], cPipe);
+        washi.addBox([0, yVal - 0.018, zVal + 0.001], [W, 0.012, 0.012], cPipe);
+
+        // 3. Watertight underside lining (inset by 0.02m from sides to prevent any side bleed)
+        const dOffset = 0.015;
+        const x0_under = xStart + 0.02;
+        const x1_under = -xStart - 0.02;
+        const yTopUnder = yTop - dOffset;
+        const yLipUnder = yLip - dOffset;
+        const zLipUnder = zLip - dOffset;
+        master.addQuad([x0_under, yLipUnder, zLipUnder], [x1_under, yLipUnder, zLipUnder], [x1_under, yTopUnder, zTop], [x0_under, yTopUnder, zTop], cLining);
+        washi.addQuad([x0_under, yLipUnder, zLipUnder], [x1_under, yLipUnder, zLipUnder], [x1_under, yTopUnder, zTop], [x0_under, yTopUnder, zTop], cLining);
+
+        // 4. Double-sided triangular valance end skirts (Left X = -W/2, Right X = +W/2)
+        // Left side skirt (exterior face normal -X, interior face normal +X)
+        master.addQuad([-W/2, yTop, zTop], [-W/2, yWallDrop, zTop], [-W/2, yVal, zVal], [-W/2, yLip, zLip], cGreen);
+        master.addQuad([-W/2, yTop, zTop], [-W/2, yLip, zLip], [-W/2, yVal, zVal], [-W/2, yWallDrop, zTop], cGreen);
+        washi.addQuad([-W/2, yTop, zTop], [-W/2, yWallDrop, zTop], [-W/2, yVal, zVal], [-W/2, yLip, zLip], cGreen);
+        washi.addQuad([-W/2, yTop, zTop], [-W/2, yLip, zLip], [-W/2, yVal, zVal], [-W/2, yWallDrop, zTop], cGreen);
+        // Left side bottom piping trim
+        master.addBox([-W/2, (yVal + yWallDrop)/2, zVal/2], [0.010, 0.012, 1.25], cPipe);
+        washi.addBox([-W/2, (yVal + yWallDrop)/2, zVal/2], [0.010, 0.012, 1.25], cPipe);
+
+        // Right side skirt (exterior face normal +X, interior face normal -X)
+        master.addQuad([W/2, yTop, zTop], [W/2, yLip, zLip], [W/2, yVal, zVal], [W/2, yWallDrop, zTop], cGreen);
+        master.addQuad([W/2, yTop, zTop], [W/2, yWallDrop, zTop], [W/2, yVal, zVal], [W/2, yLip, zLip], cGreen);
+        washi.addQuad([W/2, yTop, zTop], [W/2, yLip, zLip], [W/2, yVal, zVal], [W/2, yWallDrop, zTop], cGreen);
+        washi.addQuad([W/2, yTop, zTop], [W/2, yWallDrop, zTop], [W/2, yVal, zVal], [W/2, yLip, zLip], cGreen);
+        // Right side bottom piping trim
+        master.addBox([W/2, (yVal + yWallDrop)/2, zVal/2], [0.010, 0.012, 1.25], cPipe);
+        washi.addBox([W/2, (yVal + yWallDrop)/2, zVal/2], [0.010, 0.012, 1.25], cPipe);
+
+        // 5. Structural Black Iron Cantilever Framework
+        // Front tubular crossbar (capped cleanly inside the side skirts)
+        master.addBox([0, yLip - 0.02, zLip - 0.02], [W - 0.02, 0.038, 0.038], cIron);
+        washi.addBox([0, yLip - 0.02, zLip - 0.02], [W - 0.02, 0.038, 0.038], cIron);
+
+        // Rear wall mounting timber ledger beam (strictly width W)
+        master.addBox([0, yTop + 0.01, zTop - 0.015], [W, 0.05, 0.03], [0.20, 0.14, 0.10, 1.0]);
+        washi.addBox([0, yTop + 0.01, zTop - 0.015], [W, 0.05, 0.03], [0.20, 0.14, 0.10, 1.0]);
+
+        // 4 Heavy diagonal cantilever steel struts with turnbuckles & wall baseplates
+        const strutPositions = [-2.40, -0.80, 0.80, 2.40];
+        for (const sx of strutPositions) {
+          // Wall mounting plate flush with wall
+          master.addBox([sx, 0.75, 0.008], [0.12, 0.16, 0.016], cIron);
+          washi.addBox([sx, 0.75, 0.008], [0.12, 0.16, 0.016], cIron);
+
+          // 4 Hex lag bolt heads on plate
+          for (const bx of [-0.038, 0.038]) {
+            for (const by of [-0.05, 0.05]) {
+              master.addBox([sx + bx, 0.75 + by, 0.018], [0.016, 0.016, 0.006], cBolt);
+              washi.addBox([sx + bx, 0.75 + by, 0.018], [0.016, 0.016, 0.006], cBolt);
+            }
+          }
+
+          // Diagonal strut segment 1: wall plate to turnbuckle
+          master.addBox([sx, 0.84, 0.28], [0.028, 0.028, 0.56], cIron);
+          washi.addBox([sx, 0.84, 0.28], [0.028, 0.028, 0.56], cIron);
+
+          // Turnbuckle tensioner sleeve body
+          master.addBox([sx, 0.90, 0.60], [0.044, 0.044, 0.12], cBolt);
+          washi.addBox([sx, 0.90, 0.60], [0.044, 0.044, 0.12], cBolt);
+
+          // Diagonal strut segment 2: turnbuckle to front lip bracket
+          master.addBox([sx, 0.96, 0.88], [0.028, 0.028, 0.56], cIron);
+          washi.addBox([sx, 0.96, 0.88], [0.028, 0.028, 0.56], cIron);
+
+          // Front knuckle joint bracket under crossbar (clean dark iron, no floating tan boxes)
+          master.addBox([sx, yLip - 0.022, zLip - 0.03], [0.034, 0.042, 0.045], cIron);
+          washi.addBox([sx, yLip - 0.022, zLip - 0.03], [0.034, 0.042, 0.045], cIron);
+        }
+      })(obj4Master, obj4Washi);
+
+      obj4Washi.upload();
+      obj4Master.upload();
+
+
+      // =========================================================================
       // OBJECT 02: TIMBER FACADE & LATTICE DOORS [EXACT PRE-OBJ 04 BASELINE MASTER]
       // =========================================================================
       const obj2Washi = new GeometryBuffer();
@@ -665,7 +797,6 @@
       obj2Washi.addBox([0, 5.8, 0.2], [7.2, 0.8, 5.2], [0.26, 0.28, 0.32, 1.0]);
       obj2Washi.addBox([-0.6, 1.35, 2.42], [3.2, 2.5, 0.04], [0.35, 0.25, 0.18, 1.0]);
       obj2Washi.addBox([0, 4.35, 2.42], [5.2, 1.5, 0.04], [0.22, 0.30, 0.45, 1.0], 0.3);
-      obj2Washi.upload();
 
       const obj2Master = new GeometryBuffer();
       // 1. Street Apron Foundation
@@ -693,10 +824,9 @@
       obj2Master.addBox([3.20, 2.70, 2.41], [0.16, 5.25, 0.08], cedarDark);
       obj2Master.addBox([0, 2.72, 2.43], [6.40, 0.12, 0.10], cedarDark);
 
-      // 6. Solid Cantilevered Awning (Clean Baseline Pre-Obj 04)
-      obj2Master.addSolidAwning([0, 2.80, 2.41], 6.40, 0.42, 0.88, 0.04, [0.18, 0.48, 0.35, 1.0], [0.88, 0.84, 0.76, 1.0]);
-      obj2Master.addBox([-3.10, 2.78, 2.42], [0.08, 0.30, 0.08], [0.18, 0.16, 0.15, 1.0]);
-      obj2Master.addBox([3.10, 2.78, 2.42], [0.08, 0.30, 0.08], [0.18, 0.16, 0.15, 1.0]);
+      // 6. Finalized 3D Striped Sun Awning & Hardware (Backpropagated from Object 04)
+      obj2Master.mergeFrom(obj4Master, 0, 1.35, 2.41);
+      obj2Washi.mergeFrom(obj4Washi, 0, 1.35, 2.41);
 
       // 7. High-Fidelity 3D Corrugated Roof & Sheltering Eaves (Backpropagated from Object 03)
       const rHw = 3.60;
@@ -805,6 +935,7 @@
       obj2Master.addBox([vx + 0.33, 1.48, vz + 0.442], [0.055, 0.014, 0.022], [0.95, 0.78, 0.12, 1.0], 0.1);
       obj2Master.addBox([vx, 0.48, vz + 0.445], [0.55, 0.016, 0.018], steelMetal, 0.2);
 
+      obj2Washi.upload();
       obj2Master.upload();
 
       // ============================================================
@@ -950,124 +1081,6 @@
       genericQueueGeom.addBox([0, 2.1, 0], [2.0, 0.2, 1.6], [0.85, 0.75, 0.55, 1.0]);
       genericQueueGeom.upload();
 
-      // =========================================================================
-      // OBJECT 04: STRIPED SUN AWNING & HARDWARE [ACTIVE 3D TEST FORK]
-      // 18 alternating stripes, watertight double-sided canvas, scalloped hem,
-      // triangular side valances, 4 black iron cantilever struts with turnbuckles.
-      // Zero stray cylinders, zero see-through gaps, zero co-planar Z-fighting.
-      // =========================================================================
-      const obj4Master = new GeometryBuffer();
-      const obj4Washi = new GeometryBuffer();
-
-      (function buildAwning(master, washi) {
-        const cGreen  = [0.12, 0.38, 0.24, 1.0]; // Hunter green dye
-        const cCream  = [0.93, 0.90, 0.82, 1.0]; // Warm unbleached cotton cream
-        const cLining = [0.82, 0.79, 0.72, 1.0]; // Underside canvas lining
-        const cPipe   = [0.96, 0.96, 0.94, 1.0]; // White cloth piping tape
-        const cIron   = [0.16, 0.16, 0.18, 1.0]; // Black painted tubular iron
-        const cBrass  = [0.82, 0.68, 0.28, 1.0]; // Brass grommet eyelets
-
-        const W = 6.40;
-        const numStripes = 18;
-        const stripeW = W / numStripes; // ~0.3556m
-        const xStart = -W / 2;
-
-        // Awning profile:
-        // Top rear wall junction: Y = 1.45, Z = 0.00
-        // Front eave lip:         Y = 1.04, Z = 1.25 (drop = 0.41m, pitch = 18.2°)
-        // Valance bottom edge:    Y = 0.82, Z = 1.25 (hanging drop = 0.22m)
-        const yTop = 1.45, zTop = 0.00;
-        const yLip = 1.04, zLip = 1.25;
-        const yVal = 0.82, zVal = 1.25;
-
-        // 1. Top sloped canopy and hanging valance (18 alternating stripe panels)
-        for (let i = 0; i < numStripes; i++) {
-          const x0 = xStart + i * stripeW;
-          const x1 = x0 + stripeW;
-          const col = (i % 2 === 0) ? cGreen : cCream;
-
-          // Sloped roof panel
-          master.addQuad([x0, yTop, zTop], [x1, yTop, zTop], [x1, yLip, zLip], [x0, yLip, zLip], col);
-          washi.addQuad([x0, yTop, zTop], [x1, yTop, zTop], [x1, yLip, zLip], [x0, yLip, zLip], col);
-
-          // Front hanging valance panel
-          master.addQuad([x0, yLip, zLip], [x1, yLip, zLip], [x1, yVal, zVal], [x0, yVal, zVal], col);
-          washi.addQuad([x0, yLip, zLip], [x1, yLip, zLip], [x1, yVal, zVal], [x0, yVal, zVal], col);
-
-          // Scalloped hem tab (small bevel triangle at bottom of each stripe)
-          const xMid = (x0 + x1) / 2;
-          const yScallop = yVal - 0.035;
-          master.addQuad([x0, yVal, zVal], [xMid, yScallop, zVal], [x1, yVal, zVal], [xMid, yVal, zVal], col);
-          washi.addQuad([x0, yVal, zVal], [xMid, yScallop, zVal], [x1, yVal, zVal], [xMid, yVal, zVal], col);
-        }
-
-        // 2. Continuous white cloth piping hem tape along the scallop bottom
-        master.addBox([0, yVal - 0.018, zVal + 0.002], [W + 0.02, 0.012, 0.014], cPipe);
-        washi.addBox([0, yVal - 0.018, zVal + 0.002], [W + 0.02, 0.012, 0.014], cPipe);
-
-        // 3. Watertight underside lining (offset by 0.015m underneath to prevent see-through)
-        const dOffset = 0.015;
-        const yTopUnder = yTop - dOffset;
-        const yLipUnder = yLip - dOffset;
-        const zLipUnder = zLip - dOffset;
-        master.addQuad([xStart, yLipUnder, zLipUnder], [xStart + W, yLipUnder, zLipUnder], [xStart + W, yTopUnder, zTop], [xStart, yTopUnder, zTop], cLining);
-        washi.addQuad([xStart, yLipUnder, zLipUnder], [xStart + W, yLipUnder, zLipUnder], [xStart + W, yTopUnder, zTop], [xStart, yTopUnder, zTop], cLining);
-
-        // 4. Triangular side valance end flaps (left and right verges)
-        // Left side (X = -W/2)
-        master.addQuad([-W/2, yTop, zTop], [-W/2, yLip, zLip], [-W/2, yVal, zVal], [-W/2, yVal, zTop], cGreen);
-        washi.addQuad([-W/2, yTop, zTop], [-W/2, yLip, zLip], [-W/2, yVal, zVal], [-W/2, yVal, zTop], cGreen);
-        // Right side (X = +W/2)
-        master.addQuad([W/2, yTop, zTop], [W/2, yVal, zTop], [W/2, yVal, zVal], [W/2, yLip, zLip], cGreen);
-        washi.addQuad([W/2, yTop, zTop], [W/2, yVal, zTop], [W/2, yVal, zVal], [W/2, yLip, zLip], cGreen);
-
-        // 5. Structural Black Iron Cantilever Framework
-        // Front tubular crossbar (supporting front eave lip)
-        master.addBox([0, yLip - 0.02, zLip - 0.02], [W + 0.04, 0.038, 0.038], cIron);
-        washi.addBox([0, yLip - 0.02, zLip - 0.02], [W + 0.04, 0.038, 0.038], cIron);
-
-        // Rear wall mounting timber ledger beam
-        master.addBox([0, yTop + 0.01, zTop - 0.015], [W + 0.08, 0.06, 0.035], [0.20, 0.14, 0.10, 1.0]);
-        washi.addBox([0, yTop + 0.01, zTop - 0.015], [W + 0.08, 0.06, 0.035], [0.20, 0.14, 0.10, 1.0]);
-
-        // 4 Heavy diagonal cantilever steel struts with turnbuckles & wall baseplates
-        const strutPositions = [-2.40, -0.80, 0.80, 2.40];
-        for (const sx of strutPositions) {
-          // Wall mounting plate
-          master.addBox([sx, 0.75, 0.005], [0.14, 0.16, 0.018], cIron);
-          washi.addBox([sx, 0.75, 0.005], [0.14, 0.16, 0.018], cIron);
-
-          // 4 Hex lag bolt heads on plate
-          for (const bx of [-0.045, 0.045]) {
-            for (const by of [-0.055, 0.055]) {
-              master.addBox([sx + bx, 0.75 + by, 0.018], [0.018, 0.018, 0.010], [0.28, 0.28, 0.30, 1.0]);
-              washi.addBox([sx + bx, 0.75 + by, 0.018], [0.018, 0.018, 0.010], [0.28, 0.28, 0.30, 1.0]);
-            }
-          }
-
-          // Diagonal strut segment 1: wall plate to turnbuckle
-          // (dx=0, dy=0.18, dz=0.55)
-          master.addBox([sx, 0.84, 0.28], [0.028, 0.028, 0.56], cIron);
-          washi.addBox([sx, 0.84, 0.28], [0.028, 0.028, 0.56], cIron);
-
-          // Turnbuckle tensioner sleeve box & threaded rods
-          master.addBox([sx, 0.90, 0.60], [0.046, 0.046, 0.12], [0.32, 0.32, 0.35, 1.0]);
-          washi.addBox([sx, 0.90, 0.60], [0.046, 0.046, 0.12], [0.32, 0.32, 0.35, 1.0]);
-
-          // Diagonal strut segment 2: turnbuckle to front lip bracket
-          master.addBox([sx, 0.96, 0.88], [0.028, 0.028, 0.56], cIron);
-          washi.addBox([sx, 0.96, 0.88], [0.028, 0.028, 0.56], cIron);
-
-          // Front knuckle joint bracket & brass grommet eyelet
-          master.addBox([sx, yLip - 0.02, zLip - 0.04], [0.036, 0.05, 0.06], cIron);
-          master.addBox([sx, yLip - 0.02, zLip - 0.005], [0.024, 0.024, 0.016], cBrass);
-          washi.addBox([sx, yLip - 0.02, zLip - 0.04], [0.036, 0.05, 0.06], cIron);
-          washi.addBox([sx, yLip - 0.02, zLip - 0.005], [0.024, 0.024, 0.016], cBrass);
-        }
-      })(obj4Master, obj4Washi);
-
-      obj4Washi.upload();
-      obj4Master.upload();
 
       // ============================================================
       // OBJECT 16: SCENE COMPOSITE — Manually triggered bake.
@@ -1250,15 +1263,15 @@
         ,
         "16": {
           title: "Obj 16: 🎬 Scene Composite — Full Street Tableau (手動ベイク)",
-          status: "🍳 BAKE TO ACTIVATE",
+          status: "🍳 BAKE TO ACTIVATE (FUSES 01+02+03+04)",
           statusClass: "bg-amber-900/30 text-amber-300 border-amber-700/40",
           dim: "14.0m × 6.5m × 9.0m (Full Street Section)",
-          tris: "~11,640 Tris (7,782 facade/roof + 3,858 finalized machine)",
-          heading: "🎬 Scene Composite · Full Street Tableau",
-          desc: "Fused hero view: Object 02 facade + backpropagated Kawara roof + Object 01 vending machine at street position, plus extended ground plane and party wall stubs. Triggered manually — never runs automatically.",
-          shader: "Full Scene · All Materials",
-          camCenter: [1.2, 2.8, 0],
-          camRadius: 11.0
+          tris: "~12,250 Tris (Obj 01 + 02 + 03 + 04 Fused)",
+          heading: "🎬 Scene Composite · Full Street Tableau (Obj 01+02+03+04 Fused)",
+          desc: "Unified hero scene fusing all finalized cultural landmarks: Object 02 timber facade + backpropagated Object 03 Kawara roof + backpropagated Object 04 striped sun awning & cantilever hardware + Object 01 crimson vending machine. Single draw call with zero-shot composite inheritance.",
+          shader: "Full Scene · All NPR Materials",
+          camCenter: [0.8, 2.4, 1.2],
+          camRadius: 8.5
         }
       };
 
