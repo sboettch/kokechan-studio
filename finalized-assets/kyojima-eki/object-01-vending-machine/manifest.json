@@ -1,0 +1,12 @@
+{
+  "object_id": "01",
+  "slug": "object-01-vending-machine",
+  "japanese_name": "自販機",
+  "english_name": "Crimson Vending Machine",
+  "status": "approved_and_locked",
+  "approval_record": {
+    "approved_by": "USER",
+    "timestamp": "2026-09-03T02:26:35-07:00",
+    "milestone": "Full Facade & Landmark Trilogy Officially Approved & Locked"
+  }
+}

@@ -81,8 +81,12 @@ class GeometryBuffer {
     this.colors = []; this.emissives = []; this.texModes = [];
     this.vbo = {}; this.count = 0;
   }
-  addQuad(p1, p2, p3, p4, color, emissive=0, texMode=0, uvs=[0,0,1,0,1,1,0,1], customNormal=null) { ... }
+  addQuad(p1, p2, p3, p4, color, emissive=0, texMode=0, uvs=[0,0,1,0,1,1,0,1], customNormal=null) { /* 2 triangles with shared or custom normal */ }
+  addTriangle(p1, p2, p3, color, emissive=0, texMode=0, customNormal=null) { /* 1 triangle with computed cross-product normal */ }
   addBox(center, size, color, emissive=0, texMode=0) { /* 6 faces via addQuad */ }
+  addCylinder(p1, p2, radius, color, segments=8, emissive=0, texMode=0) {
+    /* Orthonormal basis (dir, u, v) via Gram-Schmidt, smooth radial normals, quad side fan */
+  }
   addSolidAwning(center, width, height, depth, thickness, colorTop, colorBot) { ... }
   addBeveledChassis(center, size, color) { /* r=0.035, 3-segment arc corners */ }
   mergeFrom(src, dx, dy, dz) {
@@ -125,27 +129,113 @@ class GeometryBuffer {
 
 ---
 
-## 4. Object Build Order
+## 4. Object Build Order & Inheritance Pipeline
 
-Build and upload in this exact order (obj2CompositeGeom depends on both obj1 and obj2):
+Build and upload in this exact sequential order:
 
 ```
-1. obj1Washi.upload()
-2. obj1Master.upload()          ← full 27-call vending machine
-3. obj2Washi.upload()
-4. obj2Master.upload()          ← facade + roof (38-call backprop) + 5-call placeholder
-5. obj2CompositeGeom = new GeometryBuffer()
-   obj2CompositeGeom.mergeFrom(obj2Master, 0, 0, 0)
-   obj2CompositeGeom.mergeFrom(obj1Master, 2.45, 0, 2.65)
-   obj2CompositeGeom.upload()
-6. obj3Washi.upload()
-7. obj3Master.upload()
-8. genericQueueGeom.upload()
-9. obj16FusedGeom = null        ← not built here; bakeSceneComposite() creates it on demand
-10. pedestalGeom.upload()
+1.  obj1Washi.upload()
+2.  obj1Master.upload()          ← full 27-call crimson vending machine (centered [0, 1.02, 0])
+3.  obj2Washi.upload()
+4.  obj4Washi.upload()
+5.  obj4Master.upload()          ← 1,276-tri striped sun awning & cantilever hardware
+6.  obj2Master                   ← facade + Kawara roof backprop
+      .mergeFrom(obj4Master, 0, 1.35, 2.41)   ← backpropagates awning directly into facade master
+      .upload()
+7.  obj2CompositeGeom = new GeometryBuffer()
+      .mergeFrom(obj2Master, 0, 0, 0)         ← facade + roof + awning
+      .mergeFrom(obj1Master, 2.45, 0, 2.65)   ← finalized crimson vending machine on street
+      .upload()
+8.  obj3Washi.upload()
+9.  obj3Master.upload()          ← standalone Kawara ceramic roof study
+10. genericQueueGeom.upload()    ← placeholder box for queued objects (Obj 05–15)
+11. obj16FusedGeom = null        ← not built at startup; bakeSceneComposite() creates it on demand
+12. pedestalGeom.upload()        ← 40-segment ground turntable disc
 ```
 
 ---
+
+## 4b. Step-by-Step Object Reconstruction Checklists
+
+### Object 01 — Crimson Vending Machine (自販機)
+- **Geometry**: 27 builder calls, 3,858 triangles.
+- **Body**: `addBeveledChassis([0, 1.02, 0], [0.95, 2.05, 0.85], redPaint)` with 3-segment bevels (r=0.035m).
+- **Cooling Louvers**: 12× horizontal `addBox` on right side at `X = +0.478m`.
+- **Button Row**: 3 elevation tiers `addBox` at `Y = [0.42, 1.05, 1.68]`.
+- **PVC Drain Pipe**: `addBox` down rear corner at `[0.45, 0.52, -0.38]`.
+- **Display Quads**: Front glass quad (`texMode=2`, emissive=0.45), chassis panel quad (`texMode=1`, emissive=0.05).
+- **Hardware**: Coin return pocket, bill slot, 4 threaded leveling foot bolts.
+
+### Object 02 — Timber Facade & Lattice Doors (木造ファサード・格子戸)
+- **Geometry**: 7,782 triangles (facade baseline).
+- **Wall & Threshold**: Concrete sidewalk slab `addBox`, stucco wall box, washi threshold quad (`texMode=4`), washi upper window quad (`texMode=5`).
+- **Cedar Trim & Corbels**: Yakisugi perimeter dark cedar frame and sculpted structural corner corbels.
+- **Roof Integration**: 38 builder calls backpropagated from Object 03 (Hon-gawara flutes, Munegawara ridge, Onigawara end crests, Nokidoi copper gutter and downspout).
+- **Awning Integration**: `obj2Master.mergeFrom(obj4Master, 0, 1.35, 2.41)` mounts the striped awning over the central entrance.
+- **Vending Integration**: `obj2CompositeGeom.mergeFrom(obj1Master, 2.45, 0, 2.65)` places the full crimson machine at the right street corner.
+
+### Object 03 — Kawara Ceramic Roof & Sheltering Eaves (和瓦屋根・本瓦葺き)
+- **Geometry**: 1,752 triangles (standalone study).
+- **Main Pitch**: Front slope, rear slope, soffit, and gable end quads.
+- **24 Hon-gawara Flutes**: Concave pan tiles (*pingawa*) and convex semi-cylindrical cover tiles (*torabusuma*) alternating in quad loops.
+- **Ridge Crown**: 3-tier stepped Munegawara ridge topped with curved ridge-capping tiles.
+- **End Crests**: Sculpted Onigawara ogre-mask end tiles on left and right ridge terminals.
+- **Drainage & Rafters**: Nokidoi gutter box with downspout and 16 exposed scorched-cedar rafter tails (*taruki*).
+
+### Object 04 — Striped Sun Awning & Cantilever Hardware (日除けテント・天幕・金物)
+Reconstruct this object from zero using the following exact spatial specification:
+
+1. **Spatial Profile & Key Dimensions**:
+   - Total width: `W = 6.40m` (from `X = -3.20m` to `X = +3.20m`).
+   - Top wall ledger: `Y = 1.45m, Z = 0.00m`.
+   - Front eave lip: `Y = 1.04m, Z = 1.25m` (slope pitch: 18.2° downward).
+   - Valance bottom hem: `Y = 0.82m, Z = 1.25m` (valance drop: 0.22m vertical).
+   - Side valance return anchor: `Y = 1.45m, Z = 0.00m` to `Y = 1.04m, Z = 1.25m` to `Y = 0.82m, Z = 1.25m`.
+
+2. **18-Stripe Canopy Slope**:
+   - Divide width into 18 equal stripes: `dx = 6.40 / 18 ≈ 0.3556m`.
+   - Alternating colors: Even indices = Hunter Green `[0.12, 0.38, 0.24, 1.0]`, Odd indices = Warm Cream `[0.93, 0.90, 0.82, 1.0]`.
+   - Canopy top quad: `p1 = [x0, 1.45, 0.0]`, `p2 = [x1, 1.45, 0.0]`, `p3 = [x1, 1.04, 1.25]`, `p4 = [x0, 1.04, 1.25]`.
+   - Normal: upward-forward `[0, 0.950, -0.312]`.
+
+3. **Watertight Underside Ceiling Lining**:
+   - Offset parallel quads 15mm downward: `p1 = [x0, 1.435, 0.0]`, `p2 = [x1, 1.435, 0.0]`, `p3 = [x1, 1.025, 1.245]`, `p4 = [x0, 1.025, 1.245]`.
+   - Inverted downward normal: `[0, -0.312, -0.950]`.
+   - Completely eliminates back-face culling transparency when viewed from sidewalk.
+
+4. **Vertical Front Valance**:
+   - Forward-facing quads (`Nz = +1.0`): `p1 = [x0, 1.04, 1.25]`, `p2 = [x1, 1.04, 1.25]`, `p3 = [x1, 0.82, 1.25]`, `p4 = [x0, 0.82, 1.25]`.
+   - Underside back-face quad offset 10mm backward at `Z = 1.240m` with `Nz = -1.0`.
+
+5. **Scallop Wave Hem Tabs & Continuous Piping Cord**:
+   - For each stripe, create downward curve tab via `addTriangle([x0, 0.82, 1.25], [x1, 0.82, 1.25], [xMid, 0.77, 1.25], color)`.
+   - Cap the bottom curve with continuous 8mm diameter braided white piping cord (`cPipe = [0.96, 0.96, 0.94, 1.0]`):
+     - `addCylinder([x0, 0.82, 1.25], [xMid, 0.77, 1.25], 0.004, cPipe, 6)`
+     - `addCylinder([xMid, 0.77, 1.25], [x1, 0.82, 1.25], 0.004, cPipe, 6)`
+
+6. **Seamless Side Valance Returns (Zero Artifact Lines)**:
+   - Left side triangular skirt: `addQuad([-3.20, 1.45, 0.0], [-3.20, 1.04, 1.25], [-3.20, 0.82, 1.25], [-3.20, 1.45, 0.0], cGreen, 0, 0, [0,0,1,0,1,1,0,1], [-1, 0, 0])`.
+   - Right side triangular skirt: `addQuad([+3.20, 1.45, 0.0], [+3.20, 1.04, 1.25], [+3.20, 0.82, 1.25], [+3.20, 1.45, 0.0], cGreen, 0, 0, [0,0,1,0,1,1,0,1], [+1, 0, 0])`.
+   - **Crucial Rule**: Do NOT place any horizontal cutting boxes across the side valances. Keep them as single outward-facing quads to avoid coplanar Z-fighting and diagonal ink bleeding.
+
+7. **Coaxial Cantilever Strut Assemblies**:
+   - 4 strut stations at `X = [-2.70, -0.90, +0.90, +2.70]`.
+   - Wall anchor baseplate on yakisugi lintel: `addBox([sx, 0.72, 0.02], [0.08, 0.14, 0.04], cIron)`.
+   - Wall clevis hinge: `[sx, 0.72, 0.045]`.
+   - Front knuckle: `[sx, 1.015, 1.215]`.
+   - True strut vector: `dx = 0, dy = 0.295, dz = 1.170` (14.0° upward incline).
+   - Coaxial components placed along this vector:
+     - 32mm tubular iron strut: `addCylinder(pWall, pFront, 0.016, cIron, 8)`.
+     - Concentric turnbuckle sleeve: 48mm diameter `addCylinder(pT1, pT2, 0.024, cBolt, 8)`.
+     - Hex lock nuts: 56mm diameter `addCylinder(pT1, pN1, 0.028, cIron, 8)` and `addCylinder(pN2, pT2, 0.028, cIron, 8)`.
+   - Continuous 36mm front tubular crossbar: `addCylinder([-3.18, 1.015, 1.215], [+3.18, 1.015, 1.215], 0.018, cIron, 8)`.
+   - 4 longitudinal upper rafter tubes under canvas: `addCylinder([sx, 1.43, 0.03], [sx, 1.025, 1.215], 0.014, cIron, 8)`.
+   - **Crucial Rule (Recessed Knuckles)**: Place the front knuckles at `Z = 1.215m` with compact depth `0.034m` (max `Z = 1.232m`). This keeps all hardware 18mm behind the canvas at `Z = 1.250m`, completely eliminating dark square protrusion artifacts.
+
+8. **Backpropagation**:
+   - In Object 02 builder: call `obj2Master.mergeFrom(obj4Master, 0, 1.35, 2.41)`.
+   - Result: Awning sits above central entrance threshold, below Kawara roof rafters.
+   - Total Object 04 triangles: **1,276** (well within 1,800 tri limit).
 
 ## 5. Texture System
 

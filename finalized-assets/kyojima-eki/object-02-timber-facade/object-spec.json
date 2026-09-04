@@ -1,0 +1,58 @@
+{
+  "schema": "kyojima-metaverse-asset/1.0",
+  "objectId": "object-02-timber-facade",
+  "titleEn": "Timber Facade & Lattice Doors",
+  "titleJa": "木造ファサード・格子戸",
+  "artStyle": "Japanese Woodblock / Sumi-Ink / Warm Washi Paper Watercolor",
+  "sequenceIndex": 2,
+  "totalSequenceObjects": 15,
+  "anchorNode": "kyojima-eki",
+  "address": "墨田区京島3-50-12",
+  "dimensionsMeters": {
+    "width": 7.2,
+    "height": 5.4,
+    "depth": 5.2,
+    "peakHeight": 6.8
+  },
+  "triangleBudget": 2840,
+  "solidGeometry": true,
+  "noSeeThroughGaps": true,
+  "panels": {
+    "groundFloor": {
+      "title": "Ground Floor: Timber Doors & Shop Window",
+      "texture": "tex-ground-stylized.jpg",
+      "features": "Taisho-era sliding timber lattice doors (格子戸), warm golden threshold interior glow, 9-pane wooden shop display window with ceramics and rice sacks, striped awning, foundation planters"
+    },
+    "secondFloor": {
+      "title": "Second Floor: 3 Window Bays & Stucco",
+      "texture": "tex-upper-stylized.jpg",
+      "features": "3 timber sash window bays (18 sky-reflecting glass panes), warm buff plaster mortar stucco wall with hairline texture, white wall AC unit, yakisugi cedar fascia board"
+    },
+    "roof": {
+      "title": "Pitched Kawara Ceramic Tile Roof Prism",
+      "geometry": "Solid closed prism with top ceramic tiles (22 deg pitch), underside soffit ceiling, gable pediments, and 16 exposed timber rafter tails"
+    },
+    "awning": {
+      "title": "Cantilevered Striped Canvas Sun Awning",
+      "geometry": "Solid double-sided volume with hunter green & cream scalloped canvas and fabric underside"
+    },
+    "cornerCoPresence": {
+      "title": "Object 01 (Crimson Vending Machine)",
+      "offset": [
+        2.45,
+        1.02,
+        2.65
+      ]
+    }
+  },
+  "object_id": "02",
+  "slug": "object-02-timber-facade",
+  "japanese_name": "木造ファサード・格子戸",
+  "english_name": "Timber Facade & Lattice Doors",
+  "status": "approved_and_locked",
+  "approval_record": {
+    "approved_by": "USER",
+    "timestamp": "2026-09-03T02:26:35-07:00",
+    "milestone": "Full Facade & Landmark Trilogy Officially Approved & Locked"
+  }
+}

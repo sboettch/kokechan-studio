@@ -52,7 +52,9 @@ class GeometryBuffer {
   constructor()   // positions[], normals[], uvs[], colors[], emissives[], texModes[], vbo={}, count=0
 
   addQuad(p1,p2,p3,p4, color, emissive=0, texMode=0, uvs=[0,0,1,0,1,1,0,1], customNormal=null)
+  addTriangle(p1,p2,p3, color, emissive=0, texMode=0, customNormal=null)
   addBox(center, size, color, emissive=0, texMode=0)
+  addCylinder(p1, p2, radius, color, segments=8, emissive=0, texMode=0) // orthonormal basis, radial normals
   addSolidAwning(center, width, height, depth, thickness, colorTop, colorBot)
   addBeveledChassis(center, size, color)   // r=0.035 bevel, 3-segment arc corners
 
@@ -108,21 +110,26 @@ front-face culled in ink pass.
 At script init (runs once, synchronous):
 
 obj1Washi.upload()
-obj1Master.upload()      ← 27-call vending machine, centered [0, 1.02, 0]
+obj1Master.upload()      ← 27-call vending machine, centered [0, 1.02, 0] (3,858 tris)
 
 obj2Washi.upload()
-obj2Master.upload()      ← facade + roof (38 calls backprop from obj3) + 5-call placeholder machine
+obj4Washi.upload()
+obj4Master.upload()      ← 1,276-tri striped sun awning & cantilever hardware
 
-obj2CompositeGeom        ← NEW: inherits finalized Obj01 geometry
-  .mergeFrom(obj2Master, 0, 0, 0)
-  .mergeFrom(obj1Master, 2.45, 0, 2.65)   ← full machine at street position
+obj2Master               ← facade + Kawara roof backprop
+  .mergeFrom(obj4Master, 0, 1.35, 2.41)   ← backpropagates awning directly into facade master
+  .upload()
+
+obj2CompositeGeom        ← full facade with all attached landmarks
+  .mergeFrom(obj2Master, 0, 0, 0)         ← facade + roof + awning
+  .mergeFrom(obj1Master, 2.45, 0, 2.65)   ← full crimson vending machine at street position
   .upload()
 
 obj3Washi.upload()
-obj3Master.upload()      ← standalone kawara roof study
+obj3Master.upload()      ← standalone Kawara roof study (1,752 tris)
 
-genericQueueGeom.upload() ← grey placeholder box for Obj 04–15
-pedestalGeom.upload()     ← 40-segment circular ground disc
+genericQueueGeom.upload() ← grey placeholder box for Obj 05–15
+pedestalGeom.upload()     ← 40-segment circular ground turntable disc
 
 obj16FusedGeom = null     ← created only when bakeSceneComposite() is called
 ```
@@ -130,8 +137,9 @@ obj16FusedGeom = null     ← created only when bakeSceneComposite() is called
 **Render loop object selection:**
 ```js
 if      (selectedObject === "1")                                curMaster = obj1Master
-else if (selectedObject === "2")                                curMaster = obj2CompositeGeom  ← composite
+else if (selectedObject === "2")                                curMaster = obj2CompositeGeom  ← composite (facade + roof + awning + machine)
 else if (selectedObject === "3")                                curMaster = obj3Master
+else if (selectedObject === "4")                                curMaster = obj4Master         ← striped sun awning & hardware
 else if (selectedObject === "16" && obj16FusedGeom?.count > 0) curMaster = obj16FusedGeom
 else if (selectedObject === "16")                               curMaster = genericQueueGeom   ← pre-bake fallback
 else                                                            curMaster = genericQueueGeom

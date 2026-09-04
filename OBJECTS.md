@@ -59,24 +59,48 @@ All geometry is built in pure vanilla WebGL using the `GeometryBuffer` class —
   - Tomoe crest discs `addBox` (round approximation)
   - Ridge + onigawara + gutter + downspout
 
+### Obj 04 — 🎪 Striped Sun Awning & Cantilever Hardware (日除けテント・天幕・金物)
+- **Status**: APPROVED & LOCKED
+- **Tris**: 1,276 (3,828 vertices, within 1,800 tri budget)
+- **Dimensions**: 6.40m × 1.02m × 1.25m (18.2° Pitch, 0.22m Valance Drop)
+- **Camera**: `camCenter: [0, 1.15, 0.65]`, `camRadius: 4.6`
+- **Artist Codename**: morado
+- **Materials & Palette**:
+  - Hunter green canvas: `[0.12, 0.38, 0.24, 1.0]`
+  - Warm cream canvas: `[0.93, 0.90, 0.82, 1.0]`
+  - Scallop piping cord: `[0.96, 0.96, 0.94, 1.0]` (continuous 8mm braided cord via `addCylinder`)
+  - Structural iron hardware: `[0.16, 0.16, 0.18, 1.0]` (32mm tube struts, 48mm sleeves, 36mm crossbar)
+  - Brass lock nuts: `[0.82, 0.68, 0.28, 1.0]` (56mm hex lock rings)
+- **Key geometry**:
+  - 18 alternating stripe canopy quads sloped 18.2° from `[sx, 1.45, 0.0]` to `[sx, 1.04, 1.25]`
+  - Watertight underside lining with downward-facing normal (`Ny = -0.312, Nz = -0.950`) offset down 15mm
+  - Vertical front valance: 18 stripe quads facing forward (`Nz = +1.0`) from `Y=1.04` to `Y=0.82`
+  - Scalloped wave hem tabs with continuous 8mm braided piping cord (`addCylinder`) following the curve
+  - Seamless left/right side valance triangular skirts (`X = -3.20m` facing `-X`, `X = +3.20m` facing `+X`) with zero horizontal cutting boxes or co-planar edge bleeding
+  - 4 cantilever strut assemblies at `X = [-2.70, -0.90, 0.90, 2.70]`: continuous 32mm coaxial tubular iron cylinders from wall clevis `[sx, 0.72, 0.045]` to front knuckle `[sx, 1.015, 1.215]` (direction vector `[0, 0.295, 1.170]`)
+  - Concentric 48mm turnbuckle sleeves and 56mm brass hex lock nuts coaxial on the exact same strut vector
+  - Continuous 36mm tubular iron front crossbar and longitudinal upper rafter tubes
+  - Recessed front knuckles (at `Z = 1.215m` with depth 0.034m, safely recessed 18mm behind canvas at `Z = 1.250m` to eliminate dark square artifacts)
+- **Backpropagation into Object 02**: `obj2Master.mergeFrom(obj4Master, 0, 1.35, 2.41)`
+- **Reference Suite**: 15 complete multi-angle views (7 washi illustrative studies + 8 documentary fieldwork photos)
+
 ## Object 16 — 🎬 Scene Composite (手動ベイク)
 - **Status**: BAKE TO ACTIVATE (press 🍳 Bake Obj 16 button in header strip)
-- **Tris**: ~11,640 (same as obj2CompositeGeom — obj2Master + obj1Master translated)
-- **Dimensions**: full street section
-- **Camera**: `camCenter: [1.2, 2.8, 0]`, `camRadius: 11.0`
+- **Tris**: ~12,250 Tris (Obj 01 + 02 + 03 + 04 Fused in 1 unified draw call)
+- **Dimensions**: 14.0m × 6.5m × 9.0m (Full Street Section)
+- **Camera**: `camCenter: [0.8, 2.4, 1.2]`, `camRadius: 8.5`
 - **Construction**:
   ```js
-  fused.mergeFrom(obj2Master, 0, 0, 0)       // building + roof + placeholder
-  fused.mergeFrom(obj1Master, 2.45, 0, 2.65) // finalized machine at street position
+  fused.mergeFrom(obj2Master, 0, 0, 0)       // building + backpropagated roof & awning
+  fused.mergeFrom(obj1Master, 2.45, 0, 2.65) // finalized crimson vending machine
   fused.upload()
   ```
-- **Note**: uses `obj2Master` (not `obj2CompositeGeom`) to avoid doubling the machine
+- **Note**: uses `obj2Master` (not `obj2CompositeGeom`) to avoid duplicating the machine.
 
-## Queue (Objects 04–15)
+## Queue (Objects 05–15)
 
 | # | Emoji | Name | Japanese | Tris Budget | Dimensions |
 |---|-------|------|----------|------------|------------|
-| 04 | 🎪 | Striped Sun Awning | 日除けテント・天幕 | 1,800 | 6.40m × 1.02m × 1.25m |
 | 05 | 🚲 | Alley Commuter Bicycle | ママチャリ・自転車 | TBD | TBD |
 | 06 | 🎨 | Artist Mural & Noticeboard | 外壁ミューラル・掲示板 | TBD | TBD |
 | 07 | 🪴 | Eaves Garden & Potted Flora | 軒下植木鉢・プランター | TBD | TBD |

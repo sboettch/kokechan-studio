@@ -3,7 +3,7 @@
   "slug": "sun-awning-cantilever",
   "japanese_name": "日除けテント・天幕・金物",
   "english_name": "Striped Sun Awning & Cantilever Hardware",
-  "status": "active_authoring_fork",
+  "status": "approved_and_locked",
   "dimensions": {
     "width_m": 6.4,
     "height_m": 1.02,
@@ -13,7 +13,8 @@
   },
   "geometry_specs": {
     "tri_budget": 1800,
-    "actual_tris": 1584,
+    "actual_tris": 1276,
+    "vertex_count": 3828,
     "strut_arms_count": 4,
     "stripes_count": 18,
     "stripe_colors": {

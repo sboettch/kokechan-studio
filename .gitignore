@@ -17,6 +17,10 @@ node_modules/
 # Shell openers (machine-specific)
 open-studio
 open-pre-obj4
+shoji
+
+# Local scratch and deprecated copies
+kyojima-studio.html
 
 # Wrangler cache
 .wrangler/

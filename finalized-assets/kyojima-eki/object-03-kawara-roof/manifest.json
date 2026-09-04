@@ -1,0 +1,45 @@
+{
+  "object_id": "03",
+  "slug": "object-03-kawara-roof",
+  "japanese_name": "和瓦屋根・本瓦葺き・軒桁",
+  "english_name": "Kawara Ceramic Roof & Sheltering Eaves",
+  "status": "approved_and_locked",
+  "dimensions": {
+    "width_m": 7.24,
+    "height_m": 1.45,
+    "depth_m": 5.9,
+    "pitch_deg": 24.0
+  },
+  "geometry_specs": {
+    "vertices": 440,
+    "faces": 330,
+    "rafters_count": 16,
+    "tile_courses_front": 8,
+    "tile_courses_rear": 6,
+    "format": "Wavefront OBJ (.obj)"
+  },
+  "components": [
+    "8 stepped overlapping ceramic tile courses (本瓦葺き) with 3D lip shadows",
+    "3-tier stepped Munegawara ridge crown beam (棟瓦) with terminal onigawara crests",
+    "16 exposed cedar timber rafter tails (垂木) supporting the 0.8m eave overhang",
+    "Galvanized metal rainwater gutter (軒樋) with east corner hopper and vertical downspout (竪樋)",
+    "East & west triangular bargeboards (破風板) with attic paneling and ventilation",
+    "Solid underside ceiling soffit (軒裏) with zero see-through clipping"
+  ],
+  "reference_assets": {
+    "illustrative": [
+      "ill-roof-ortho.jpg",
+      "ill-roof-gable-34.jpg"
+    ],
+    "photorealistic": [
+      "photo-roof-ortho.jpg",
+      "photo-roof-gable-34.jpg"
+    ],
+    "mesh_model": "model-obj03-kawara-roof.obj"
+  },
+  "approval_record": {
+    "approved_by": "USER",
+    "timestamp": "2026-09-03T02:26:35-07:00",
+    "milestone": "Full Facade & Landmark Trilogy Officially Approved & Locked"
+  }
+}

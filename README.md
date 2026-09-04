@@ -11,6 +11,7 @@ An interactive WebGL viewer for 173 cultural landmarks in the Kyojima / Koganech
 |--------|-----|-------------|
 | Monolithic Studio | https://kokechan.preattention.ai/studio | All textures pre-loaded at startup |
 | Streaming Studio | https://kokechan.preattention.ai/studio-stream | Lazy LRU streaming, 0ms first paint |
+| Object 04 Studio Fork | https://kokechan.preattention.ai/studio-test | Standalone & integrated preview for Object 04 (Striped Sun Awning) |
 | Performance Benchmark | https://kokechan.preattention.ai/perf-bench | Side-by-side benchmark with live HUD |
 
 ---
@@ -38,8 +39,9 @@ The project is designed for **zero-shot reconstruction**: any developer with thi
 ## Repository Layout
 
     makingpancakes/
-    ├── kyojima-studio-pre-obj4.html   # 1,862 KB — monolithic studio (all textures pre-loaded)
+    ├── kyojima-studio-pre-obj4.html   # 1,862 KB — canonical baseline studio (pre-Obj 04)
     ├── kyojima-studio-stream.html     # 2,760 KB — streaming studio (lazy LRU, sentinel textures)
+    ├── kyojima-studio-obj4-test.html  # 3,061 KB — test fork with Object 04 (Sun Awning & Cantilever)
     ├── kyojima-perf-bench.html        # 11.8 KB — performance benchmark tool
     ├── docs/
     │   └── meta-references/           # Authoritative Google Docs archive (Docs 1–5 exported)
@@ -85,7 +87,7 @@ Uses an LRU texture cache. At startup, each object gets a 1×1 sentinel texture 
 
     173 landmarks × 15 objects each ≈ 2,500 geometry assets
 
-Objects 01–03 are currently approved and locked. Objects 04–15 are queued. Object 16 is a manually triggered scene composite (baked merge of all finalized objects).
+Objects 01–04 are currently approved and locked. Objects 05–15 are queued. Object 16 is a manually triggered scene composite (baked merge of all finalized objects).
 
 See [OBJECTS.md](./OBJECTS.md) for the full queue.
 

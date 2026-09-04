@@ -1,0 +1,97 @@
+{
+  "objectId": "kyojima-eki-obj-01",
+  "nameEn": "Crimson Japanese Vending Machine",
+  "nameJa": "深紅の自動販売機",
+  "landmarkParent": "Kyojima Eki (墨田区京島3-50-12)",
+  "status": "approved_and_locked",
+  "architecture": "TWO_PANEL_COMPOSITE_SYSTEM",
+  "authoringDimensionsMeters": [
+    0.95,
+    2.05,
+    0.85
+  ],
+  "polygonCount": 2360,
+  "drawCalls": 2,
+  "loadTimeMs": "<1.4ms",
+  "panels": {
+    "panel1_window_showcase": {
+      "recessDepthMeters": 0.048,
+      "bounds": {
+        "x": [
+          -0.41,
+          0.24
+        ],
+        "y": [
+          0.93,
+          1.73
+        ],
+        "z": 0.38
+      },
+      "texture": "panel-1-window-panel.jpg",
+      "emissiveBoost": 0.45,
+      "beverageCount": 24,
+      "shelfTiers": 3
+    },
+    "panel2_chassis_door": {
+      "planeZ": 0.428,
+      "bounds": {
+        "x": [
+          -0.46,
+          0.46
+        ],
+        "y": [
+          0.06,
+          2.02
+        ],
+        "z": 0.428
+      },
+      "texture": "panel-2-chassis-cutout.png",
+      "apertureCutoutAlpha": "DISCARD",
+      "accents": [
+        "3d-yellow-return-toggle-lever",
+        "3d-retrieval-handle-bar",
+        "4-steel-leveling-feet"
+      ]
+    }
+  },
+  "nonFrontSides": {
+    "cornerFillets": "3-segment rounded bevels r=35mm",
+    "right": [
+      "12-compressor-louvers",
+      "pvc-drain-pipe",
+      "lifting-pockets",
+      "power-boot"
+    ],
+    "left": [
+      "master-key-lock-cylinder",
+      "3-heavy-duty-hinges",
+      "earth-ground-decal"
+    ],
+    "back": [
+      "galvanized-steel-panel",
+      "dual-radiator-grilles",
+      "spec-plate",
+      "earthquake-brackets"
+    ],
+    "roof": "1.5-deg-backward-rain-slope"
+  },
+  "metaversePlacement": {
+    "worldId": "kyojima",
+    "anchorNode": "kyojima-eki",
+    "relativeOffsetMeters": [
+      3.4,
+      0.0,
+      1.8
+    ],
+    "yawRotationDegrees": 12.0
+  },
+  "object_id": "01",
+  "slug": "object-01-vending-machine",
+  "japanese_name": "自販機",
+  "english_name": "Crimson Vending Machine",
+  "approval_record": {
+    "approved_by": "USER",
+    "timestamp": "2026-09-03T02:26:35-07:00",
+    "milestone": "Full Facade & Landmark Trilogy Officially Approved & Locked"
+  }
+}
