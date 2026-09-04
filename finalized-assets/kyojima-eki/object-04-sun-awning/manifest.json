@@ -1,0 +1,153 @@
+{
+  "object_id": "04",
+  "slug": "sun-awning-cantilever",
+  "japanese_name": "日除けテント・天幕・金物",
+  "english_name": "Striped Sun Awning & Cantilever Hardware",
+  "status": "active_authoring_fork",
+  "dimensions": {
+    "width_m": 6.4,
+    "height_m": 1.02,
+    "projection_depth_m": 1.25,
+    "valance_drop_m": 0.22,
+    "pitch_deg": 18.0
+  },
+  "geometry_specs": {
+    "tri_budget": 1800,
+    "strut_arms_count": 4,
+    "stripes_count": 18,
+    "stripe_colors": {
+      "hunter_green": [
+        0.12,
+        0.38,
+        0.24,
+        1.0
+      ],
+      "warm_cream": [
+        0.94,
+        0.91,
+        0.82,
+        1.0
+      ],
+      "piping_white": [
+        0.98,
+        0.98,
+        0.96,
+        1.0
+      ],
+      "hardware_iron": [
+        0.15,
+        0.15,
+        0.16,
+        1.0
+      ]
+    },
+    "format": "GeometryBuffer procedural & Wavefront OBJ (.obj)"
+  },
+  "components": [
+    "18 alternating vertical stripe panels (hunter green and warm cream) across canopy slope and hanging valance",
+    "Watertight solid canvas volume with offset underside lining (zero see-through, zero co-planar Z-fighting)",
+    "Scalloped wave hem bottom edging with white cloth piping tape",
+    "Left and right side triangular canvas valance flaps",
+    "Tubular black painted iron front crossbar and rear wall mounting bar (38mm diameter)",
+    "4 heavy diagonal cantilever steel support struts with welded elbow joints and turnbuckle tensioners",
+    "Heavy iron wall mounting baseplates bolted with 4 hex lag screws into the dark yakisugi timber lintel"
+  ],
+  "reference_assets_count": 15,
+  "reference_assets": {
+    "illustrative": [
+      {
+        "id": "ill_01_ortho",
+        "file": "ill-awning-01-ortho.jpg",
+        "label": "🏯 Ortho Front Elevation",
+        "role": "Full-width orthogonal woodblock elevation of the 18 stripe courses, scalloped hem, and side flaps."
+      },
+      {
+        "id": "ill_02_34",
+        "file": "ill-awning-02-34.jpg",
+        "label": "📐 3/4 Perspective Axonometric",
+        "role": "Axonometric washi study of the 18° pitch, side valance triangular drop, and cantilever struts."
+      },
+      {
+        "id": "ill_03_framing",
+        "file": "ill-awning-03-framing.jpg",
+        "label": "🪵 Underside Strut Framing",
+        "role": "Washi architectural drawing of tubular iron frame and 4 diagonal cantilever arms."
+      },
+      {
+        "id": "ill_04_scallop",
+        "file": "ill-awning-04-scallop.jpg",
+        "label": "🌊 Scallop Hem & Piping Macro",
+        "role": "Close-up illustrative study of undulating scallop wave hem and white cloth piping tape."
+      },
+      {
+        "id": "ill_05_master",
+        "file": "ill-awning-05-hero-master.jpg",
+        "label": "✨ Hero Washi Master",
+        "role": "Isolated hero washi illustration with warm chiaroscuro light falloff."
+      },
+      {
+        "id": "ill_06_sloped",
+        "file": "ill-awning-06-pitch-study.jpg",
+        "label": "📐 Sloped Canopy Pitch Study",
+        "role": "Front-oblique study showing the 1.25m cantilever projection and 0.22m hanging valance drop."
+      },
+      {
+        "id": "ill_07_under_iso",
+        "file": "ill-awning-07-lining-study.jpg",
+        "label": "🛡️ Underside Lining Study",
+        "role": "Architectural study of solid underside fabric lining, preventing see-through transparency."
+      }
+    ],
+    "photorealistic": [
+      {
+        "id": "p_01_ortho",
+        "file": "photo-awning-01-ortho.jpg",
+        "label": "📷 Ortho Photo Elevation",
+        "role": "Frontal documentary photo of weathered canvas awning, 18 stripes, and iron mounting plate anchors."
+      },
+      {
+        "id": "p_02_34",
+        "file": "photo-awning-02-34.jpg",
+        "label": "📐 3/4 Street Oblique Photo",
+        "role": "Street-level documentary angle documenting 18° slope, side flap drape, and cantilever arm welded joints."
+      },
+      {
+        "id": "p_03_framing",
+        "file": "photo-awning-03-framing.jpg",
+        "label": "🔧 Underside Tubular Framing Photo",
+        "role": "Documentary photo looking upward at the 38mm black iron frame and 4 diagonal steel struts."
+      },
+      {
+        "id": "p_04_scallop",
+        "file": "photo-awning-04-scallop.jpg",
+        "label": "🧵 Scallop Hem & Canvas Macro Photo",
+        "role": "Macro photograph of heavy duck canvas weave, alternating green/cream dye, and scalloped hem."
+      },
+      {
+        "id": "p_05_master",
+        "file": "photo-awning-05-fieldwork-master.jpg",
+        "label": "🏢 Canonical Fieldwork Photo",
+        "role": "Fieldwork documentary master of the awning mounted over the Kyojima storefront."
+      },
+      {
+        "id": "p_06_sloped",
+        "file": "photo-awning-06-pitch-photo.jpg",
+        "label": "📐 Ortho Canopy Pitch Photo",
+        "role": "True orthogonal documentary capture showing slope angle, projection distance, and hanging valance."
+      },
+      {
+        "id": "p_07_under_iso",
+        "file": "photo-awning-07-lining-photo.jpg",
+        "label": "🔍 Underside Solid Enclosure Photo",
+        "role": "High-angle view from underneath demonstrating solid underside lining without gaps."
+      },
+      {
+        "id": "p_08_hardware",
+        "file": "photo-awning-08-mounting-hardware.jpg",
+        "label": "🔩 Mounting Baseplate & Turnbuckle Macro",
+        "role": "Macro documentary photo of black iron mounting plate, 4 hex lag bolts, turnbuckle tensioner, and brass eyelet grommet."
+      }
+    ],
+    "mesh_model": "model-obj04-sun-awning.obj"
+  }
+}
