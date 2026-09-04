@@ -1,0 +1,27 @@
+{
+  "label": "SYNTHETIC",
+  "pipeline": "Shoji Pass · Kosmos + SD-Turbo dual-layer horizon fuse · Luminous Paper Theater (kokogarden v1)",
+  "model": "kosmos-luminous-paper-theater-v1",
+  "device": "simulated",
+  "method": "dual-pass horizon fuse",
+  "prompt": "8-storey dark steel and glass apartment in Odaiba waterfront blue-hour",
+  "place_facts": {
+    "floors": 8,
+    "facade": "steel",
+    "palette": "shitamachi",
+    "lay": "1LDK"
+  },
+  "parameters": {
+    "strength_sky": 0.5,
+    "strength_building": 0.35,
+    "horizon_frac": 0.68,
+    "feather": 0.18,
+    "dimensions": "1024x576",
+    "aspect_ratio": "16:9"
+  },
+  "provenance": {
+    "sha256": "1ec6d32b0052af2f2efc7b62ab7a764e4bd61c42d1d10cc53c618e362b7ab6cd",
+    "created_at": "2026-09-02 07:19:31 UTC",
+    "watermark": "SYNTHETIC"
+  }
+}

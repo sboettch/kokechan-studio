@@ -1,0 +1,29 @@
+{
+  "label": "SYNTHETIC",
+  "pipeline": "Shoji Pass · Kosmos + SD-Turbo dual-layer horizon fuse · Luminous Paper Theater (kokogarden v1)",
+  "model": "kosmos-luminous-paper-theater-v1",
+  "device": "simulated",
+  "method": "dual-pass horizon fuse",
+  "prompt": "Close-up photograph of an official Japanese property deed contract with dense 8pt sharp Kanji text and government stamps",
+  "subject_category": "document",
+  "place_facts": {
+    "category": "document",
+    "floors": 4,
+    "facade": "neutral",
+    "palette": "shitamachi",
+    "lay": "1LDK"
+  },
+  "parameters": {
+    "strength_sky": 0.5,
+    "strength_building": 0.35,
+    "horizon_frac": 0.68,
+    "feather": 0.18,
+    "dimensions": "1024x576",
+    "aspect_ratio": "16:9"
+  },
+  "provenance": {
+    "sha256": "448dd404732a8a5e3aa9bfe099b8e6e05a799bbfd9537e315187831a8ed4ef98",
+    "created_at": "2026-09-02 07:57:46 UTC",
+    "watermark": "SYNTHETIC"
+  }
+}

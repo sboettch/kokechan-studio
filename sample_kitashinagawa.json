@@ -1,0 +1,27 @@
+{
+  "label": "SYNTHETIC",
+  "pipeline": "Shoji Pass · Kosmos + SD-Turbo dual-layer horizon fuse · Luminous Paper Theater (kokogarden v1)",
+  "model": "kosmos-luminous-paper-theater-v1",
+  "device": "simulated",
+  "method": "dual-pass horizon fuse",
+  "prompt": "13-storey RC tower in Kitashinagawa dusk with warm amber windows",
+  "place_facts": {
+    "floors": 13,
+    "facade": "rc",
+    "palette": "shitamachi",
+    "lay": "1LDK"
+  },
+  "parameters": {
+    "strength_sky": 0.5,
+    "strength_building": 0.35,
+    "horizon_frac": 0.68,
+    "feather": 0.18,
+    "dimensions": "1024x576",
+    "aspect_ratio": "16:9"
+  },
+  "provenance": {
+    "sha256": "fd3b989936d9616f1b6abd32de482b3390d3c63931abe2dc22ac24c0b84ce35d",
+    "created_at": "2026-09-02 07:18:06 UTC",
+    "watermark": "SYNTHETIC"
+  }
+}

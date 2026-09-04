@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kyojima Studio · Performance Benchmark</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #070b14; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .metric-card { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 16px; }
+    .metric-val { font-size: 18px; font-weight: 700; font-family: monospace; }
+    .win { color: #34d399; } .lose { color: #f87171; } .neutral { color: #94a3b8; }
+    .bar-bg { background: #1e293b; border-radius: 4px; height: 8px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+    .bar-stream { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+    .bar-mono { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+  </style>
+</head>
+<body class="p-4">
+<div class="max-w-4xl mx-auto space-y-4">
+  <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+    <div>
+      <h1 class="text-lg font-bold text-white">Kyojima Studio · Performance Benchmark</h1>
+      <p class="text-xs text-slate-400">Monolithic (pre-obj4) vs. Streaming (Morado ContentCache)</p>
+    </div>
+    <div class="flex gap-2">
+      <button id="btn-run" onclick="runBench()" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold rounded-lg">▶ Run Benchmark</button>
+      <button onclick="exportResults()" class="px-4 py-2 bg-slate-700 text-slate-200 text-sm font-semibold rounded-lg">📋 Export JSON</button>
+    </div>
+  </div>
+
+  <div id="status-bar" class="text-xs font-mono text-cyan-400 bg-cyan-950/30 border border-cyan-800/40 rounded-lg px-3 py-2">
+    Click "Run Benchmark" — both studios will load in sequence. Results appear automatically.
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="metric-card space-y-3">
+      <div class="flex items-center justify-between">
+        <span class="text-sm font-bold text-cyan-300">⚡ Streaming Studio</span>
+        <span class="text-xs font-mono text-cyan-500">kyojima-studio-stream</span>
+      </div>
+      <div class="space-y-2 text-xs">
+        <div class="flex justify-between"><span class="text-slate-400">Time to first paint</span><span id="s-ttp" class="metric-val neutral">—</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Time to interactive</span><span id="s-tti" class="metric-val neutral">—</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">JS heap at startup</span><span id="s-heap" class="metric-val neutral">—</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">WebGL texture mode</span><span id="s-vram" class="metric-val neutral">—</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Longest blocking task</span><span id="s-lbt" class="metric-val neutral">—</span></div>
+      </div>
+    </div>
+    <div class="metric-card space-y-3">
+      <div class="flex items-center justify-between">
+        <span class="text-sm font-bold text-amber-300">📦 Monolithic Studio</span>
+        <span class="text-xs font-mono text-amber-500">kyojima-studio-pre-obj4</span>
+      </div>
+      <div class="space-y-2 text-xs">
+        <div class="flex justify-between"><span class="text-slate-400">Time to first paint</span><span id="m-ttp" class="metric-val neutral">—</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Time to interactive</span><span id="m-tti" class="metric-val neutral">—</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">JS heap at startup</span><span id="m-heap" class="metric-val neutral">—</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">WebGL texture mode</span><span id="m-vram" class="metric-val neutral">—</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Longest blocking task</span><span id="m-lbt" class="metric-val neutral">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="metric-card space-y-4">
+    <h2 class="text-sm font-bold text-white">Visual Comparison</h2>
+    <div class="space-y-1">
+      <div class="flex justify-between text-xs text-slate-400"><span>Time to first paint ↓ lower is better</span><span id="bar-ttp-label" class="text-cyan-400">—</span></div>
+      <div class="bar-bg"><div id="bar-ttp-s" class="bar-fill bar-stream" style="width:0%"></div></div>
+      <div class="bar-bg"><div id="bar-ttp-m" class="bar-fill bar-mono" style="width:0%"></div></div>
+    </div>
+    <div class="space-y-1">
+      <div class="flex justify-between text-xs text-slate-400"><span>JS Heap at startup ↓ lower is better</span><span id="bar-heap-label" class="text-cyan-400">—</span></div>
+      <div class="bar-bg"><div id="bar-heap-s" class="bar-fill bar-stream" style="width:0%"></div></div>
+      <div class="bar-bg"><div id="bar-heap-m" class="bar-fill bar-mono" style="width:0%"></div></div>
+    </div>
+    <div class="space-y-1">
+      <div class="flex justify-between text-xs text-slate-400"><span>Longest blocking task ↓ lower is better</span><span id="bar-lbt-label" class="text-cyan-400">—</span></div>
+      <div class="bar-bg"><div id="bar-lbt-s" class="bar-fill bar-stream" style="width:0%"></div></div>
+      <div class="bar-bg"><div id="bar-lbt-m" class="bar-fill bar-mono" style="width:0%"></div></div>
+    </div>
+    <div class="flex gap-4 text-xs">
+      <div class="flex items-center gap-1"><div class="w-3 h-2 rounded bar-stream"></div><span class="text-cyan-300">Streaming</span></div>
+      <div class="flex items-center gap-1"><div class="w-3 h-2 rounded bar-mono"></div><span class="text-amber-300">Monolithic</span></div>
+    </div>
+  </div>
+
+  <div class="metric-card">
+    <h2 class="text-sm font-bold text-white mb-2">Measurement Log</h2>
+    <div id="log" class="space-y-0 max-h-48 overflow-y-auto text-slate-400 text-xs font-mono"></div>
+  </div>
+
+  <div style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;">
+    <iframe id="bench-frame" width="1200" height="800" style="border:none;"></iframe>
+  </div>
+</div>
+
+<script>
+  const results = { streaming: {}, monolithic: {} };
+  let logLines = [];
+
+  function log(msg, color) {
+    const ts = performance.now().toFixed(0);
+    logLines.push('[' + ts + 'ms] ' + msg);
+    const div = document.getElementById('log');
+    const el = document.createElement('div');
+    el.style.cssText = 'padding:2px 0;border-bottom:1px solid #0f172a;color:' + (color||'#94a3b8');
+    el.textContent = '[' + ts + 'ms] ' + msg;
+    div.appendChild(el);
+    div.scrollTop = div.scrollHeight;
+  }
+
+  function setStatus(msg) { document.getElementById('status-bar').textContent = msg; }
+
+  function getHeapMB() {
+    return performance.memory ? (performance.memory.usedJSHeapSize / 1048576).toFixed(1) : null;
+  }
+
+  function measureStudio(url, prefix, label) {
+    return new Promise(resolve => {
+      setStatus('Loading ' + label + '...');
+      log('=== ' + label + ' ===', '#60a5fa');
+
+      const frame = document.getElementById('bench-frame');
+      const t0 = performance.now();
+      const heap0 = performance.memory ? performance.memory.usedJSHeapSize : 0;
+      let longestBlock = 0;
+
+      let lto = null;
+      try {
+        lto = new PerformanceObserver(list => {
+          for (const e of list.getEntries()) {
+            if (e.duration > longestBlock) longestBlock = e.duration;
+          }
+        });
+        lto.observe({ entryTypes: ['longtask'] });
+      } catch(e) {}
+
+      frame.onload = () => {
+        const ttp = Math.round(performance.now() - t0);
+        log(label + ' loaded: ' + ttp + 'ms', '#22d3ee');
+
+        setTimeout(() => {
+          const tti = Math.round(performance.now() - t0);
+          const heapNow = performance.memory ? performance.memory.usedJSHeapSize : 0;
+          const heapMB = ((heapNow) / 1048576).toFixed(1);
+          const lbt = Math.round(longestBlock);
+
+          log(label + ' interactive: ' + tti + 'ms', '#22d3ee');
+          log(label + ' heap: ' + heapMB + ' MB, lbt: ' + lbt + 'ms', '#22d3ee');
+
+          if (lto) lto.disconnect();
+
+          const r = { ttp, tti, heap: parseFloat(heapMB), lbt };
+          document.getElementById(prefix + '-ttp').textContent = ttp + 'ms';
+          document.getElementById(prefix + '-tti').textContent = tti + 'ms';
+          document.getElementById(prefix + '-heap').textContent = heapMB + ' MB';
+          document.getElementById(prefix + '-vram').textContent = url.includes('stream') ? '🟢 Lazy / on-demand' : '🔴 All upfront (~600KB)';
+          document.getElementById(prefix + '-lbt').textContent = lbt + 'ms';
+
+          resolve(r);
+        }, 2000);
+      };
+
+      frame.src = url + '?t=' + Date.now();
+    });
+  }
+
+  async function runBench() {
+    document.getElementById('btn-run').disabled = true;
+    document.getElementById('log').innerHTML = '';
+    logLines = [];
+    log('Benchmark started', '#60a5fa');
+
+    const sR = await measureStudio('./kyojima-studio-stream.html', 's', 'Streaming Studio');
+    await new Promise(r => setTimeout(r, 800));
+    const mR = await measureStudio('./kyojima-studio-pre-obj4.html', 'm', 'Monolithic Studio');
+
+    results.streaming = sR;
+    results.monolithic = mR;
+    updateBars(sR, mR);
+
+    document.getElementById('btn-run').disabled = false;
+    setStatus('✅ Benchmark complete.');
+    log('=== Done ===', '#34d399');
+  }
+
+  function updateBars(s, m) {
+    const maxTTP = Math.max(s.ttp, m.ttp, 1);
+    const maxHeap = Math.max(s.heap, m.heap, 1);
+    const maxLBT = Math.max(s.lbt, m.lbt, 1);
+
+    document.getElementById('bar-ttp-s').style.width = (s.ttp / maxTTP * 100) + '%';
+    document.getElementById('bar-ttp-m').style.width = (m.ttp / maxTTP * 100) + '%';
+    document.getElementById('bar-heap-s').style.width = (s.heap / maxHeap * 100) + '%';
+    document.getElementById('bar-heap-m').style.width = (m.heap / maxHeap * 100) + '%';
+    document.getElementById('bar-lbt-s').style.width = (s.lbt / maxLBT * 100) + '%';
+    document.getElementById('bar-lbt-m').style.width = (m.lbt / maxLBT * 100) + '%';
+
+    document.getElementById('bar-ttp-label').textContent = 'Streaming ' + (s.ttp < m.ttp ? Math.round((1-s.ttp/m.ttp)*100)+'% faster' : 'slower');
+    document.getElementById('bar-heap-label').textContent = 'Heap delta: ' + (m.heap - s.heap).toFixed(1) + ' MB';
+    document.getElementById('bar-lbt-label').textContent = s.lbt + 'ms vs ' + m.lbt + 'ms';
+
+    function color(el, val, ref, lower) {
+      el.className = 'metric-val ' + ((lower ? val <= ref : val >= ref) ? 'win' : 'lose');
+    }
+    color(document.getElementById('s-ttp'), s.ttp, m.ttp, true);
+    color(document.getElementById('m-ttp'), m.ttp, s.ttp, true);
+    color(document.getElementById('s-tti'), s.tti, m.tti, true);
+    color(document.getElementById('m-tti'), m.tti, s.tti, true);
+    color(document.getElementById('s-heap'), s.heap, m.heap, true);
+    color(document.getElementById('m-heap'), m.heap, s.heap, true);
+    color(document.getElementById('s-lbt'), s.lbt, m.lbt, true);
+    color(document.getElementById('m-lbt'), m.lbt, s.lbt, true);
+  }
+
+  function exportResults() {
+    const report = { generated: new Date().toISOString(), streaming: results.streaming, monolithic: results.monolithic, log: logLines };
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' }));
+    a.download = 'kyojima-perf-' + Date.now() + '.json';
+    a.click();
+  }
+</script>
+</body>
+</html>

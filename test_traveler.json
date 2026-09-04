@@ -1,0 +1,28 @@
+{
+  "label": "SYNTHETIC",
+  "pipeline": "Shoji Pass · Kosmos + SD-Turbo dual-layer horizon fuse · Luminous Paper Theater (kokogarden v1)",
+  "model": "kosmos-luminous-paper-theater-v1",
+  "device": "simulated",
+  "method": "dual-pass horizon fuse",
+  "prompt": "portrait of a traveler holding a paper umbrella in Gion at dusk",
+  "subject_category": "architecture",
+  "place_facts": {
+    "floors": 4,
+    "facade": "neutral",
+    "palette": "bay",
+    "lay": "1LDK"
+  },
+  "parameters": {
+    "strength_sky": 0.5,
+    "strength_building": 0.35,
+    "horizon_frac": 0.68,
+    "feather": 0.18,
+    "dimensions": "1024x576",
+    "aspect_ratio": "16:9"
+  },
+  "provenance": {
+    "sha256": "fc968fca76c81bad5f961855456adc061b338e00240c4965c4a24b1f7cc78334",
+    "created_at": "2026-09-02 07:24:31 UTC",
+    "watermark": "SYNTHETIC"
+  }
+}

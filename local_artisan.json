@@ -1,0 +1,28 @@
+{
+  "label": "SYNTHETIC",
+  "pipeline": "Shoji Pass · Kosmos + SD-Turbo dual-layer horizon fuse · Luminous Paper Theater (kokogarden v1)",
+  "model": "kosmos-luminous-paper-theater-v1",
+  "device": "simulated",
+  "method": "dual-pass horizon fuse",
+  "prompt": "a portrait of an artisan crafting washi paper under amber lantern light",
+  "subject_category": "architecture",
+  "place_facts": {
+    "floors": 4,
+    "facade": "neutral",
+    "palette": "bay",
+    "lay": "1LDK"
+  },
+  "parameters": {
+    "strength_sky": 0.5,
+    "strength_building": 0.35,
+    "horizon_frac": 0.68,
+    "feather": 0.18,
+    "dimensions": "1024x576",
+    "aspect_ratio": "16:9"
+  },
+  "provenance": {
+    "sha256": "139ef4ccab07b44623412e064a5be833aaa8de69096097693b7f9cae27051b00",
+    "created_at": "2026-09-02 07:49:05 UTC",
+    "watermark": "SYNTHETIC"
+  }
+}

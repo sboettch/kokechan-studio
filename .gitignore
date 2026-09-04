@@ -1,0 +1,22 @@
+# macOS resource forks
+._*
+.DS_Store
+
+# Wrangler build artifacts and experimental rounds
+context/
+
+# Top-level dist (deploy copies live in context/kokechan/dist/)
+dist/
+
+# Git bundles
+*.bundle
+
+# Node
+node_modules/
+
+# Shell openers (machine-specific)
+open-studio
+open-pre-obj4
+
+# Wrangler cache
+.wrangler/
