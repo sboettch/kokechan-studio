@@ -441,6 +441,82 @@
           this.count = 0;
         }
 
+        addTriangle(p1, p2, p3, color, emissive = 0, texMode = 0, customNormal = null) {
+          let nx, ny, nz;
+          if (customNormal) {
+            [nx, ny, nz] = customNormal;
+          } else {
+            const ux = p2[0]-p1[0], uy = p2[1]-p1[1], uz = p2[2]-p1[2];
+            const vx = p3[0]-p1[0], vy = p3[1]-p1[1], vz = p3[2]-p1[2];
+            nx = uy*vz - uz*vy; ny = uz*vx - ux*vz; nz = ux*vy - uy*vx;
+            const l = Math.hypot(nx, ny, nz) || 1;
+            nx /= l; ny /= l; nz /= l;
+          }
+          const pts = [p1, p2, p3];
+          for (let i = 0; i < 3; i++) {
+            this.positions.push(...pts[i]);
+            this.normals.push(nx, ny, nz);
+            this.uvs.push(0, 0);
+            this.colors.push(...color);
+            this.emissives.push(emissive);
+            this.texModes.push(texMode);
+          }
+        }
+
+        addCylinder(p1, p2, radius, color, segments = 8, emissive = 0, texMode = 0) {
+          const dx = p2[0] - p1[0], dy = p2[1] - p1[1], dz = p2[2] - p1[2];
+          const len = Math.hypot(dx, dy, dz);
+          if (len < 0.0001) return;
+          const wx = dx / len, wy = dy / len, wz = dz / len;
+
+          let ax = 0, ay = 1, az = 0;
+          if (Math.abs(wy) > 0.95) {
+            ax = 1; ay = 0; az = 0;
+          }
+          let ux = ay * wz - az * wy;
+          let uy = az * wx - ax * wz;
+          let uz = ax * wy - ay * wx;
+          const uLen = Math.hypot(ux, uy, uz) || 1;
+          ux /= uLen; uy /= uLen; uz /= uLen;
+
+          const vx = wy * uz - wz * uy;
+          const vy = wz * ux - wx * uz;
+          const vz = wx * uy - wy * ux;
+
+          const ring1 = [];
+          const ring2 = [];
+          const norms = [];
+          for (let i = 0; i <= segments; i++) {
+            const angle = (i / segments) * Math.PI * 2;
+            const cosA = Math.cos(angle);
+            const sinA = Math.sin(angle);
+            const nx = cosA * ux + sinA * vx;
+            const ny = cosA * uy + sinA * vy;
+            const nz = cosA * uz + sinA * vz;
+            norms.push([nx, ny, nz]);
+            ring1.push([p1[0] + radius * nx, p1[1] + radius * ny, p1[2] + radius * nz]);
+            ring2.push([p2[0] + radius * nx, p2[1] + radius * ny, p2[2] + radius * nz]);
+          }
+
+          for (let i = 0; i < segments; i++) {
+            const b1 = ring1[i], b2 = ring1[i + 1];
+            const t1 = ring2[i], t2 = ring2[i + 1];
+            const nA = norms[i];
+            const nB = norms[i + 1];
+
+            const pts = [b1, b2, t2, b1, t2, t1];
+            const ns  = [nA, nB, nB, nA, nB, nA];
+            for (let k = 0; k < 6; k++) {
+              this.positions.push(...pts[k]);
+              this.normals.push(...ns[k]);
+              this.uvs.push(0, 0);
+              this.colors.push(...color);
+              this.emissives.push(emissive);
+              this.texModes.push(texMode);
+            }
+          }
+        }
+
         addQuad(p1, p2, p3, p4, color, emissive = 0, texMode = 0, uvs = [0,0, 1,0, 1,1, 0,1], customNormal = null) {
           let nx, ny, nz;
           if (customNormal) {
@@ -670,7 +746,7 @@
         const cGreen  = [0.12, 0.38, 0.24, 1.0]; // Hunter green dye
         const cCream  = [0.93, 0.90, 0.82, 1.0]; // Warm unbleached cotton cream
         const cLining = [0.82, 0.79, 0.72, 1.0]; // Underside canvas lining
-        const cPipe   = [0.96, 0.96, 0.94, 1.0]; // White cloth piping tape
+        const cPipe   = [0.96, 0.96, 0.94, 1.0]; // White cloth piping cord
         const cIron   = [0.16, 0.16, 0.18, 1.0]; // Black painted tubular iron
         const cBolt   = [0.28, 0.28, 0.30, 1.0]; // Dark hex lag bolt hardware
 
@@ -689,99 +765,119 @@
         const valDrop = yLip - yVal; // 0.22m
         const yWallDrop = yTop - valDrop; // 1.23m
 
-        // 1. Top sloped canopy, hanging valance & scallop tabs (18 alternating stripe panels)
+        // 1. Top sloped canopy, front hanging valance & scalloped hem (18 alternating stripes)
         for (let i = 0; i < numStripes; i++) {
           const x0 = xStart + i * stripeW;
           const x1 = x0 + stripeW;
+          const xMid = (x0 + x1) / 2;
           const col = (i % 2 === 0) ? cGreen : cCream;
 
-          // Sloped roof panel
+          // Sloped canopy panel (facing up-forward: Ny > 0, Nz > 0)
           master.addQuad([x0, yTop, zTop], [x1, yTop, zTop], [x1, yLip, zLip], [x0, yLip, zLip], col);
           washi.addQuad([x0, yTop, zTop], [x1, yTop, zTop], [x1, yLip, zLip], [x0, yLip, zLip], col);
 
-          // Front hanging valance panel
-          master.addQuad([x0, yLip, zLip], [x1, yLip, zLip], [x1, yVal, zVal], [x0, yVal, zVal], col);
-          washi.addQuad([x0, yLip, zLip], [x1, yLip, zLip], [x1, yVal, zVal], [x0, yVal, zVal], col);
+          // Front hanging valance panel (facing forward: Nz = +1.0)
+          master.addQuad([x0, yVal, zVal], [x1, yVal, zVal], [x1, yLip, zLip], [x0, yLip, zLip], col);
+          washi.addQuad([x0, yVal, zVal], [x1, yVal, zVal], [x1, yLip, zLip], [x0, yLip, zLip], col);
 
-          // Scalloped hem tab (clean forward-facing triangle)
-          const xMid = (x0 + x1) / 2;
+          // Scalloped hem tab (clean forward-facing triangle: Nz = +1.0)
           const yScallop = yVal - 0.035;
-          master.addQuad([x0, yVal, zVal], [xMid, yScallop, zVal], [x1, yVal, zVal], [x0, yVal, zVal], col);
-          washi.addQuad([x0, yVal, zVal], [xMid, yScallop, zVal], [x1, yVal, zVal], [x0, yVal, zVal], col);
+          master.addTriangle([x0, yVal, zVal], [xMid, yScallop, zVal], [x1, yVal, zVal], col);
+          washi.addTriangle([x0, yVal, zVal], [xMid, yScallop, zVal], [x1, yVal, zVal], col);
+
+          // White braided piping cord following the scallop wave
+          master.addCylinder([x0, yVal, zVal], [xMid, yScallop, zVal], 0.004, cPipe, 6);
+          master.addCylinder([xMid, yScallop, zVal], [x1, yVal, zVal], 0.004, cPipe, 6);
+          washi.addCylinder([x0, yVal, zVal], [xMid, yScallop, zVal], 0.004, cPipe, 6);
+          washi.addCylinder([xMid, yScallop, zVal], [x1, yVal, zVal], 0.004, cPipe, 6);
         }
 
-        // 2. Continuous white cloth piping hem tape along front scallop bottom (strictly width W)
-        master.addBox([0, yVal - 0.018, zVal + 0.001], [W, 0.012, 0.012], cPipe);
-        washi.addBox([0, yVal - 0.018, zVal + 0.001], [W, 0.012, 0.012], cPipe);
-
-        // 3. Watertight underside lining (inset by 0.02m from sides to prevent any side bleed)
+        // 2. Underside canvas lining (offset downward by 1.5cm, facing down into street)
         const dOffset = 0.015;
-        const x0_under = xStart + 0.02;
-        const x1_under = -xStart - 0.02;
+        const x0_under = xStart + 0.01;
+        const x1_under = -xStart - 0.01;
         const yTopUnder = yTop - dOffset;
         const yLipUnder = yLip - dOffset;
         const zLipUnder = zLip - dOffset;
-        master.addQuad([x0_under, yLipUnder, zLipUnder], [x1_under, yLipUnder, zLipUnder], [x1_under, yTopUnder, zTop], [x0_under, yTopUnder, zTop], cLining);
-        washi.addQuad([x0_under, yLipUnder, zLipUnder], [x1_under, yLipUnder, zLipUnder], [x1_under, yTopUnder, zTop], [x0_under, yTopUnder, zTop], cLining);
+        master.addQuad([x0_under, yTopUnder, zTop], [x1_under, yTopUnder, zTop], [x1_under, yLipUnder, zLipUnder], [x0_under, yLipUnder, zLipUnder], cLining);
+        washi.addQuad([x0_under, yTopUnder, zTop], [x1_under, yTopUnder, zTop], [x1_under, yLipUnder, zLipUnder], [x0_under, yLipUnder, zLipUnder], cLining);
 
-        // 4. Double-sided triangular valance end skirts (Left X = -W/2, Right X = +W/2)
-        // Left side skirt (exterior face normal -X, interior face normal +X)
+        // 3. Side Valance End Skirts (Left X = -W/2, Right X = +W/2)
+        // Clean single outward face per side — zero coplanar z-fighting, zero horizontal cutting boxes
+        // Left side skirt (facing -X)
         master.addQuad([-W/2, yTop, zTop], [-W/2, yWallDrop, zTop], [-W/2, yVal, zVal], [-W/2, yLip, zLip], cGreen);
-        master.addQuad([-W/2, yTop, zTop], [-W/2, yLip, zLip], [-W/2, yVal, zVal], [-W/2, yWallDrop, zTop], cGreen);
         washi.addQuad([-W/2, yTop, zTop], [-W/2, yWallDrop, zTop], [-W/2, yVal, zVal], [-W/2, yLip, zLip], cGreen);
-        washi.addQuad([-W/2, yTop, zTop], [-W/2, yLip, zLip], [-W/2, yVal, zVal], [-W/2, yWallDrop, zTop], cGreen);
-        // Left side bottom piping trim
-        master.addBox([-W/2, (yVal + yWallDrop)/2, zVal/2], [0.010, 0.012, 1.25], cPipe);
-        washi.addBox([-W/2, (yVal + yWallDrop)/2, zVal/2], [0.010, 0.012, 1.25], cPipe);
 
-        // Right side skirt (exterior face normal +X, interior face normal -X)
+        // Right side skirt (facing +X)
         master.addQuad([W/2, yTop, zTop], [W/2, yLip, zLip], [W/2, yVal, zVal], [W/2, yWallDrop, zTop], cGreen);
-        master.addQuad([W/2, yTop, zTop], [W/2, yWallDrop, zTop], [W/2, yVal, zVal], [W/2, yLip, zLip], cGreen);
         washi.addQuad([W/2, yTop, zTop], [W/2, yLip, zLip], [W/2, yVal, zVal], [W/2, yWallDrop, zTop], cGreen);
-        washi.addQuad([W/2, yTop, zTop], [W/2, yWallDrop, zTop], [W/2, yVal, zVal], [W/2, yLip, zLip], cGreen);
-        // Right side bottom piping trim
-        master.addBox([W/2, (yVal + yWallDrop)/2, zVal/2], [0.010, 0.012, 1.25], cPipe);
-        washi.addBox([W/2, (yVal + yWallDrop)/2, zVal/2], [0.010, 0.012, 1.25], cPipe);
 
-        // 5. Structural Black Iron Cantilever Framework
-        // Front tubular crossbar (capped cleanly inside the side skirts)
-        master.addBox([0, yLip - 0.02, zLip - 0.02], [W - 0.02, 0.038, 0.038], cIron);
-        washi.addBox([0, yLip - 0.02, zLip - 0.02], [W - 0.02, 0.038, 0.038], cIron);
+        // 4. Structural Black Iron Cantilever Framework
+        // Front tubular crossbar (continuous 40mm diameter iron pipe capped within side skirts)
+        master.addCylinder([-W/2 + 0.01, yLip - 0.02, zLip - 0.02], [W/2 - 0.01, yLip - 0.02, zLip - 0.02], 0.020, cIron, 8);
+        washi.addCylinder([-W/2 + 0.01, yLip - 0.02, zLip - 0.02], [W/2 - 0.01, yLip - 0.02, zLip - 0.02], 0.020, cIron, 8);
 
-        // Rear wall mounting timber ledger beam (strictly width W)
+        // Rear wall mounting timber ledger beam
         master.addBox([0, yTop + 0.01, zTop - 0.015], [W, 0.05, 0.03], [0.20, 0.14, 0.10, 1.0]);
         washi.addBox([0, yTop + 0.01, zTop - 0.015], [W, 0.05, 0.03], [0.20, 0.14, 0.10, 1.0]);
 
-        // 4 Heavy diagonal cantilever steel struts with turnbuckles & wall baseplates
+        // 4 Cantilever Strut Assemblies (True Cylindrical Struts & Coaxial Turnbuckles)
         const strutPositions = [-2.40, -0.80, 0.80, 2.40];
         for (const sx of strutPositions) {
-          // Wall mounting plate flush with wall
-          master.addBox([sx, 0.75, 0.008], [0.12, 0.16, 0.016], cIron);
-          washi.addBox([sx, 0.75, 0.008], [0.12, 0.16, 0.016], cIron);
+          // Wall mounting baseplate
+          master.addBox([sx, 0.72, 0.010], [0.14, 0.18, 0.020], cIron);
+          washi.addBox([sx, 0.72, 0.010], [0.14, 0.18, 0.020], cIron);
 
-          // 4 Hex lag bolt heads on plate
-          for (const bx of [-0.038, 0.038]) {
-            for (const by of [-0.05, 0.05]) {
-              master.addBox([sx + bx, 0.75 + by, 0.018], [0.016, 0.016, 0.006], cBolt);
-              washi.addBox([sx + bx, 0.75 + by, 0.018], [0.016, 0.016, 0.006], cBolt);
+          // 4 Hex lag bolt heads
+          for (const bx of [-0.042, 0.042]) {
+            for (const by of [-0.055, 0.055]) {
+              master.addBox([sx + bx, 0.72 + by, 0.022], [0.018, 0.018, 0.008], cBolt);
+              washi.addBox([sx + bx, 0.72 + by, 0.022], [0.018, 0.018, 0.008], cBolt);
             }
           }
 
-          // Diagonal strut segment 1: wall plate to turnbuckle
-          master.addBox([sx, 0.84, 0.28], [0.028, 0.028, 0.56], cIron);
-          washi.addBox([sx, 0.84, 0.28], [0.028, 0.028, 0.56], cIron);
+          // Wall bracket clevis lug
+          master.addBox([sx, 0.72, 0.035], [0.018, 0.07, 0.040], cIron);
+          washi.addBox([sx, 0.72, 0.035], [0.018, 0.07, 0.040], cIron);
 
-          // Turnbuckle tensioner sleeve body
-          master.addBox([sx, 0.90, 0.60], [0.044, 0.044, 0.12], cBolt);
-          washi.addBox([sx, 0.90, 0.60], [0.044, 0.044, 0.12], cBolt);
+          // Front eave knuckle joint bracket
+          master.addBox([sx, yLip - 0.02, zLip - 0.02], [0.038, 0.044, 0.044], cIron);
+          washi.addBox([sx, yLip - 0.02, zLip - 0.02], [0.038, 0.044, 0.044], cIron);
 
-          // Diagonal strut segment 2: turnbuckle to front lip bracket
-          master.addBox([sx, 0.96, 0.88], [0.028, 0.028, 0.56], cIron);
-          washi.addBox([sx, 0.96, 0.88], [0.028, 0.028, 0.56], cIron);
+          // Upper slope rafter tube (under canvas, supporting roof span)
+          const pRafterRear = [sx, yTop - 0.025, 0.02];
+          const pRafterFront = [sx, yLip - 0.02, zLip - 0.02];
+          master.addCylinder(pRafterRear, pRafterFront, 0.014, cIron, 8);
+          washi.addCylinder(pRafterRear, pRafterFront, 0.014, cIron, 8);
 
-          // Front knuckle joint bracket under crossbar (clean dark iron, no floating tan boxes)
-          master.addBox([sx, yLip - 0.022, zLip - 0.03], [0.034, 0.042, 0.045], cIron);
-          washi.addBox([sx, yLip - 0.022, zLip - 0.03], [0.034, 0.042, 0.045], cIron);
+          // Diagonal Cantilever Strut (Continuous coaxial line from wall clevis to front knuckle)
+          const pWall = [sx, 0.72, 0.045];
+          const pFront = [sx, yLip - 0.02, zLip - 0.02];
+          const dx = pFront[0] - pWall[0], dy = pFront[1] - pWall[1], dz = pFront[2] - pWall[2];
+
+          // Concentric turnbuckle positions along the exact strut axis
+          const pT1 = [pWall[0] + dx * 0.38, pWall[1] + dy * 0.38, pWall[2] + dz * 0.38];
+          const pT2 = [pWall[0] + dx * 0.62, pWall[1] + dy * 0.62, pWall[2] + dz * 0.62];
+          const pN1 = [pWall[0] + dx * 0.42, pWall[1] + dy * 0.42, pWall[2] + dz * 0.42];
+          const pN2 = [pWall[0] + dx * 0.58, pWall[1] + dy * 0.58, pWall[2] + dz * 0.58];
+
+          // Strut segment 1: wall clevis to turnbuckle
+          master.addCylinder(pWall, pT1, 0.015, cIron, 8);
+          washi.addCylinder(pWall, pT1, 0.015, cIron, 8);
+
+          // Turnbuckle body (coaxial sleeve, perfectly aligned)
+          master.addCylinder(pT1, pT2, 0.024, cBolt, 8);
+          washi.addCylinder(pT1, pT2, 0.024, cBolt, 8);
+
+          // Turnbuckle hex lock nuts
+          master.addCylinder(pT1, pN1, 0.028, cIron, 8);
+          master.addCylinder(pN2, pT2, 0.028, cIron, 8);
+          washi.addCylinder(pT1, pN1, 0.028, cIron, 8);
+          washi.addCylinder(pN2, pT2, 0.028, cIron, 8);
+
+          // Strut segment 2: turnbuckle to front knuckle
+          master.addCylinder(pT2, pFront, 0.015, cIron, 8);
+          washi.addCylinder(pT2, pFront, 0.015, cIron, 8);
         }
       })(obj4Master, obj4Washi);
 
@@ -1253,9 +1349,9 @@
           status: "🔬 ACTIVE TEST FORK (15 REFS VERIFIED)",
           statusClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
           dim: "6.40m × 1.02m × 1.25m (18° Pitch)",
-          tris: "1,584 Tris (Within 1,800 Budget)",
+          tris: "1,276 Tris (Within 1,800 Budget)",
           heading: "🎪 Striped Sun Awning & Cantilever Hardware",
-          desc: "Authored from a complete 15-view 2D reference suite (7 washi illustrative + 8 documentary photos). Features 18 alternating hunter green and warm cream stripes, watertight double-sided canvas volume with zero see-through clipping, scalloped wave valance with piping tape, triangular side valance flaps, and 4 black iron cantilever struts with turnbuckles.",
+          desc: "Authored from a complete 15-view 2D reference suite (7 washi illustrative + 8 documentary photos). Features 18 alternating hunter green and warm cream stripes, watertight double-sided canvas volume with zero see-through clipping, scalloped wave valance with piping cord, seamless side valance flaps, and 4 black iron cantilever cylindrical struts with coaxial turnbuckles.",
           shader: "Canvas Weave & Iron NPR",
           camCenter: [0, 1.15, 0.65],
           camRadius: 4.6
