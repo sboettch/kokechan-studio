@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="ja" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#0b1020">
-  <meta name="description" content="Kyojima & Koganecho Cultural Symposium & Living Archive Assembly · October 2–4 & 12, 2026.">
-  <meta property="og:title" content="Kyojima & Koganecho Symposium · Gardens of Relation">
-  <meta property="og:description" content="Two neighborhoods. Living architecture, grassroots machizukuri, and participatory digital archiving.">
-  <!-- Internal metadata: codename morado -->
+  <meta name="theme-color" content="#fcfaf6">
+  <meta name="description" content="Kyojima & Koganecho Cultural Assembly · Autumn Gathering 2026. An invitation to living shitamachi craft, metabolic sociology, and community memory.">
+  <meta property="og:title" content="Kyojima & Koganecho Cultural Assembly · An Invitation">
+  <meta property="og:description" content="Two neighborhoods. Four days of shared meals, living architecture, soundscapes, and community archives.">
   <meta name="project-codename" content="morado">
-  <title>Kyojima & Koganecho Symposium · Living Archive Assembly</title>
+  <title>Kyojima & Koganecho Cultural Assembly · 2026</title>
   
-  <!-- Fonts: Cormorant Garamond, Noto Serif JP, Inter -->
+  <!-- Fonts: Shippori Mincho, Noto Serif JP, Cormorant Garamond -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;600;700;900&family=Shippori+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -23,29 +22,41 @@
 
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            brand: {
-              dark: '#080c16',
-              card: '#0e1726',
-              cardborder: '#1e293b',
-              amber: '#f59e0b',
-              gold: '#fbbf24',
-              crimson: '#e11d48',
-              rose: '#f43f5e',
-              cedar: '#854d0e',
-              moss: '#10b981',
-              twilight: '#6366f1',
-              violet: '#8b5cf6',
-              washi: '#f8fafc'
+            paper: {
+              light: '#fdfbf7',
+              base: '#f9f6f0',
+              card: '#f4efe4',
+              border: '#e7decb',
+              accent: '#d9cdb4',
+            },
+            ink: {
+              black: '#191716',
+              charcoal: '#2e2b29',
+              muted: '#57524d',
+              faint: '#878179',
+            },
+            vermilion: {
+              seal: '#b91c1c',
+              light: '#dc2626',
+              soft: '#fef2f2',
+            },
+            hinoki: {
+              dark: '#543310',
+              wood: '#784617',
+              pale: '#a16207',
+            },
+            gold: {
+              leaf: '#c29b38',
+              pale: '#dfc27d',
             }
           },
           fontFamily: {
             serif: ['"Cormorant Garamond"', '"Shippori Mincho"', '"Noto Serif JP"', 'serif'],
             mincho: ['"Shippori Mincho"', '"Noto Serif JP"', 'serif'],
-            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif']
           }
         }
       }
@@ -53,1254 +64,639 @@
   </script>
 
   <style>
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #080c16; }
-    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #334155; }
-
-    /* Washi Paper Grain Texture Overlay */
-    .washi-overlay {
-      background-image: radial-gradient(rgba(251, 191, 36, 0.04) 1px, transparent 0);
-      background-size: 24px 24px;
+    /* Handcrafted Japanese Paper (Washi) Texture */
+    body {
+      background-color: #f8f5ee;
+      background-image: 
+        radial-gradient(#e5dec9 0.75px, transparent 0.75px),
+        radial-gradient(#ede7d8 0.75px, #f8f5ee 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+      color: #24211e;
     }
 
-    /* Luminous Twilight Glows */
-    .glow-amber {
-      box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.3);
-    }
-    .glow-violet {
-      box-shadow: 0 0 30px -8px rgba(139, 92, 246, 0.35);
-    }
-    .glow-crimson {
-      box-shadow: 0 0 25px -5px rgba(225, 29, 72, 0.3);
-    }
-    .text-glow-amber {
-      text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+    /* Deckled / Paper Card Stationery Shadows */
+    .stationery-card {
+      background: #fdfbf7;
+      box-shadow: 
+        0 1px 3px rgba(36, 33, 30, 0.05),
+        0 10px 35px -5px rgba(50, 42, 30, 0.08),
+        0 0 0 1px rgba(217, 205, 180, 0.6);
     }
 
-    /* Subtle Animated Lantern Pulse */
-    @keyframes lanternPulse {
-      0%, 100% { opacity: 0.9; transform: scale(1); }
-      50% { opacity: 0.75; transform: scale(0.98); }
-    }
-    .lantern-flame {
-      animation: lanternPulse 3.5s ease-in-out infinite;
+    /* Hanko / Seal Impression */
+    .hanko-seal {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #b91c1c;
+      color: #b91c1c;
+      border-radius: 4px;
+      font-family: "Shippori Mincho", "Noto Serif JP", serif;
+      font-weight: 700;
+      opacity: 0.88;
+      box-shadow: inset 0 0 0 1px rgba(185, 28, 28, 0.2);
+      transform: rotate(-2deg);
+      user-select: none;
     }
 
-    /* Smooth Transitions */
-    .tab-btn {
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Fine Double Border Hairline */
+    .double-hairline {
+      border: 3px double #d9cdb4;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f4efe4; }
+    ::-webkit-scrollbar-thumb { background: #cbbfa7; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #ab9c80; }
+
+    /* Vertical Japanese Writing Utility */
+    .vertical-mode {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+
+    /* Smooth Portal Frame Pulse */
+    @keyframes portalFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    .portal-frame-hover:hover {
+      box-shadow: 0 16px 45px -8px rgba(180, 83, 9, 0.25), 0 0 0 2px #d97706;
     }
   </style>
 </head>
 
-<body class="bg-[#070a12] text-slate-200 font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200 min-h-screen flex flex-col relative washi-overlay">
+<body class="font-serif antialiased selection:bg-amber-100 selection:text-amber-900 min-h-screen flex flex-col justify-between">
 
   <!-- ================================================================= -->
-  <!-- NAVIGATION BAR                                                    -->
+  <!-- TOP INVITATION BANNER & BILINGUAL CONTROLS                        -->
   <!-- ================================================================= -->
-  <header class="sticky top-0 z-50 bg-[#080c16]/85 backdrop-blur-md border-b border-slate-800/80 transition-all">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-      
-      <!-- Brand & Title -->
-      <a href="#" class="flex items-center gap-3.5 group">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/30 via-rose-500/20 to-violet-600/30 border border-amber-500/40 flex items-center justify-center text-amber-300 font-mincho font-bold text-xl shadow-lg group-hover:scale-105 transition-transform">
-          京
-        </div>
-        <div class="flex flex-col">
-          <div class="flex items-center gap-2">
-            <span class="font-mincho font-bold text-base text-white tracking-wide">京島 × 黄金町</span>
-            <span class="text-[10px] uppercase font-mono tracking-widest px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">2026 Assembly</span>
-          </div>
-          <span class="text-[11px] text-slate-400 font-sans hidden sm:inline" data-i18n="header-subtitle">Cultural Symposium &amp; Living Archive Gathering</span>
-        </div>
-      </a>
-
-      <!-- Navigation Links -->
-      <nav class="hidden md:flex items-center gap-6 text-xs font-medium tracking-wide">
-        <a href="#about" class="text-slate-300 hover:text-amber-300 transition-colors" data-i18n="nav-about">Overview</a>
-        <a href="#schedule" class="text-slate-300 hover:text-amber-300 transition-colors" data-i18n="nav-schedule">Program Schedule</a>
-        <a href="#panels" class="text-slate-300 hover:text-amber-300 transition-colors" data-i18n="nav-panels">Playground Panels</a>
-        <a href="#portal" class="text-slate-300 hover:text-amber-300 transition-colors" data-i18n="nav-portal">3D Archive Portal</a>
-        <a href="#patronage" class="text-slate-300 hover:text-amber-300 transition-colors" data-i18n="nav-patronage">Support &amp; Patronage</a>
-        <a href="#location" class="text-slate-300 hover:text-amber-300 transition-colors" data-i18n="nav-location">Locations</a>
-      </nav>
-
-      <!-- Right Controls: Language Switcher & RSVP Button -->
-      <div class="flex items-center gap-3">
-        <!-- Language Switcher -->
-        <button id="lang-toggle-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/80 hover:border-amber-500/50 text-xs font-mono text-slate-300 hover:text-amber-300 transition-all shadow-sm">
-          <span class="text-amber-400">🌐</span>
-          <span id="lang-label">JA / EN</span>
-        </button>
-
-        <!-- RSVP CTA Button -->
-        <button onclick="openRsvpModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 via-rose-600 to-violet-600 hover:from-amber-400 hover:via-rose-500 hover:to-violet-500 text-white font-medium text-xs tracking-wide shadow-lg hover:shadow-amber-500/25 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
-          <span>✉️</span>
-          <span data-i18n="btn-rsvp">Request Invitation / RSVP</span>
-        </button>
+  <header class="py-6 px-4 sm:px-8 max-w-5xl mx-auto w-full flex items-center justify-between border-b border-paper-border/60">
+    <!-- Traditional Hanko & Subtitle -->
+    <div class="flex items-center gap-3">
+      <div class="hanko-seal w-9 h-9 text-base tracking-tighter">
+        京島
       </div>
+      <div>
+        <div class="text-xs font-mincho tracking-[0.2em] text-ink-muted uppercase">文化集会のご案内</div>
+        <div class="text-[11px] text-ink-faint font-sans tracking-wide">Kyojima × Koganecho · Autumn 2026</div>
+      </div>
+    </div>
 
+    <!-- Right Controls: Language & Response CTA -->
+    <div class="flex items-center gap-4 text-xs font-mincho">
+      <button id="lang-toggle-btn" class="px-3 py-1.5 rounded-full border border-paper-border hover:border-ink-muted bg-paper-light text-ink-muted hover:text-ink-black transition-colors flex items-center gap-1.5">
+        <span class="text-hinoki-wood">✦</span>
+        <span id="lang-label">English に切替</span>
+      </button>
+
+      <a href="#rsvp-section" class="px-4 py-1.5 rounded-full bg-ink-charcoal hover:bg-ink-black text-paper-light font-sans text-xs tracking-wider transition-all shadow-sm hover:shadow">
+        <span data-i18n="top-rsvp">ご返信 · RSVP</span>
+      </a>
     </div>
   </header>
 
   <!-- ================================================================= -->
-  <!-- HERO SECTION: GHIBLI WARMTH × TWILIGHT LUMINESCENCE               -->
+  <!-- MAIN INVITATION CARD (FORMAL WEDDING / VERNISSAGE SUITE)           -->
   <!-- ================================================================= -->
-  <section class="relative overflow-hidden pt-12 pb-20 md:py-24 border-b border-slate-800/80">
-    <!-- Atmospheric Background Ambient Light Orbs -->
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
-    <div class="absolute top-1/3 right-1/4 w-[28rem] h-[28rem] bg-violet-600/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
-    <div class="absolute bottom-0 left-1/3 w-80 h-80 bg-rose-500/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+  <main class="flex-grow py-12 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Primary Stationery Card -->
+      <div class="stationery-card rounded-xl p-8 sm:p-14 md:p-16 relative overflow-hidden double-hairline">
         
-        <!-- Left Hero Copy -->
-        <div class="lg:col-span-7 flex flex-col items-start gap-5 text-left">
+        <!-- Subtle Corner Floral / Geometric Accents -->
+        <div class="absolute top-4 left-4 text-paper-accent text-xs select-none">✤</div>
+        <div class="absolute top-4 right-4 text-paper-accent text-xs select-none">✤</div>
+        <div class="absolute bottom-4 left-4 text-paper-accent text-xs select-none">✤</div>
+        <div class="absolute bottom-4 right-4 text-paper-accent text-xs select-none">✤</div>
+
+        <!-- Invitation Letterhead -->
+        <div class="text-center space-y-4 max-w-2xl mx-auto pb-10 border-b border-paper-border">
           
-          <!-- Event Badge -->
-          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-amber-500/30 shadow-inner">
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-            <span class="text-xs font-mono font-medium text-amber-300 tracking-wider uppercase" data-i18n="hero-tagline">Autumn Cultural Assembly · Oct 2–4 &amp; Oct 12, 2026</span>
+          <div class="inline-block text-[11px] font-mincho tracking-[0.3em] text-hinoki-wood uppercase">
+            — An Invitation to Relation &amp; Memory —
           </div>
 
-          <!-- Main Editorial Title -->
-          <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight leading-[1.12]">
-            <span class="block font-mincho text-amber-200/95" data-i18n="hero-title-1">路地と長屋の生きた記憶。</span>
-            <span class="block bg-gradient-to-r from-white via-slate-100 to-amber-200 bg-clip-text text-transparent italic" data-i18n="hero-title-2">Living Corridors of Relation</span>
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-mincho font-bold text-ink-black tracking-wider leading-[1.35]">
+            <span class="block" data-i18n="invitation-main-title">路地と長屋の生きた記憶へ</span>
+            <span class="block text-xl sm:text-2xl md:text-3xl font-light italic text-hinoki-wood mt-2 font-serif" data-i18n="invitation-sub-title">An Autumn Assembly of Living Corridors</span>
           </h1>
 
-          <!-- Bilingual Lead Paragraph -->
-          <p class="text-sm sm:text-base text-slate-300/90 leading-relaxed max-w-2xl font-sans" data-i18n="hero-desc">
-            An intimate international symposium celebrating organic shitamachi preservation, metabolic sociology, and community-led living archives. Bridging Sumida’s historic wooden nagaya alleys with Yokohama’s reclaimed canal ways in Koganecho.
+          <p class="text-xs sm:text-sm text-ink-muted leading-relaxed font-mincho max-w-xl mx-auto pt-2" data-i18n="invitation-letter-body">
+            謹啓　初秋の候、皆様におかれましてはますますご清祥のこととお慶び申し上げます。<br>
+            墨田区京島の築100年を超える木造長屋と、横浜・黄金町の運河と高架下アート。二つの街が長年培ってきた手仕事、路地の記憶、そして暮らしの知恵を分かち合う、ささやかで温かな集いを開きます。
           </p>
 
-          <!-- Core Event Highlights Pills -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full pt-2">
-            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col">
-              <span class="text-[10px] font-mono text-amber-400 uppercase" data-i18n="hero-pill-1-label">Oct 2 (Fri)</span>
-              <span class="text-xs font-semibold text-white mt-0.5" data-i18n="hero-pill-1-val">Opening Dinner</span>
-              <span class="text-[10px] text-slate-400">Sumida Kyojima</span>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col">
-              <span class="text-[10px] font-mono text-rose-400 uppercase" data-i18n="hero-pill-2-label">Oct 3 (Sat)</span>
-              <span class="text-xs font-semibold text-white mt-0.5" data-i18n="hero-pill-2-val">Panels &amp; AV Jam</span>
-              <span class="text-[10px] text-slate-400">Tours &amp; Playgrounds</span>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col">
-              <span class="text-[10px] font-mono text-violet-400 uppercase" data-i18n="hero-pill-3-label">Oct 4 (Sun)</span>
-              <span class="text-xs font-semibold text-white mt-0.5" data-i18n="hero-pill-3-val">TAC Gala Dinner</span>
-              <span class="text-[10px] text-slate-400">Tokyo American Club</span>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col">
-              <span class="text-[10px] font-mono text-emerald-400 uppercase" data-i18n="hero-pill-4-label">Oct 12 (Mon)</span>
-              <span class="text-xs font-semibold text-white mt-0.5" data-i18n="hero-pill-4-val">Canal SUP Tour</span>
-              <span class="text-[10px] text-slate-400">Koganecho, Yokohama</span>
-            </div>
-          </div>
-
-          <!-- Hero Action Buttons -->
-          <div class="flex flex-wrap items-center gap-3 pt-4">
-            <button onclick="openRsvpModal()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 via-rose-600 to-violet-600 hover:from-amber-400 hover:via-rose-500 hover:to-violet-500 text-white font-semibold text-sm shadow-xl hover:shadow-amber-500/25 transition-all flex items-center gap-2">
-              <span>🏮</span>
-              <span data-i18n="hero-btn-rsvp">Register Attendance / RSVP</span>
-            </button>
-            <a href="#portal" class="px-5 py-3 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-amber-400/60 text-slate-200 hover:text-white text-sm font-medium transition-all flex items-center gap-2">
-              <span>🏛️</span>
-              <span data-i18n="hero-btn-explore">Explore 3D Living Corridor</span>
-            </a>
-            <a href="https://kokechan.preattention.ai" target="_blank" class="px-4 py-3 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-slate-600 text-xs font-mono text-slate-400 hover:text-slate-200 transition-all flex items-center gap-1.5">
-              <span>🌐 Metaverse View ↗</span>
-            </a>
+          <!-- Gathering Dates & Locations Stamp -->
+          <div class="pt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-6 text-xs text-ink-charcoal font-mincho">
+            <span class="flex items-center gap-1.5">
+              <span class="text-vermilion-seal">◈</span>
+              <strong data-i18n="date-window">2026年 10月2日(金) 〜 4日(日) &amp; 12日(月祝)</strong>
+            </span>
+            <span class="text-paper-accent hidden sm:inline">|</span>
+            <span class="flex items-center gap-1.5">
+              <span class="text-hinoki-wood">◈</span>
+              <span data-i18n="venue-summary">東京・墨田区京島 ／ 東京アメリカンクラブ ／ 横浜・黄金町</span>
+            </span>
           </div>
 
         </div>
 
-        <!-- Right Hero Visual: 3D Living Archive Interactive Viewport -->
-        <div class="lg:col-span-5 flex flex-col gap-3">
-          <div class="relative w-full aspect-[4/3] rounded-2xl bg-gradient-to-b from-slate-900 to-[#0b101c] border border-amber-500/30 overflow-hidden shadow-2xl glow-amber group">
-            
-            <!-- Live WebGL Canvas for 3D Preview -->
-            <canvas id="hero-3d-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+        <!-- ============================================================= -->
+        <!-- THE 3D LIVING CORRIDOR PORTAL (THE WINDOW TO THE METAVERSE)    -->
+        <!-- ============================================================= -->
+        <div class="py-12 border-b border-paper-border">
+          
+          <div class="text-center max-w-xl mx-auto mb-6">
+            <span class="text-[11px] font-mincho tracking-[0.25em] text-vermilion-seal uppercase" data-i18n="portal-kicker">生きた景観の窓</span>
+            <h2 class="text-2xl sm:text-3xl font-mincho font-bold text-ink-black mt-1" data-i18n="portal-heading">京島駅・回廊を抜けてメタバースへ</h2>
+            <p class="text-xs text-ink-muted font-mincho mt-2 leading-relaxed" data-i18n="portal-subtext">
+              真紅の自販機、瓦屋根の庇、木造格子戸、そして日除け天幕。静かに佇む街角の窓をクリックすると、そのまま広大なメタバースの街（kokechan.preattention.ai）へと歩みを進めることができます。
+            </p>
+          </div>
 
-            <!-- Overlay Header Badges -->
-            <div class="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-              <div class="px-2.5 py-1 rounded-md bg-[#080c16]/80 backdrop-blur-md border border-amber-500/40 text-[11px] font-mono text-amber-300 flex items-center gap-1.5">
+          <!-- The Framed Paper Screen / 3D Canvas Box -->
+          <div class="relative max-w-2xl mx-auto rounded-lg overflow-hidden border border-paper-border bg-[#121622] shadow-xl portal-frame-hover transition-all duration-300 group">
+            
+            <!-- Three.js Canvas -->
+            <canvas id="living-corridor-canvas" class="w-full h-[360px] sm:h-[400px] cursor-pointer block"></canvas>
+
+            <!-- Elegant Overlaid Callout -->
+            <div class="absolute top-4 left-4 pointer-events-none">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#080c16]/80 backdrop-blur-sm border border-gold-leaf/40 text-paper-light text-[11px] font-mincho">
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                <span>Kyojima Eki · Living Corridor</span>
-              </div>
-              <div class="px-2 py-1 rounded-md bg-slate-950/80 backdrop-blur-md border border-slate-700 text-[10px] font-mono text-slate-300">
-                <span>WebGL · Interactive 3D</span>
+                <span data-i18n="portal-hud-label">京島駅：路地の回廊</span>
               </div>
             </div>
 
-            <!-- Viewport Controls Toolbar -->
-            <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-auto bg-[#080c16]/85 backdrop-blur-md border border-slate-800 rounded-xl px-3 py-1.5 text-[11px]">
+            <!-- Portal Enter Doorway Button (Center Overlay on Hover or Bottom Bar) -->
+            <div class="absolute bottom-4 inset-x-4 flex items-center justify-between pointer-events-auto bg-[#080c16]/85 backdrop-blur-md px-4 py-2.5 rounded-lg border border-slate-700/80 text-xs text-paper-light">
               <div class="flex items-center gap-2">
-                <button id="btn-poi-vending" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-amber-500/30 text-slate-300 hover:text-amber-200 transition text-[10px] font-mono">自販機</button>
-                <button id="btn-poi-roof" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-amber-500/30 text-slate-300 hover:text-amber-200 transition text-[10px] font-mono">瓦屋根</button>
-                <button id="btn-poi-awning" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-amber-500/30 text-slate-300 hover:text-amber-200 transition text-[10px] font-mono">天幕</button>
-                <button id="btn-poi-reset" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-amber-500/30 text-slate-300 hover:text-amber-200 transition text-[10px] font-mono">全体</button>
+                <span class="text-amber-400">🏮</span>
+                <span class="font-mincho text-[11px] text-slate-300 hidden sm:inline" data-i18n="portal-instruction">ドラッグで視点を回し、扉から街の中へ</span>
               </div>
-              <div class="flex items-center gap-2">
-                <span id="light-mode-label" class="text-[10px] font-mono text-amber-400">夕暮れ (Twilight)</span>
-                <button id="btn-toggle-time" class="px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/40 text-amber-300 border border-amber-500/30 text-[10px]">🌓 光</button>
-              </div>
+              <a href="https://kokechan.preattention.ai" target="_blank" class="px-3.5 py-1.5 rounded bg-amber-600 hover:bg-amber-500 text-white font-mincho text-xs tracking-wider transition-all flex items-center gap-1.5 shadow-md">
+                <span data-i18n="portal-btn-enter">メタバース世界へ入る ↗</span>
+              </a>
             </div>
 
           </div>
 
-          <!-- Micro Caption Below Viewport -->
-          <div class="flex items-center justify-between px-1 text-[11px] text-slate-400 font-mono">
-            <span>✨ Drag to orbit · Scroll to zoom</span>
-            <a href="/studio" target="_blank" class="text-amber-400 hover:underline flex items-center gap-1">Open 15-Object Studio ↗</a>
+          <!-- Secondary Link Line -->
+          <div class="text-center mt-3 text-[11px] text-ink-faint font-mincho">
+            <span>Also accessible via </span>
+            <a href="https://kokeshi.preattention.ai" target="_blank" class="underline hover:text-ink-black">kokeshi.preattention.ai</a>
+            <span> or </span>
+            <a href="https://kokechan.preattention.ai" target="_blank" class="underline hover:text-ink-black">kokechan.preattention.ai</a>
           </div>
 
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- MULTI-DAY DETAILED SCHEDULE                                       -->
-  <!-- ================================================================= -->
-  <section id="schedule" class="py-16 md:py-20 border-b border-slate-800/80 bg-[#0a0f1d]/50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Section Header -->
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-        <div>
-          <span class="text-xs font-mono uppercase tracking-widest text-amber-400" data-i18n="schedule-kicker">Multi-Day Timetable &amp; Gatherings</span>
-          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1" data-i18n="schedule-title">開催日程・タイムライン</h2>
-        </div>
-        
-        <!-- Day Filter Tabs -->
-        <div class="flex flex-wrap gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800">
-          <button onclick="filterDay('all')" id="tab-all" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-white bg-slate-800 border border-amber-500/40 shadow-sm">All Days</button>
-          <button onclick="filterDay('day1')" id="tab-day1" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white">Oct 2 (Fri)</button>
-          <button onclick="filterDay('day2')" id="tab-day2" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white">Oct 3 (Sat)</button>
-          <button onclick="filterDay('day3')" id="tab-day3" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white">Oct 4 (Sun)</button>
-          <button onclick="filterDay('day4')" id="tab-day4" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white">Oct 12 (Mon)</button>
-        </div>
-      </div>
-
-      <!-- Timeline Items Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="schedule-grid">
-        
-        <!-- DAY 1 CARD -->
-        <div class="schedule-card day1 rounded-2xl bg-[#0e1626] border border-amber-500/30 p-6 flex flex-col justify-between shadow-lg relative overflow-hidden group hover:border-amber-500/60 transition-all">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="px-2.5 py-1 rounded-md bg-amber-500/20 text-amber-300 font-mono text-[11px] font-semibold border border-amber-500/40">DAY 1 · OCT 2</span>
-              <span class="text-[11px] text-slate-400 font-mono">18:00–21:00</span>
-            </div>
-            <h3 class="font-serif text-xl font-bold text-white group-hover:text-amber-200 transition-colors" data-i18n="day1-title">Opening Ceremony &amp; Welcome Dinner</h3>
-            <p class="text-xs text-amber-400/90 font-medium mt-1">Sumida Kyojima Venue</p>
-            <p class="text-xs text-slate-300/85 mt-3 leading-relaxed" data-i18n="day1-desc">
-              A convivial welcome feast celebrating the launch of our living archive assembly. Reconnecting in the same intimate neighborhood space where our June pasta gathering unfolded. Seasonal shitamachi dinner, craft sake, and relaxed introductions.
+        <!-- ============================================================= -->
+        <!-- NODS TO THE ART & LIVING CULTURE THAT WILL BE THERE           -->
+        <!-- ============================================================= -->
+        <div class="py-12 border-b border-paper-border">
+          
+          <div class="text-center max-w-xl mx-auto mb-10">
+            <div class="hanko-seal w-8 h-8 text-xs mb-2">藝</div>
+            <h2 class="text-2xl sm:text-3xl font-mincho font-bold text-ink-black" data-i18n="art-section-title">この集いに息づく表現と手仕事</h2>
+            <p class="text-xs text-ink-muted font-mincho mt-2" data-i18n="art-section-sub">
+              技術は静かに背後へと退き、職人の木彫り、音楽の響き、そして生活の記憶が主役となります。
             </p>
-            <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] space-y-1 text-slate-400">
-              <div class="flex items-center gap-2"><span>🏮</span><span>18:00 · Doors &amp; Welcome Drinks</span></div>
-              <div class="flex items-center gap-2"><span>🗣️</span><span>18:45 · Remarks by Goto-san &amp; Hosts</span></div>
-              <div class="flex items-center gap-2"><span>🍲</span><span>19:15 · Family-style Shitamachi Feast</span></div>
-            </div>
           </div>
-          <div class="mt-6 pt-3 border-t border-slate-800 flex items-center justify-between">
-            <a href="https://maps.app.goo.gl/o9rB5tV7UH84uaDu7" target="_blank" class="text-xs text-amber-300 hover:underline flex items-center gap-1">📍 Google Maps Pin ↗</a>
-            <span class="text-[10px] font-mono text-slate-400">Casual &amp; Warm</span>
-          </div>
-        </div>
 
-        <!-- DAY 2 CARD (MAIN GATHERING) -->
-        <div class="schedule-card day2 rounded-2xl bg-[#0e1626] border border-rose-500/40 p-6 flex flex-col justify-between shadow-xl relative overflow-hidden group hover:border-rose-500/70 transition-all glow-crimson">
-          <div class="absolute top-0 right-0 w-28 h-28 bg-rose-500/15 rounded-full blur-xl pointer-events-none"></div>
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="px-2.5 py-1 rounded-md bg-rose-500/20 text-rose-300 font-mono text-[11px] font-semibold border border-rose-500/40">DAY 2 · OCT 3 (MAIN)</span>
-              <span class="text-[11px] text-slate-400 font-mono">13:00–21:30</span>
-            </div>
-            <h3 class="font-serif text-xl font-bold text-white group-hover:text-rose-200 transition-colors" data-i18n="day2-title">The Main Gathering: Panels, Walking Tour &amp; AV Jam</h3>
-            <p class="text-xs text-rose-400/90 font-medium mt-1">Kyojima Venue &amp; Living Alleys</p>
-            <p class="text-xs text-slate-300/85 mt-3 leading-relaxed" data-i18n="day2-desc">
-              Our central symposium day. Two dynamic playground panels (machizukuri craft &amp; metabolic sociology), an architectural alley walk with Goto-san, followed by an evening soundscape &amp; freeform visual AV Jam featuring Kokechan.
-            </p>
-            <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] space-y-1 text-slate-400">
-              <div class="flex items-center gap-2"><span>💬</span><span>13:45 · Playground 1: Kyojima Artists</span></div>
-              <div class="flex items-center gap-2"><span>🌿</span><span>15:15 · Playground 2: Metabolic Sociology</span></div>
-              <div class="flex items-center gap-2"><span>🚶‍♂️</span><span>16:30 · Alley Tour led by Goto-san</span></div>
-              <div class="flex items-center gap-2 text-rose-300 font-medium"><span>🎶</span><span>19:45 · Live Sound &amp; Visual Jam (40-50m)</span></div>
-            </div>
-          </div>
-          <div class="mt-6 pt-3 border-t border-slate-800 flex items-center justify-between">
-            <a href="https://maps.app.goo.gl/o9rB5tV7UH84uaDu7" target="_blank" class="text-xs text-rose-300 hover:underline flex items-center gap-1">📍 Venue Location ↗</a>
-            <span class="text-[10px] font-mono text-rose-400">Featured Day</span>
-          </div>
-        </div>
-
-        <!-- DAY 3 CARD (TAC GALA) -->
-        <div class="schedule-card day3 rounded-2xl bg-[#0e1626] border border-violet-500/30 p-6 flex flex-col justify-between shadow-lg relative overflow-hidden group hover:border-violet-500/60 transition-all">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-violet-500/10 rounded-full blur-xl pointer-events-none"></div>
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="px-2.5 py-1 rounded-md bg-violet-500/20 text-violet-300 font-mono text-[11px] font-semibold border border-violet-500/40">DAY 3 · OCT 4</span>
-              <span class="text-[11px] text-slate-400 font-mono">18:00–21:30</span>
-            </div>
-            <h3 class="font-serif text-xl font-bold text-white group-hover:text-violet-200 transition-colors" data-i18n="day3-title">Fundraiser Dinner &amp; Closing Keynote</h3>
-            <p class="text-xs text-violet-400/90 font-medium mt-1">Tokyo American Club (TAC)</p>
-            <p class="text-xs text-slate-300/85 mt-3 leading-relaxed" data-i18n="day3-desc">
-              High-level philanthropic gala dinner uniting patrons, civic leaders, and cultural institutions. Keynote by Goto-san, presentation of the 173-site living archive, and introduction of patronage tiers supporting preservation.
-            </p>
-            <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] space-y-1 text-slate-400">
-              <div class="flex items-center gap-2"><span>🍸</span><span>18:00 · Cocktails &amp; Digital Showcase</span></div>
-              <div class="flex items-center gap-2"><span>🎙️</span><span>18:45 · Keynote by Goto-san</span></div>
-              <div class="flex items-center gap-2"><span>🍽️</span><span>19:45 · Gala Dinner &amp; Patron Packages</span></div>
-            </div>
-          </div>
-          <div class="mt-6 pt-3 border-t border-slate-800 flex items-center justify-between">
-            <span class="text-xs text-violet-300">Minato-ku, Tokyo</span>
-            <span class="text-[10px] font-mono text-slate-400">Formal / Kimono</span>
-          </div>
-        </div>
-
-        <!-- DAY 4 CARD (KOGANECHO EXTENSION) -->
-        <div class="schedule-card day4 rounded-2xl bg-[#0e1626] border border-emerald-500/30 p-6 flex flex-col justify-between shadow-lg relative overflow-hidden group hover:border-emerald-500/60 transition-all">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 font-mono text-[11px] font-semibold border border-emerald-500/40">DAY 4 · OCT 12 (HOLIDAY)</span>
-              <span class="text-[11px] text-slate-400 font-mono">13:30–19:30</span>
-            </div>
-            <h3 class="font-serif text-xl font-bold text-white group-hover:text-emerald-200 transition-colors" data-i18n="day4-title">Koganecho Studio &amp; SUP Canal Tour</h3>
-            <p class="text-xs text-emerald-400/90 font-medium mt-1">Koganecho &amp; Ōoka River, Yokohama</p>
-            <p class="text-xs text-slate-300/85 mt-3 leading-relaxed" data-i18n="day4-desc">
-              National holiday field expedition. Guided artist studio tour beneath the railway arches with Liu Shujia &amp; Ryo Suzuki, gentle Stand-Up Paddleboard (SUP) canal tour on the Ōoka River, and street performances at the Koganecho Bazaar.
-            </p>
-            <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] space-y-1 text-slate-400">
-              <div class="flex items-center gap-2"><span>🎨</span><span>13:30 · Studio Walk w/ Liu Shujia &amp; Ryo Suzuki</span></div>
-              <div class="flex items-center gap-2"><span>🏄‍♀️</span><span>15:00 · Ōoka River Canal SUP Experience</span></div>
-              <div class="flex items-center gap-2"><span>🎪</span><span>16:30 · Koganecho Bazaar Performance</span></div>
-            </div>
-          </div>
-          <div class="mt-6 pt-3 border-t border-slate-800 flex items-center justify-between">
-            <span class="text-xs text-emerald-300">Yokohama Waterfront</span>
-            <span class="text-[10px] font-mono text-emerald-400">Patron Exclusive</span>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- PLAYGROUND PANELS & PROPOSED SPEAKING TOPICS                      -->
-  <!-- ================================================================= -->
-  <section id="panels" class="py-16 md:py-20 border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Section Header -->
-      <div class="max-w-3xl mb-12">
-        <span class="text-xs font-mono uppercase tracking-widest text-rose-400" data-i18n="panels-kicker">Interactive Panel Forums · Oct 3 (Sat)</span>
-        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1" data-i18n="panels-title">プレイグラウンド・対話セッション</h2>
-        <p class="text-sm text-slate-300/90 mt-2 font-sans leading-relaxed" data-i18n="panels-intro">
-          Evolving past conventional academic lectures into dynamic neighborhood forums. Two curated conversational playgrounds that honor living craft, metabolic sociology, and grassroots urban resilience.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        <!-- PLAYGROUND ONE CARD -->
-        <div class="rounded-2xl bg-[#0e1626] border border-amber-500/40 p-8 flex flex-col justify-between shadow-xl relative overflow-hidden group">
-          <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
-          <div>
-            <div class="flex items-center gap-2.5 mb-4">
-              <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-mono text-xs font-bold border border-amber-500/40">PLAYGROUND ONE</span>
-              <span class="text-xs font-mono text-slate-400">13:45–15:00 · Oct 3</span>
-            </div>
+          <!-- 4 Pillars of Art & Culture -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
             
-            <h3 class="font-serif text-2xl font-bold text-white group-hover:text-amber-200 transition-colors" data-i18n="p1-heading">
-              長屋の生きた更新：工芸・芸術・自律的なまちづくり
-            </h3>
-            <h4 class="font-sans text-sm font-semibold text-amber-400/90 mt-1" data-i18n="p1-subheading">
-              The Living Nagaya: Craft, Art, and Autonomous Placemaking in Kyojima
-            </h4>
-
-            <p class="text-xs sm:text-sm text-slate-300/90 mt-4 leading-relaxed" data-i18n="p1-desc">
-              Curated with Goto-san. How do century-old wooden nagaya and intimate alleyways flourish without erasing their intergenerational memories? Local Kyojima artists, woodworkers, and residents explore how shared alleys serve as communal living rooms and workshops.
-            </p>
-
-            <div class="mt-6 space-y-2.5">
-              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800/80 text-xs">
-                <span class="font-semibold text-amber-300">Key Theme 1:</span>
-                <span class="text-slate-300 ml-1">Gentle integration of creative newcomers without resident displacement.</span>
+            <!-- Art 1: Woodcraft & Nagaya Carpentry -->
+            <div class="p-6 rounded-lg bg-paper-card/70 border border-paper-border/80 flex flex-col justify-between">
+              <div>
+                <div class="text-xs font-mincho text-hinoki-wood font-bold tracking-wider mb-1" data-i18n="art-pillar-1-tag">木工と長屋建築 · Woodcraft &amp; Joinery</div>
+                <h3 class="text-lg font-mincho font-bold text-ink-black" data-i18n="art-pillar-1-title">京島の大工仕事と路地の再生</h3>
+                <p class="text-xs text-ink-muted font-mincho leading-relaxed mt-2.5" data-i18n="art-pillar-1-desc">
+                  後藤さんをはじめとする京島の職人・アーティストたちによる、長屋の木組みや格子戸の修繕。壊して建て直すのではなく、古材を生かしながら路地に開かれたアトリエや居間を紡ぐ実践に触れます。
+                </p>
               </div>
-              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800/80 text-xs">
-                <span class="font-semibold text-amber-300">Key Theme 2:</span>
-                <span class="text-slate-300 ml-1">Micropublics: plant clusters, communal pumps, and daily mutual trust.</span>
+              <div class="mt-4 pt-3 border-t border-paper-border/60 text-[11px] text-ink-faint font-mincho">
+                <span>後藤大輔氏・京島アーティスト有志</span>
               </div>
             </div>
+
+            <!-- Art 2: Acoustic / Electronic Twilight Jam -->
+            <div class="p-6 rounded-lg bg-paper-card/70 border border-paper-border/80 flex flex-col justify-between">
+              <div>
+                <div class="text-xs font-mincho text-vermilion-seal font-bold tracking-wider mb-1" data-i18n="art-pillar-2-tag">夕暮れの音楽と映像 · Twilight AV Jam</div>
+                <h3 class="text-lg font-mincho font-bold text-ink-black" data-i18n="art-pillar-2-title">こけちゃん音響空間と光の即興</h3>
+                <p class="text-xs text-ink-muted font-mincho leading-relaxed mt-2.5" data-i18n="art-pillar-2-desc">
+                  10月3日の夜を彩る、私とSilvanaによる40〜50分のライブパフォーマンス。提灯が灯る薄暮の中で、アンビエントな電子音響と柔らかなプロジェクション映像が長屋の木肌を照らします。
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-paper-border/60 text-[11px] text-ink-faint font-mincho">
+                <span>10月3日 (土) 19:45〜 · Me + Silvana</span>
+              </div>
+            </div>
+
+            <!-- Art 3: Metabolic Sociology -->
+            <div class="p-6 rounded-lg bg-paper-card/70 border border-paper-border/80 flex flex-col justify-between">
+              <div>
+                <div class="text-xs font-mincho text-gold-leaf font-bold tracking-wider mb-1" data-i18n="art-pillar-3-tag">生活の知恵 · Metabolic Sociology</div>
+                <h3 class="text-lg font-mincho font-bold text-ink-black" data-i18n="art-pillar-3-title">適応する生態系としての生活空間</h3>
+                <p class="text-xs text-ink-muted font-mincho leading-relaxed mt-2.5" data-i18n="art-pillar-3-desc">
+                  路地の植木鉢、手押しポンプ（路地尊）、軒下の縁台。社会学研究者Yukaさんのフィールドワークを軸に、巨大都市の中で住民の手によって自律的に更新されていく下町生活の代謝を紐解きます。
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-paper-border/60 text-[11px] text-ink-faint font-mincho">
+                <span>研究者 Yuka氏（確認中）／ 空間の記録者たち</span>
+              </div>
+            </div>
+
+            <!-- Art 4: Handcrafted Kokeshi & Waterfront Reflections -->
+            <div class="p-6 rounded-lg bg-paper-card/70 border border-paper-border/80 flex flex-col justify-between">
+              <div>
+                <div class="text-xs font-mincho text-hinoki-wood font-bold tracking-wider mb-1" data-i18n="art-pillar-4-tag">工芸と水辺 · Handcrafted Kokeshi &amp; Canal</div>
+                <h3 class="text-lg font-mincho font-bold text-ink-black" data-i18n="art-pillar-4-title">木地師の轆轤と大岡川の水面</h3>
+                <p class="text-xs text-ink-muted font-mincho leading-relaxed mt-2.5" data-i18n="art-pillar-4-desc">
+                  職人が一本ずつ削り出す木製こけしと、10月12日の祝日に黄金町エリアマネジメント（劉舒佳さん・鈴木亮さん）の案内で巡る大岡川のSUP水上散策。高架下のアートと水辺が交差します。
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-paper-border/60 text-[11px] text-ink-faint font-mincho">
+                <span>10月12日 (月祝) · 黄金町エリアマネジメント</span>
+              </div>
+            </div>
+
           </div>
 
-          <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
-            <span class="text-xs text-slate-400 font-mono">Curated by Goto-san &amp; Kyojima Artisans</span>
-            <span class="text-xs font-semibold text-amber-400">Open Fishbowl Format</span>
-          </div>
         </div>
 
-        <!-- PLAYGROUND TWO CARD -->
-        <div class="rounded-2xl bg-[#0e1626] border border-violet-500/40 p-8 flex flex-col justify-between shadow-xl relative overflow-hidden group">
-          <div class="absolute top-0 right-0 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl pointer-events-none"></div>
-          <div>
-            <div class="flex items-center gap-2.5 mb-4">
-              <span class="px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 font-mono text-xs font-bold border border-violet-500/40">PLAYGROUND TWO</span>
-              <span class="text-xs font-mono text-slate-400">15:15–16:15 · Oct 3</span>
-            </div>
+        <!-- ============================================================= -->
+        <!-- FOUR-DAY GATHERINGS & ITINERARY (STATIONERY ORDER OF SERVICE) -->
+        <!-- ============================================================= -->
+        <div class="py-12 border-b border-paper-border">
+          
+          <div class="text-center max-w-xl mx-auto mb-10">
+            <span class="text-[11px] font-mincho tracking-[0.25em] text-hinoki-wood uppercase" data-i18n="itinerary-kicker">日程のご案内</span>
+            <h2 class="text-2xl sm:text-3xl font-mincho font-bold text-ink-black mt-1" data-i18n="itinerary-heading">四日間の催しと時間</h2>
+          </div>
+
+          <div class="space-y-6 max-w-3xl mx-auto">
             
-            <h3 class="font-serif text-2xl font-bold text-white group-hover:text-violet-200 transition-colors" data-i18n="p2-heading">
-              メタボリック・ソシオロジー：適応する生態系としての生活空間
-            </h3>
-            <h4 class="font-sans text-sm font-semibold text-violet-400/90 mt-1" data-i18n="p2-subheading">
-              Metabolic Sociology: Living Communities as Adaptive Organisms
-            </h4>
-
-            <p class="text-xs sm:text-sm text-slate-300/90 mt-4 leading-relaxed" data-i18n="p2-desc">
-              Drawing on ethnographic research (centered on researcher Yuka upon confirmation, or community spatial chroniclers). Re-interpreting Japanese Metabolism away from rigid megastructures toward the real shitamachi metabolism: organic timber repairs, seasonal adaptations, and social reciprocity.
-            </p>
-
-            <div class="mt-6 space-y-2.5">
-              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800/80 text-xs">
-                <span class="font-semibold text-violet-300">Key Theme 1:</span>
-                <span class="text-slate-300 ml-1">Learning from the daily rhythms and survival networks of shitamachi elders.</span>
+            <!-- Day 1: Welcome Dinner -->
+            <div class="p-6 rounded-lg border border-paper-border bg-paper-light flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div class="sm:w-32 shrink-0">
+                <span class="text-xs font-mincho font-bold text-vermilion-seal">初日 · OCT 2 (金)</span>
+                <div class="text-xs text-ink-faint font-sans">18:00 〜 21:00</div>
               </div>
-              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800/80 text-xs">
-                <span class="font-semibold text-violet-300">Key Theme 2:</span>
-                <span class="text-slate-300 ml-1">Participatory digital archives that celebrate living dignity over museumification.</span>
+              <div class="flex-grow">
+                <h3 class="text-base font-mincho font-bold text-ink-black" data-i18n="d1-title">オープニング晩餐会 · Welcome Dinner</h3>
+                <p class="text-xs text-ink-muted font-mincho mt-1 leading-relaxed" data-i18n="d1-body">
+                  6月のパスタの夕べと同じ墨田区京島の会場にて。季節の手料理と下町の酒を酌み交わしながら、集いの始まりを祝うアットホームな前夜祭です。
+                </p>
+                <div class="mt-2 text-[11px] text-hinoki-wood font-mincho">
+                  <a href="https://maps.app.goo.gl/o9rB5tV7UH84uaDu7" target="_blank" class="hover:underline">📍 墨田区京島 会場案内 (Google Maps) ↗</a>
+                </div>
               </div>
             </div>
+
+            <!-- Day 2: The Main Assembly -->
+            <div class="p-6 rounded-lg border-2 border-hinoki-wood/40 bg-paper-card/40 flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative">
+              <div class="sm:w-32 shrink-0">
+                <span class="text-xs font-mincho font-bold text-hinoki-wood">本集会 · OCT 3 (土)</span>
+                <div class="text-xs text-ink-faint font-sans">13:00 〜 21:30</div>
+              </div>
+              <div class="flex-grow">
+                <h3 class="text-base font-mincho font-bold text-ink-black" data-i18n="d2-title">本集会：対話・路地歩き・夕暮れの宴と音響ジャム</h3>
+                <p class="text-xs text-ink-muted font-mincho mt-1 leading-relaxed" data-i18n="d2-body">
+                  13:45〜 長屋と工芸の対話（プレイグラウンド1）／ 15:15〜 メタボリック・ソシオロジー（プレイグラウンド2）／ 16:30〜 後藤さんによる京島路地歩き ／ 18:30〜 下町料理の晩餐 ／ 19:45〜 Me + Silvana 音響・映像ライブ。
+                </p>
+                <div class="mt-2 text-[11px] text-hinoki-wood font-mincho">
+                  <a href="https://maps.app.goo.gl/o9rB5tV7UH84uaDu7" target="_blank" class="hover:underline">📍 京島会場 &amp; 周辺路地 (Google Maps) ↗</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Day 3: TAC Gala -->
+            <div class="p-6 rounded-lg border border-paper-border bg-paper-light flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div class="sm:w-32 shrink-0">
+                <span class="text-xs font-mincho font-bold text-ink-charcoal">三日目 · OCT 4 (日)</span>
+                <div class="text-xs text-ink-faint font-sans">18:00 〜 21:30</div>
+              </div>
+              <div class="flex-grow">
+                <h3 class="text-base font-mincho font-bold text-ink-black" data-i18n="d3-title">記念晩餐会 &amp; 基調講演 (Tokyo American Club)</h3>
+                <p class="text-xs text-ink-muted font-mincho mt-1 leading-relaxed" data-i18n="d3-body">
+                  麻布台の東京アメリカンクラブにて。後藤大輔氏による基調講演『京島の路地三十年』、173ヶ所のリビングアーカイブ構想発表、文化保存を支える寄付パッケージのご案内を行います。
+                </p>
+                <div class="mt-2 text-[11px] text-ink-faint font-mincho">
+                  <span>東京都港区麻布台2-1-2 (要招待・事前登録)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Day 4: Koganecho SUP Tour -->
+            <div class="p-6 rounded-lg border border-paper-border bg-paper-light flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div class="sm:w-32 shrink-0">
+                <span class="text-xs font-mincho font-bold text-ink-charcoal">祝日 · OCT 12 (月祝)</span>
+                <div class="text-xs text-ink-faint font-sans">13:30 〜 19:30</div>
+              </div>
+              <div class="flex-grow">
+                <h3 class="text-base font-mincho font-bold text-ink-black" data-i18n="d4-title">黄金町スタジオ見学 &amp; 大岡川SUP運河ツアー</h3>
+                <p class="text-xs text-ink-muted font-mincho mt-1 leading-relaxed" data-i18n="d4-body">
+                  黄金町エリアマネジメントの劉舒佳さん・鈴木亮さんのご案内。京急線高架下のアーティストスタジオ見学、大岡川での穏やかなSUP水上散策、そして黄金町バザールでの表現巡り。
+                </p>
+                <div class="mt-2 text-[11px] text-ink-faint font-mincho">
+                  <span>横浜市中区初音町・黄金町エリア</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
-            <span class="text-xs text-slate-400 font-mono">Featuring Yuka (Research) &amp; Living Chroniclers</span>
-            <span class="text-xs font-semibold text-violet-400">Visual Dialogue</span>
-          </div>
         </div>
 
-      </div>
-
-      <!-- Live Performance Feature Strip -->
-      <div class="mt-8 rounded-2xl bg-gradient-to-r from-[#141226] via-[#1c1328] to-[#141829] border border-rose-500/50 p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl relative overflow-hidden">
-        <div class="flex items-start sm:items-center gap-4">
-          <div class="w-14 h-14 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-2xl shrink-0 shadow-lg text-rose-300">
-            🎶
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-mono font-bold tracking-wider uppercase border border-rose-500/30">Evening Audio-Visual Jam</span>
-              <span class="text-xs text-slate-400 font-mono">19:45–20:35 · Oct 3 (Sat)</span>
-            </div>
-            <h3 class="font-serif text-xl sm:text-2xl font-bold text-white mt-1">Live Soundscape &amp; Visual Journey: Kokechan Jam</h3>
-            <p class="text-xs text-slate-300/90 mt-1 max-w-2xl font-sans">
-              Me + Silvana (40–50 minutes flexible live electronic set). Ambient modular soundscapes fused with freeform reactive VJing, casting dynamic 3D views of Kokechan and living Kyojima architectural textures across the room.
+        <!-- ============================================================= -->
+        <!-- RSVP REPLY CARD SECTION                                       -->
+        <!-- ============================================================= -->
+        <div id="rsvp-section" class="pt-12">
+          
+          <div class="max-w-xl mx-auto text-center mb-8">
+            <div class="hanko-seal w-8 h-8 text-xs mb-2">返</div>
+            <h2 class="text-2xl sm:text-3xl font-mincho font-bold text-ink-black" data-i18n="rsvp-title">ご出欠・ご返信カード</h2>
+            <p class="text-xs text-ink-muted font-mincho mt-1" data-i18n="rsvp-subtext">
+              お手数ながら、ご都合のつきます日程をお知らせくださいますようお願い申し上げます。
             </p>
           </div>
-        </div>
-        <div class="shrink-0 flex items-center gap-3">
-          <span class="text-xs font-mono text-rose-400 px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/30">Confirmed Live Performance</span>
-        </div>
-      </div>
 
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 3D LIVING ARCHIVE INTERACTIVE PORTAL                              -->
-  <!-- ================================================================= -->
-  <section id="portal" class="py-16 md:py-20 border-b border-slate-800/80 bg-[#070b14]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-3xl mx-auto mb-10">
-        <span class="text-xs font-mono uppercase tracking-widest text-amber-400" data-i18n="portal-kicker">Interactive 3D Cultural Landmark</span>
-        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1" data-i18n="portal-title">京島駅・生きた回廊の立体保存</h2>
-        <p class="text-xs sm:text-sm text-slate-300/90 mt-2 font-sans" data-i18n="portal-desc">
-          Inspect the full composite house of Kyojima Eki in real-time WebGL. Fusing the crimson vending machine, authentic kawara roof, timber facade, and striped sun awning into a unified cultural study.
-        </p>
-      </div>
-
-      <!-- Large Interactive 3D Frame -->
-      <div class="w-full h-[520px] rounded-3xl bg-slate-950 border border-slate-800 relative overflow-hidden shadow-2xl glow-violet group">
-        <canvas id="portal-3d-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
-
-        <!-- Floating Info Overlay Top-Left -->
-        <div class="absolute top-4 left-4 p-3.5 rounded-2xl bg-[#080c16]/90 backdrop-blur-md border border-slate-800 shadow-xl max-w-xs pointer-events-none">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span class="text-xs font-mono font-bold text-white" id="portal-landmark-name">Kyojima Eki Composite House</span>
-          </div>
-          <p class="text-[11px] text-slate-400 mt-1 font-sans" id="portal-landmark-desc">
-            Objects 01, 02, 03, 04 fused. 24 hon-gawara ceramic flutes, illuminated beverage showcase, weathered cedar wood.
-          </p>
-        </div>
-
-        <!-- Floating Controls Toolbar Bottom -->
-        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#080c16]/90 backdrop-blur-md border border-slate-700 shadow-2xl">
-          <button onclick="setPortalCamera('full')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-amber-500/20 text-xs font-mono text-slate-200 hover:text-amber-300 transition">全体 (All)</button>
-          <button onclick="setPortalCamera('vending')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-amber-500/20 text-xs font-mono text-slate-200 hover:text-amber-300 transition">自販機 (Obj 01)</button>
-          <button onclick="setPortalCamera('facade')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-amber-500/20 text-xs font-mono text-slate-200 hover:text-amber-300 transition">格子戸 (Obj 02)</button>
-          <button onclick="setPortalCamera('roof')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-amber-500/20 text-xs font-mono text-slate-200 hover:text-amber-300 transition">瓦屋根 (Obj 03)</button>
-          <button onclick="setPortalCamera('awning')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-amber-500/20 text-xs font-mono text-slate-200 hover:text-amber-300 transition">天幕 (Obj 04)</button>
-        </div>
-
-        <!-- Top Right External Link -->
-        <div class="absolute top-4 right-4">
-          <a href="https://kokechan.preattention.ai" target="_blank" class="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-xs font-mono text-amber-300 hover:text-amber-200 transition flex items-center gap-1.5 shadow-lg">
-            <span>Explore Live World ↗</span>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- FUNDRAISING & PATRONAGE PACKAGES (FOR TAC GALA)                  -->
-  <!-- ================================================================= -->
-  <section id="patronage" class="py-16 md:py-20 border-b border-slate-800/80 bg-[#0a0f1d]/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-3xl mx-auto mb-12">
-        <span class="text-xs font-mono uppercase tracking-widest text-violet-400" data-i18n="patron-kicker">Cultural Preservation &amp; Support Tiers</span>
-        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1" data-i18n="patron-title">文化保存支援パッケージ</h2>
-        <p class="text-xs sm:text-sm text-slate-300/90 mt-2 font-sans" data-i18n="patron-desc">
-          Direct community investment dedicated to the participatory 3D reconstruction, oral history recordings, and architectural stewardship of 173 shitamachi cultural sites.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <!-- TIER 1 -->
-        <div class="rounded-2xl bg-[#0e1626] border border-slate-800 p-6 flex flex-col justify-between hover:border-amber-500/50 transition shadow-lg">
-          <div>
-            <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Tier 1 · Supporter</div>
-            <h3 class="font-serif text-xl font-bold text-white mt-1" data-i18n="tier1-name">街の友 · Neighborhood Friend</h3>
-            <div class="text-2xl font-bold text-amber-400 font-serif mt-3">¥30,000</div>
-            <ul class="text-xs text-slate-300 space-y-2.5 mt-5">
-              <li class="flex items-start gap-2"><span>✓</span><span>Full access to Oct 2 &amp; 3 Symposium sessions &amp; dinners.</span></li>
-              <li class="flex items-start gap-2"><span>✓</span><span>Permanent name listing in the digital Living Archive registry.</span></li>
-              <li class="flex items-start gap-2"><span>✓</span><span>Digital symposium program dossier and recordings.</span></li>
-            </ul>
-          </div>
-          <button onclick="openRsvpModal('Tier 1: Neighborhood Friend')" class="mt-8 w-full py-2.5 rounded-xl bg-slate-800 hover:bg-amber-500/20 border border-slate-700 hover:border-amber-500/40 text-xs font-semibold text-slate-200 hover:text-amber-200 transition">
-            Select Package
-          </button>
-        </div>
-
-        <!-- TIER 2 -->
-        <div class="rounded-2xl bg-[#0e1626] border border-amber-500/40 p-6 flex flex-col justify-between hover:border-amber-500/70 transition shadow-xl relative overflow-hidden">
-          <div class="absolute top-0 right-0 px-3 py-0.5 rounded-bl-lg bg-amber-500 text-[#080c16] font-mono font-bold text-[10px]">POPULAR</div>
-          <div>
-            <div class="text-[10px] font-mono text-amber-400 uppercase tracking-wider">Tier 2 · Patron</div>
-            <h3 class="font-serif text-xl font-bold text-white mt-1" data-i18n="tier2-name">文化パトロン · Cultural Patron</h3>
-            <div class="text-2xl font-bold text-amber-400 font-serif mt-3">¥100,000</div>
-            <ul class="text-xs text-slate-300 space-y-2.5 mt-5">
-              <li class="flex items-start gap-2"><span>✓</span><span>All Tier 1 inclusions.</span></li>
-              <li class="flex items-start gap-2"><span>✓</span><span>VIP Seating at the Oct 4 Tokyo American Club (TAC) Gala Dinner.</span></li>
-              <li class="flex items-start gap-2"><span>✓</span><span>First-Edition handcrafted wooden Kokeshi doll with embedded NFC archive chip.</span></li>
-            </ul>
-          </div>
-          <button onclick="openRsvpModal('Tier 2: Cultural Patron')" class="mt-8 w-full py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-xs font-semibold text-amber-300 transition">
-            Select Package
-          </button>
-        </div>
-
-        <!-- TIER 3 (KOGANECHO CANAL TOUR) -->
-        <div class="rounded-2xl bg-[#0e1626] border border-violet-500/50 p-6 flex flex-col justify-between hover:border-violet-500/80 transition shadow-xl glow-violet relative">
-          <div>
-            <div class="text-[10px] font-mono text-violet-400 uppercase tracking-wider">Tier 3 · Expedition</div>
-            <h3 class="font-serif text-xl font-bold text-white mt-1" data-i18n="tier3-name">黄金町エクスペディション</h3>
-            <div class="text-2xl font-bold text-violet-300 font-serif mt-3">¥250,000</div>
-            <ul class="text-xs text-slate-300 space-y-2.5 mt-5">
-              <li class="flex items-start gap-2"><span>✓</span><span>All Tier 2 inclusions for 2 guests.</span></li>
-              <li class="flex items-start gap-2 font-medium text-violet-200"><span>★</span><span>Exclusive admission for 2 to the Oct 12 Koganecho Studio &amp; SUP Canal Tour.</span></li>
-              <li class="flex items-start gap-2"><span>✓</span><span>Guided waterfront SUP experience on the Ōoka River.</span></li>
-              <li class="flex items-start gap-2"><span>✓</span><span>Permanent canal dedication badge on the Koganecho archive world.</span></li>
-            </ul>
-          </div>
-          <button onclick="openRsvpModal('Tier 3: Koganecho Canal Expedition Sponsor')" class="mt-8 w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-xs transition shadow-lg">
-            Select Package
-          </button>
-        </div>
-
-        <!-- TIER 4 -->
-        <div class="rounded-2xl bg-[#0e1626] border border-rose-500/40 p-6 flex flex-col justify-between hover:border-rose-500/70 transition shadow-xl">
-          <div>
-            <div class="text-[10px] font-mono text-rose-400 uppercase tracking-wider">Tier 4 · Benefactor</div>
-            <h3 class="font-serif text-xl font-bold text-white mt-1" data-i18n="tier4-name">創設支援者 · Founding Benefactor</h3>
-            <div class="text-2xl font-bold text-rose-400 font-serif mt-3">¥500,000+</div>
-            <ul class="text-xs text-slate-300 space-y-2.5 mt-5">
-              <li class="flex items-start gap-2"><span>✓</span><span>All Tier 3 inclusions.</span></li>
-              <li class="flex items-start gap-2 font-medium text-rose-200"><span>★</span><span>Full sponsorship &amp; naming dedication of 1 of the 173 cultural landmarks.</span></li>
-              <li class="flex items-start gap-2"><span>✓</span><span>Archival oral history recording session preserved in your honor.</span></li>
-              <li class="flex items-start gap-2"><span>✓</span><span>Private salon dinner with Goto-san and the architecture team.</span></li>
-            </ul>
-          </div>
-          <button onclick="openRsvpModal('Tier 4: Founding Benefactor')" class="mt-8 w-full py-2.5 rounded-xl bg-slate-800 hover:bg-rose-500/20 border border-slate-700 hover:border-rose-500/40 text-xs font-semibold text-slate-200 hover:text-rose-200 transition">
-            Select Package
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- VENUE LOCATIONS & ACCESS                                          -->
-  <!-- ================================================================= -->
-  <section id="location" class="py-16 md:py-20 border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        <!-- Sumida Kyojima Venue -->
-        <div class="p-6 rounded-2xl bg-[#0e1626] border border-amber-500/30 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] font-mono text-amber-400 uppercase">Oct 2 &amp; 3 Gathering Venue</span>
-            <h3 class="font-serif text-xl font-bold text-white mt-1">Sumida Kyojima Venue</h3>
-            <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-              Sumida-ku, Kyojima 2/3-Chome neighborhood. The heart of Tokyo’s surviving wooden nagaya architecture.
-            </p>
-            <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-400 space-y-1.5">
-              <div>🚶 7 min walk from Keisei Hikifune Station (京成曳舟駅)</div>
-              <div>🚶 12 min walk from Oshiage / Skytree Station (押上駅)</div>
+          <form id="reply-card-form" onsubmit="handleReplySubmit(event)" class="max-w-xl mx-auto space-y-5 text-xs font-mincho">
+            <div>
+              <label class="block text-ink-charcoal font-bold mb-1" data-i18n="form-name">お名前 / Full Name *</label>
+              <input type="text" required placeholder="山田 太郎 / Taro Yamada" class="w-full px-4 py-2.5 rounded border border-paper-border bg-paper-light focus:bg-white focus:outline-none focus:border-hinoki-wood text-ink-black">
             </div>
-          </div>
-          <div class="mt-6 pt-4 border-t border-slate-800">
-            <a href="https://maps.app.goo.gl/o9rB5tV7UH84uaDu7" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-amber-300 hover:text-amber-200">
-              <span>📍 Open in Google Maps ↗</span>
-            </a>
-          </div>
-        </div>
 
-        <!-- Tokyo American Club (TAC) -->
-        <div class="p-6 rounded-2xl bg-[#0e1626] border border-violet-500/30 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] font-mono text-violet-400 uppercase">Oct 4 Gala Dinner Venue</span>
-            <h3 class="font-serif text-xl font-bold text-white mt-1">Tokyo American Club (TAC)</h3>
-            <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-              2-1-2 Azabudai, Minato-ku, Tokyo. International civic forum and premier private club.
-            </p>
-            <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-400 space-y-1.5">
-              <div>🚇 5 min from Kamiyacho Station (Exit 2)</div>
-              <div>🚇 8 min from Azabu-Juban Station</div>
+            <div>
+              <label class="block text-ink-charcoal font-bold mb-1" data-i18n="form-email">ご連絡先メールアドレス / Email *</label>
+              <input type="email" required placeholder="name@domain.com" class="w-full px-4 py-2.5 rounded border border-paper-border bg-paper-light focus:bg-white focus:outline-none focus:border-hinoki-wood text-ink-black">
             </div>
-          </div>
-          <div class="mt-6 pt-4 border-t border-slate-800">
-            <span class="text-xs text-violet-300">Invitation / Ticket Required</span>
-          </div>
-        </div>
 
-        <!-- Koganecho & Ōoka River -->
-        <div class="p-6 rounded-2xl bg-[#0e1626] border border-emerald-500/30 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] font-mono text-emerald-400 uppercase">Oct 12 Extension Tour</span>
-            <h3 class="font-serif text-xl font-bold text-white mt-1">Koganecho Area Management</h3>
-            <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-              Hatsunecho &amp; Koganecho viaducts, Naka-ku, Yokohama. Along the historic Ōoka River.
-            </p>
-            <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-400 space-y-1.5">
-              <div>🚶 3 min from Koganecho Station (Keikyu Line)</div>
-              <div>🚶 5 min from Hinodecho Station</div>
+            <div>
+              <label class="block text-ink-charcoal font-bold mb-1.5" data-i18n="form-days">ご参加希望日程 / Days Attending *</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                <label class="flex items-center gap-2 p-2.5 rounded border border-paper-border bg-paper-light cursor-pointer hover:bg-white">
+                  <input type="checkbox" name="days" value="10/2 晩餐会" class="accent-amber-700" checked>
+                  <span>10月2日 (金) 前夜祭 晩餐会</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded border border-paper-border bg-paper-light cursor-pointer hover:bg-white">
+                  <input type="checkbox" name="days" value="10/3 本集会" class="accent-amber-700" checked>
+                  <span>10月3日 (土) 本集会 &amp; AVジャム</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded border border-paper-border bg-paper-light cursor-pointer hover:bg-white">
+                  <input type="checkbox" name="days" value="10/4 TACディナー" class="accent-amber-700">
+                  <span>10月4日 (日) TAC 記念晩餐会</span>
+                </label>
+                <label class="flex items-center gap-2 p-2.5 rounded border border-paper-border bg-paper-light cursor-pointer hover:bg-white">
+                  <input type="checkbox" name="days" value="10/12 黄金町ツアー" class="accent-amber-700">
+                  <span>10月12日 (月祝) 黄金町SUPツアー</span>
+                </label>
+              </div>
             </div>
+
+            <div>
+              <label class="block text-ink-charcoal font-bold mb-1" data-i18n="form-notes">ご伝言・お食事のご要望 / Notes &amp; Dietary</label>
+              <textarea rows="2" placeholder="アレルギー、到着予定時間など" class="w-full px-4 py-2 rounded border border-paper-border bg-paper-light focus:bg-white focus:outline-none focus:border-hinoki-wood text-ink-black"></textarea>
+            </div>
+
+            <div class="pt-2 text-center">
+              <button type="submit" class="w-full sm:w-auto px-8 py-3 rounded-full bg-ink-charcoal hover:bg-ink-black text-paper-light font-mincho text-xs tracking-[0.2em] transition-all shadow-md hover:shadow-lg">
+                <span data-i18n="form-submit">ご出欠を送信する · SEND RSVP</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Success Message -->
+          <div id="reply-success-msg" class="hidden max-w-md mx-auto text-center py-6 space-y-3 font-mincho">
+            <div class="hanko-seal w-10 h-10 text-sm mx-auto">受領</div>
+            <h3 class="text-xl font-bold text-ink-black">ご返信を承りました</h3>
+            <p class="text-xs text-ink-muted leading-relaxed">
+              温かなご返信をいただき、心より感謝申し上げます。詳細のご案内は、開催が近づきました頃にメールにてお届けいたします。
+            </p>
           </div>
-          <div class="mt-6 pt-4 border-t border-slate-800">
-            <span class="text-xs text-emerald-300">Host: Liu Shujia &amp; Ryo Suzuki</span>
-          </div>
+
         </div>
 
+      </div>
+
+      <!-- Bottom Signoff -->
+      <div class="text-center py-8 text-xs text-ink-faint font-mincho space-y-1">
+        <div>敬白　京島・黄金町 文化集会 準備室</div>
+        <div class="text-[11px] font-sans text-paper-accent">Living Archive Assembly · Codename: morado</div>
       </div>
 
     </div>
-  </section>
+  </main>
 
   <!-- ================================================================= -->
-  <!-- FOOTER                                                            -->
-  <!-- ================================================================= -->
-  <footer class="py-12 bg-[#060911] border-t border-slate-900 text-xs text-slate-400">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-      <div class="flex items-center gap-3">
-        <div class="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 font-mincho font-bold">
-          京
-        </div>
-        <div class="flex flex-col">
-          <span class="text-white font-medium">Kyojima × Koganecho Cultural Assembly</span>
-          <span class="text-[11px] text-slate-400">Gardens of Relation Living Archive · Codename: morado</span>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-6 font-mono text-[11px]">
-        <a href="/studio" class="hover:text-amber-300 transition">Studio</a>
-        <a href="/studio-stream" class="hover:text-amber-300 transition">Streaming</a>
-        <a href="https://kokechan.preattention.ai" target="_blank" class="hover:text-amber-300 transition">Metaverse ↗</a>
-        <a href="#about" class="hover:text-amber-300 transition">Back to Top ↑</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ================================================================= -->
-  <!-- RSVP & INVITATION MODAL                                           -->
-  <!-- ================================================================= -->
-  <div id="rsvp-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#080c16]/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-200">
-    <div class="bg-[#0e1626] border border-amber-500/40 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
-      <button onclick="closeRsvpModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">✕</button>
-      
-      <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300 text-xl font-mincho">
-          参
-        </div>
-        <div>
-          <h3 class="font-serif text-2xl font-bold text-white">参加登録 · Request Invitation</h3>
-          <p class="text-xs text-slate-400">Kyojima &amp; Koganecho Cultural Symposium 2026</p>
-        </div>
-      </div>
-
-      <form id="rsvp-form" onsubmit="handleRsvpSubmit(event)" class="space-y-4 text-xs">
-        <div>
-          <label class="block text-slate-300 font-medium mb-1">Name / お名前 *</label>
-          <input type="text" required placeholder="Your full name" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-amber-400">
-        </div>
-
-        <div>
-          <label class="block text-slate-300 font-medium mb-1">Email / メールアドレス *</label>
-          <input type="email" required placeholder="you@domain.com" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-amber-400">
-        </div>
-
-        <div>
-          <label class="block text-slate-300 font-medium mb-1">Affiliation or Neighborhood / ご所属・地域</label>
-          <input type="text" placeholder="Artist, architect, resident, patron, etc." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-amber-400">
-        </div>
-
-        <div>
-          <label class="block text-slate-300 font-medium mb-1.5">Attending Days / 参加希望日 *</label>
-          <div class="grid grid-cols-2 gap-2 text-[11px]">
-            <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700">
-              <input type="checkbox" name="days" value="Oct 2 Dinner" class="accent-amber-500" checked>
-              <span>Oct 2 · Welcome Dinner</span>
-            </label>
-            <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700">
-              <input type="checkbox" name="days" value="Oct 3 Main" class="accent-rose-500" checked>
-              <span>Oct 3 · Panels &amp; Jam</span>
-            </label>
-            <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700">
-              <input type="checkbox" name="days" value="Oct 4 Gala" class="accent-violet-500">
-              <span>Oct 4 · TAC Gala</span>
-            </label>
-            <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700">
-              <input type="checkbox" name="days" value="Oct 12 SUP" class="accent-emerald-500">
-              <span>Oct 12 · Koganecho SUP</span>
-            </label>
-          </div>
-        </div>
-
-        <div id="tier-selection-container">
-          <label class="block text-slate-300 font-medium mb-1">Selected Patronage Tier / 支援パッケージ</label>
-          <select id="modal-tier-select" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-amber-400">
-            <option value="General Guest">General Guest (General Invitation)</option>
-            <option value="Tier 1: Neighborhood Friend">Tier 1: Neighborhood Friend (¥30,000)</option>
-            <option value="Tier 2: Cultural Patron">Tier 2: Cultural Patron (¥100,000)</option>
-            <option value="Tier 3: Koganecho Canal Expedition Sponsor">Tier 3: Koganecho Canal Expedition (¥250,000)</option>
-            <option value="Tier 4: Founding Benefactor">Tier 4: Founding Benefactor (¥500,000+)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-slate-300 font-medium mb-1">Notes or Dietary Preferences / 備考・アレルギー</label>
-          <textarea rows="2" placeholder="Vegetarian, arrival times, questions..." class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-amber-400"></textarea>
-        </div>
-
-        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-rose-600 to-violet-600 hover:from-amber-400 hover:via-rose-500 hover:to-violet-500 text-white font-semibold text-xs tracking-wide shadow-xl transition-all">
-          Submit Invitation Request / 登録完了
-        </button>
-      </form>
-
-      <div id="rsvp-success" class="hidden text-center py-8 space-y-3">
-        <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center justify-center text-2xl mx-auto">
-          ✓
-        </div>
-        <h4 class="font-serif text-xl font-bold text-white">Invitation Registered!</h4>
-        <p class="text-xs text-slate-300">Thank you for joining our cultural assembly. A confirmation has been recorded and details will be shared prior to the gathering.</p>
-        <button onclick="closeRsvpModal()" class="px-5 py-2 rounded-xl bg-slate-800 text-xs text-white hover:bg-slate-700">Close Window</button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ================================================================= -->
-  <!-- JAVASCRIPT: BILINGUAL TRANSLATION & THREE.JS 3D SCENE             -->
+  <!-- THREE.JS INTERACTIVE 3D SCRIPT (TIMELESS & ROMANTIC LIGHTING)     -->
   <!-- ================================================================= -->
   <script>
     // -----------------------------------------------------------------
-    // 1. BILINGUAL DICTIONARY (JA / EN)
+    // 1. THREE.JS 3D SCENE: KYOJIMA COMPOSITE HOUSE
     // -----------------------------------------------------------------
-    let currentLang = 'en';
-
-    const translations = {
-      en: {
-        'header-subtitle': 'Cultural Symposium & Living Archive Gathering',
-        'nav-about': 'Overview',
-        'nav-schedule': 'Program Schedule',
-        'nav-panels': 'Playground Panels',
-        'nav-portal': '3D Archive Portal',
-        'nav-patronage': 'Support & Patronage',
-        'nav-location': 'Locations',
-        'btn-rsvp': 'Request Invitation / RSVP',
-        'hero-tagline': 'Autumn Cultural Assembly · Oct 2–4 & Oct 12, 2026',
-        'hero-title-1': 'Memory in the Alleys.',
-        'hero-title-2': 'Living Corridors of Relation',
-        'hero-desc': 'An intimate international symposium celebrating organic shitamachi preservation, metabolic sociology, and community-led living archives. Bridging Sumida’s historic wooden nagaya alleys with Yokohama’s reclaimed canal ways in Koganecho.',
-        'hero-pill-1-label': 'Oct 2 (Fri)',
-        'hero-pill-1-val': 'Opening Dinner',
-        'hero-pill-2-label': 'Oct 3 (Sat)',
-        'hero-pill-2-val': 'Panels & AV Jam',
-        'hero-pill-3-label': 'Oct 4 (Sun)',
-        'hero-pill-3-val': 'TAC Gala Dinner',
-        'hero-pill-4-label': 'Oct 12 (Mon)',
-        'hero-pill-4-val': 'Canal SUP Tour',
-        'hero-btn-rsvp': 'Register Attendance / RSVP',
-        'hero-btn-explore': 'Explore 3D Living Corridor',
-        'schedule-kicker': 'Multi-Day Timetable & Gatherings',
-        'schedule-title': 'Program Schedule & Gatherings',
-        'day1-title': 'Opening Ceremony & Welcome Dinner',
-        'day1-desc': 'A convivial welcome feast celebrating the launch of our living archive assembly. Reconnecting in the same intimate neighborhood space where our June pasta gathering unfolded. Seasonal shitamachi dinner, craft sake, and relaxed introductions.',
-        'day2-title': 'The Main Gathering: Panels, Walking Tour & AV Jam',
-        'day2-desc': 'Our central symposium day. Two dynamic playground panels (machizukuri craft & metabolic sociology), an architectural alley walk with Goto-san, followed by an evening soundscape & freeform visual AV Jam featuring Kokechan.',
-        'day3-title': 'Fundraiser Dinner & Closing Keynote',
-        'day3-desc': 'High-level philanthropic gala dinner uniting patrons, civic leaders, and cultural institutions. Keynote by Goto-san, presentation of the 173-site living archive, and introduction of patronage tiers supporting preservation.',
-        'day4-title': 'Koganecho Studio & SUP Canal Tour',
-        'day4-desc': 'National holiday field expedition. Guided artist studio tour beneath the railway arches with Liu Shujia & Ryo Suzuki, gentle Stand-Up Paddleboard (SUP) canal tour on the Ōoka River, and street performances at the Koganecho Bazaar.',
-        'panels-kicker': 'Interactive Panel Forums · Oct 3 (Sat)',
-        'panels-title': 'Playground Dialogue Sessions',
-        'panels-intro': 'Evolving past conventional academic lectures into dynamic neighborhood forums. Two curated conversational playgrounds that honor living craft, metabolic sociology, and grassroots urban resilience.',
-        'p1-heading': '長屋の生きた更新：工芸・芸術・自律的なまちづくり',
-        'p1-subheading': 'The Living Nagaya: Craft, Art, and Autonomous Placemaking in Kyojima',
-        'p1-desc': 'Curated with Goto-san. How do century-old wooden nagaya and intimate alleyways flourish without erasing their intergenerational memories? Local Kyojima artists, woodworkers, and residents explore how shared alleys serve as communal living rooms and workshops.',
-        'p2-heading': 'メタボリック・ソシオロジー：適応する生態系としての生活空間',
-        'p2-subheading': 'Metabolic Sociology: Living Communities as Adaptive Organisms',
-        'p2-desc': 'Drawing on ethnographic research (centered on researcher Yuka upon confirmation, or community spatial chroniclers). Re-interpreting Japanese Metabolism away from rigid megastructures toward the real shitamachi metabolism: organic timber repairs, seasonal adaptations, and social reciprocity.',
-        'portal-kicker': 'Interactive 3D Cultural Landmark',
-        'portal-title': 'Kyojima Eki: 3D Living Corridor',
-        'portal-desc': 'Inspect the full composite house of Kyojima Eki in real-time WebGL. Fusing the crimson vending machine, authentic kawara roof, timber facade, and striped sun awning into a unified cultural study.',
-        'patron-kicker': 'Cultural Preservation & Support Tiers',
-        'patron-title': 'Living Archive Patron Packages',
-        'patron-desc': 'Direct community investment dedicated to the participatory 3D reconstruction, oral history recordings, and architectural stewardship of 173 shitamachi cultural sites.',
-        'tier1-name': '街の友 · Neighborhood Friend',
-        'tier2-name': '文化パトロン · Cultural Patron',
-        'tier3-name': '黄金町エクスペディション · Koganecho Expedition',
-        'tier4-name': '創設支援者 · Founding Benefactor'
-      },
-      ja: {
-        'header-subtitle': '文化シンポジウム・リビングアーカイブの集い',
-        'nav-about': '概要',
-        'nav-schedule': '開催日程',
-        'nav-panels': '対話セッション',
-        'nav-portal': '3Dアーカイブ',
-        'nav-patronage': '支援パッケージ',
-        'nav-location': 'アクセス',
-        'btn-rsvp': '参加登録・ご招待状',
-        'hero-tagline': '秋の文化集会 · 2026年10月2〜4日 & 10月12日',
-        'hero-title-1': '路地と長屋の生きた記憶。',
-        'hero-title-2': '京島と黄金町をつなぐ回廊',
-        'hero-desc': '下町の木造長屋の有機的な保存、メタボリック・ソシオロジー、そして住民主導のリビングアーカイブを祝う親密な国際シンポジウム。墨田区京島の路地と、横浜市黄金町の水辺・高架下文化が交差します。',
-        'hero-pill-1-label': '10月2日 (金)',
-        'hero-pill-1-val': 'オープニング晩餐会',
-        'hero-pill-2-label': '10月3日 (土)',
-        'hero-pill-2-val': '対話 & AVジャム',
-        'hero-pill-3-label': '10月4日 (日)',
-        'hero-pill-3-val': 'TAC記念晩餐会',
-        'hero-pill-4-label': '10月12日 (月祝)',
-        'hero-pill-4-val': '運河SUPツアー',
-        'hero-btn-rsvp': '参加申し込み・ご招待状',
-        'hero-btn-explore': '3D回廊アーカイブを見る',
-        'schedule-kicker': '全日程タイムテーブル',
-        'schedule-title': '開催日程・タイムライン',
-        'day1-title': 'オープニングセレモニー & ウェルカムディナー',
-        'day1-desc': 'リビングアーカイブ集会の幕開けを祝うアットホームな晩餐会。6月のパスタの集いと同じ京島の空間にて、季節の下町料理と銘酒、そして温かな対話で皆様をお迎えします。',
-        'day2-title': '本集会：プレイグラウンド対話・路地ツアー & AVジャム',
-        'day2-desc': 'シンポジウムの中心となる一日。2つの対話セッション（まちづくりの工芸、メタボリック・ソシオロジー）、後藤さんによる路地・建築ツアー、そして夜のこけちゃんAVライブパフォーマンスへと続きます。',
-        'day3-title': 'チャリティ晩餐会 & クロージング基調講演',
-        'day3-desc': '東京アメリカンクラブ（TAC）にて開催される記念ディナー。後藤さんによる基調講演、173ヶ所のリビングアーカイブ構想の発表、文化保存を支える寄付パッケージのご案内を行います。',
-        'day4-title': '黄金町スタジオ見学 & 大岡川SUP運河ツアー',
-        'day4-desc': '祝日エクスカーション。黄金町エリアマネジメントの劉舒佳さん・鈴木亮さんのご案内による高架下スタジオ見学、大岡川でのゆったりとしたSUP運河体験、そして黄金町バザールの路上表現を巡ります。',
-        'panels-kicker': '10月3日 (土) 対話セッション',
-        'panels-title': 'プレイグラウンド・対話セッション',
-        'panels-intro': '画一的な学術講義を超えて、街の息づかいに触れる親密な対話へ。京島の工芸家、ソシオロジー研究者、そして地域住民が織りなす2つの対話の場。',
-        'p1-heading': '長屋の生きた更新：工芸・芸術・自律的なまちづくり',
-        'p1-subheading': 'The Living Nagaya: Craft, Art, and Autonomous Placemaking',
-        'p1-desc': '後藤さんと共にキュレーション。築100年の木造長屋と細い路地は、いかにして記憶を失わずに息づき続けるのか。京島の芸術家、大工、住民が、路地を「みんなの居間・工房」として活用する知恵を語り合います。',
-        'p2-heading': 'メタボリック・ソシオロジー：適応する生態系としての生活空間',
-        'p2-subheading': 'Metabolic Sociology: Living Communities as Adaptive Organisms',
-        'p2-desc': '京島でのフィールドワークに基づく研究（研究者Yukaさん、地域の空間記録者を軸に）。巨大建築のメタボリズムではなく、下町の補修、植木鉢の移動、助け合いといった「真の生活の代謝」を探究します。',
-        'portal-kicker': '立体文化財インタラクティブ',
-        'portal-title': '京島駅・生きた回廊の立体保存',
-        'portal-desc': 'WebGLによるリアルタイム3Dで京島駅の複合建築を探索。真紅の自販機、本格本瓦屋根、木造格子戸、日除け天幕が一体となった文化景観をご体感ください。',
-        'patron-kicker': '文化保存とご支援の枠組み',
-        'patron-title': '文化保存支援パッケージ',
-        'patron-desc': '173ヶ所の下町文化拠点における住民参加型の3D立体復元、オーラルヒストリー記録、そして建築の維持活動へと直接役立てられます。',
-        'tier1-name': '街の友 · Neighborhood Friend',
-        'tier2-name': '文化パトロン · Cultural Patron',
-        'tier3-name': '黄金町エクスペディション · Koganecho Expedition',
-        'tier4-name': '創設支援者 · Founding Benefactor'
-      }
-    };
-
-    function toggleLanguage() {
-      currentLang = currentLang === 'en' ? 'ja' : 'en';
-      document.getElementById('lang-label').textContent = currentLang === 'en' ? 'JA / EN' : 'EN / JA';
-      
-      const elements = document.querySelectorAll('[data-i18n]');
-      elements.forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[currentLang] && translations[currentLang][key]) {
-          el.innerHTML = translations[currentLang][key];
-        }
-      });
-    }
-
-    document.getElementById('lang-toggle-btn').addEventListener('click', toggleLanguage);
-
-    // -----------------------------------------------------------------
-    // 2. TIMELINE FILTER FUNCTIONALITY
-    // -----------------------------------------------------------------
-    function filterDay(day) {
-      const cards = document.querySelectorAll('.schedule-card');
-      const tabs = document.querySelectorAll('.tab-btn');
-      
-      tabs.forEach(t => {
-        t.classList.remove('bg-slate-800', 'border-amber-500/40', 'text-white');
-        t.classList.add('text-slate-400');
-      });
-      const activeTab = document.getElementById('tab-' + day);
-      if (activeTab) {
-        activeTab.classList.add('bg-slate-800', 'border-amber-500/40', 'text-white');
-        activeTab.classList.remove('text-slate-400');
-      }
-
-      cards.forEach(card => {
-        if (day === 'all' || card.classList.contains(day)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    // -----------------------------------------------------------------
-    // 3. RSVP MODAL HANDLERS
-    // -----------------------------------------------------------------
-    function openRsvpModal(tier) {
-      const modal = document.getElementById('rsvp-modal');
-      modal.classList.remove('hidden');
-      setTimeout(() => modal.classList.remove('opacity-0'), 10);
-      if (tier) {
-        const select = document.getElementById('modal-tier-select');
-        for (let i = 0; i < select.options.length; i++) {
-          if (select.options[i].value.includes(tier) || tier.includes(select.options[i].value)) {
-            select.selectedIndex = i;
-            break;
-          }
-        }
-      }
-    }
-
-    function closeRsvpModal() {
-      const modal = document.getElementById('rsvp-modal');
-      modal.classList.add('opacity-0');
-      setTimeout(() => {
-        modal.classList.add('hidden');
-        document.getElementById('rsvp-form').classList.remove('hidden');
-        document.getElementById('rsvp-success').classList.add('hidden');
-      }, 200);
-    }
-
-    function handleRsvpSubmit(e) {
-      e.preventDefault();
-      document.getElementById('rsvp-form').classList.add('hidden');
-      document.getElementById('rsvp-success').classList.remove('hidden');
-    }
-
-    // -----------------------------------------------------------------
-    // 4. THREE.JS 3D SCENE: KYOJIMA COMPOSITE HOUSE & LIVING CORRIDOR
-    // -----------------------------------------------------------------
-    function init3DHero() {
-      const canvas = document.getElementById('hero-3d-canvas');
+    function initCorridor3D() {
+      const canvas = document.getElementById('living-corridor-canvas');
       if (!canvas || !window.THREE) return;
 
       const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(canvas.clientWidth, canvas.clientHeight);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.15;
+      renderer.toneMappingExposure = 1.05;
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(40, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-      camera.position.set(4.8, 2.6, 6.2);
+      const camera = new THREE.PerspectiveCamera(38, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+      camera.position.set(4.2, 2.2, 5.8);
 
-      // Environment & Lights
-      const ambientLight = new THREE.AmbientLight(0xfff4e6, 0.85);
+      // Warm Soft Twilight Lighting (Ghibli / Tea Garden Dusk)
+      const ambientLight = new THREE.AmbientLight(0xfdfbf7, 0.95);
       scene.add(ambientLight);
 
-      const dirLight = new THREE.DirectionalLight(0xffd59e, 1.2);
-      dirLight.position.set(5, 8, 4);
-      scene.add(dirLight);
+      const warmSun = new THREE.DirectionalLight(0xffe8cc, 1.1);
+      warmSun.position.set(5, 7, 4);
+      scene.add(warmSun);
 
-      // Warm Lantern Point Light
-      const lanternLight = new THREE.PointLight(0xffaa44, 2.5, 6);
+      // Soft Paper Lantern Glow
+      const lanternLight = new THREE.PointLight(0xffb040, 2.2, 7);
       lanternLight.position.set(0.6, 2.2, 1.3);
       scene.add(lanternLight);
 
-      // Blue & Red Vending Showcase Glow
-      const blueLight = new THREE.PointLight(0x38bdf8, 1.8, 3);
-      blueLight.position.set(-1.8, 1.3, 1.6);
-      scene.add(blueLight);
+      // Vending Machine Jewel LEDs
+      const coldLed = new THREE.PointLight(0x38bdf8, 1.4, 2.8);
+      coldLed.position.set(-1.8, 1.3, 1.6);
+      scene.add(coldLed);
 
-      const redLight = new THREE.PointLight(0xf43f5e, 1.8, 3);
-      redLight.position.set(-1.8, 0.9, 1.6);
-      scene.add(redLight);
+      const hotLed = new THREE.PointLight(0xf43f5e, 1.4, 2.8);
+      hotLed.position.set(-1.8, 0.9, 1.6);
+      scene.add(hotLed);
 
-      // Root Assembly Group
-      const houseGroup = new THREE.Group();
-      scene.add(houseGroup);
+      const house = new THREE.Group();
+      scene.add(house);
 
-      // Materials with Cel / Washi Styling
-      const darkWoodMat = new THREE.MeshStandardMaterial({ color: 0x3b2416, roughness: 0.85 });
-      const lightCedarMat = new THREE.MeshStandardMaterial({ color: 0x7c4a27, roughness: 0.75 });
-      const plasterMat = new THREE.MeshStandardMaterial({ color: 0x222a3a, roughness: 0.9 });
-      const kawaraMat = new THREE.MeshStandardMaterial({ color: 0x1f242d, roughness: 0.5, metalness: 0.15 });
-      const groundStoneMat = new THREE.MeshStandardMaterial({ color: 0x181e2b, roughness: 0.95 });
-      const crimsonVendingMat = new THREE.MeshStandardMaterial({ color: 0xbe123c, roughness: 0.35, metalness: 0.25 });
-      const glassMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.75 });
-      const awningOrangeMat = new THREE.MeshStandardMaterial({ color: 0xe05624, roughness: 0.8 });
-      const awningWhiteMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.8 });
+      // Materials (Natural Hinoki Wood, Aged Kawara, Plaster, Crimson Enamel)
+      const darkWoodMat = new THREE.MeshStandardMaterial({ color: 0x3d2716, roughness: 0.85 });
+      const cedarMat = new THREE.MeshStandardMaterial({ color: 0x6e3e1b, roughness: 0.8 });
+      const plasterMat = new THREE.MeshStandardMaterial({ color: 0x222a38, roughness: 0.95 });
+      const kawaraMat = new THREE.MeshStandardMaterial({ color: 0x282f3a, roughness: 0.45, metalness: 0.1 });
+      const stoneMat = new THREE.MeshStandardMaterial({ color: 0x1c222e, roughness: 0.95 });
+      const vendingCrimsonMat = new THREE.MeshStandardMaterial({ color: 0x991b1b, roughness: 0.4, metalness: 0.2 });
+      const glassMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.75 });
+      const awningOrangeMat = new THREE.MeshStandardMaterial({ color: 0xc2410c, roughness: 0.85 });
+      const awningCreamMat = new THREE.MeshStandardMaterial({ color: 0xf5eedc, roughness: 0.85 });
 
-      // 1. Ground Alley Slab
-      const ground = new THREE.Mesh(new THREE.BoxGeometry(10, 0.2, 8), groundStoneMat);
+      // Ground Paver Stone
+      const ground = new THREE.Mesh(new THREE.BoxGeometry(11, 0.2, 8.5), stoneMat);
       ground.position.set(0, -0.1, 0);
-      houseGroup.add(ground);
+      house.add(ground);
 
-      // 2. Nagaya Building Body
-      const facade = new THREE.Mesh(new THREE.BoxGeometry(6.4, 4.2, 3.2), plasterMat);
-      facade.position.set(0.2, 2.1, -0.6);
-      houseGroup.add(facade);
+      // Nagaya Building Facade
+      const bldg = new THREE.Mesh(new THREE.BoxGeometry(6.6, 4.3, 3.2), plasterMat);
+      bldg.position.set(0.2, 2.15, -0.6);
+      house.add(bldg);
 
-      // Cedar Framing & Lattice Beams
-      const beamGeom = new THREE.BoxGeometry(6.44, 0.12, 0.08);
+      // Cedar Beams (Horizontal Lintels)
+      const hBeamGeom = new THREE.BoxGeometry(6.64, 0.11, 0.08);
       for (let y of [0.1, 2.1, 3.8]) {
-        const beam = new THREE.Mesh(beamGeom, darkWoodMat);
-        beam.position.set(0.2, y, 1.02);
-        houseGroup.add(beam);
+        const b = new THREE.Mesh(hBeamGeom, darkWoodMat);
+        b.position.set(0.2, y, 1.02);
+        house.add(b);
       }
 
-      // Vertical Timber Studs
-      const postGeom = new THREE.BoxGeometry(0.12, 4.2, 0.12);
-      for (let x of [-2.8, -1.0, 0.8, 2.2, 3.3]) {
-        const post = new THREE.Mesh(postGeom, darkWoodMat);
-        post.position.set(x, 2.1, 1.02);
-        houseGroup.add(post);
+      // Vertical Studs
+      const vStudGeom = new THREE.BoxGeometry(0.11, 4.3, 0.11);
+      for (let x of [-2.9, -1.1, 0.8, 2.3, 3.4]) {
+        const s = new THREE.Mesh(vStudGeom, darkWoodMat);
+        s.position.set(x, 2.15, 1.02);
+        house.add(s);
       }
 
-      // Traditional Wooden Lattice Sliding Door
-      const latticeDoor = new THREE.Mesh(new THREE.BoxGeometry(1.6, 2.0, 0.05), lightCedarMat);
-      latticeDoor.position.set(1.5, 1.05, 1.04);
-      houseGroup.add(latticeDoor);
+      // Lattice Sliding Door
+      const lattice = new THREE.Mesh(new THREE.BoxGeometry(1.6, 2.0, 0.04), cedarMat);
+      lattice.position.set(1.5, 1.05, 1.04);
+      house.add(lattice);
 
-      // Upper Story Windows
-      const upperWin = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.2, 0.04), glassMat);
-      upperWin.position.set(0.6, 2.9, 1.02);
-      houseGroup.add(upperWin);
+      // Authentic Kawara Ceramic Roof (Obj 03)
+      const roof = new THREE.Group();
+      roof.position.set(0.2, 4.25, 0.6);
+      roof.rotation.x = 0.32;
+      const roofSlab = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.14, 2.6), kawaraMat);
+      roof.add(roofSlab);
 
-      // 3. Authentic Kawara Ceramic Roof (Obj 03)
-      const roofSlope = new THREE.Group();
-      roofSlope.position.set(0.2, 4.2, 0.6);
-      roofSlope.rotation.x = 0.32;
-      
-      const roofBase = new THREE.Mesh(new THREE.BoxGeometry(7.0, 0.15, 2.6), kawaraMat);
-      roofSlope.add(roofBase);
-
-      // Kawara Hon-gawara Flutes
-      for (let i = -3.2; i <= 3.2; i += 0.32) {
-        const flute = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 2.6, 6), kawaraMat);
-        flute.position.set(i, 0.1, 0);
-        flute.rotation.x = Math.PI / 2;
-        roofSlope.add(flute);
+      // Kawara Hon-gawara Curved Flutes
+      for (let i = -3.3; i <= 3.3; i += 0.33) {
+        const fl = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 2.6, 6), kawaraMat);
+        fl.position.set(i, 0.09, 0);
+        fl.rotation.x = Math.PI / 2;
+        roof.add(fl);
       }
+      house.add(roof);
 
       // Ridge Cap (Munegawara)
-      const ridge = new THREE.Mesh(new THREE.BoxGeometry(7.1, 0.25, 0.3), kawaraMat);
-      ridge.position.set(0.2, 4.75, -0.65);
-      houseGroup.add(ridge);
-      houseGroup.add(roofSlope);
+      const ridge = new THREE.Mesh(new THREE.BoxGeometry(7.3, 0.25, 0.3), kawaraMat);
+      ridge.position.set(0.2, 4.8, -0.65);
+      house.add(ridge);
 
-      // 4. Striped Sun Awning (Obj 04)
-      const awningGroup = new THREE.Group();
-      awningGroup.position.set(1.5, 2.3, 1.1);
-      awningGroup.rotation.x = 0.28;
-
-      const stripeWidth = 0.18;
-      for (let s = -1.2; s <= 1.2; s += stripeWidth * 2) {
-        const stripeO = new THREE.Mesh(new THREE.BoxGeometry(stripeWidth, 0.03, 1.2), awningOrangeMat);
-        stripeO.position.set(s, 0, 0.6);
-        awningGroup.add(stripeO);
-
-        const stripeW = new THREE.Mesh(new THREE.BoxGeometry(stripeWidth, 0.03, 1.2), awningWhiteMat);
-        stripeW.position.set(s + stripeWidth, 0, 0.6);
-        awningGroup.add(stripeW);
+      // Striped Sun Awning (Obj 04)
+      const awning = new THREE.Group();
+      awning.position.set(1.5, 2.35, 1.1);
+      awning.rotation.x = 0.28;
+      const sw = 0.18;
+      for (let s = -1.2; s <= 1.2; s += sw * 2) {
+        const oStripe = new THREE.Mesh(new THREE.BoxGeometry(sw, 0.03, 1.2), awningOrangeMat);
+        oStripe.position.set(s, 0, 0.6);
+        awning.add(oStripe);
+        const cStripe = new THREE.Mesh(new THREE.BoxGeometry(sw, 0.03, 1.2), awningCreamMat);
+        cStripe.position.set(s + sw, 0, 0.6);
+        awning.add(cStripe);
       }
-      houseGroup.add(awningGroup);
+      house.add(awning);
 
-      // 5. Crimson Vending Machine (Obj 01)
-      const vendingGroup = new THREE.Group();
-      vendingGroup.position.set(-2.0, 1.02, 1.2);
-      
-      const vBody = new THREE.Mesh(new THREE.BoxGeometry(0.95, 2.05, 0.85), crimsonVendingMat);
-      vendingGroup.add(vBody);
+      // Crimson Vending Machine (Obj 01)
+      const vmGroup = new THREE.Group();
+      vmGroup.position.set(-2.0, 1.02, 1.2);
+      const vmBody = new THREE.Mesh(new THREE.BoxGeometry(0.95, 2.05, 0.85), vendingCrimsonMat);
+      vmGroup.add(vmBody);
 
-      // Display Showcase Window
-      const vDisplay = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.85, 0.05), glassMat);
-      vDisplay.position.set(0, 0.35, 0.43);
-      vendingGroup.add(vDisplay);
+      const vmGlass = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.85, 0.04), glassMat);
+      vmGlass.position.set(0, 0.35, 0.43);
+      vmGroup.add(vmGlass);
 
-      // Blue (Cold) and Red (Hot) LED Button Rows
-      const ledRow1 = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.04, 0.02), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
-      ledRow1.position.set(0, 0.05, 0.45);
-      vendingGroup.add(ledRow1);
+      // Cold & Hot Light Rows
+      const bLed = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.03, 0.02), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+      bLed.position.set(0, 0.05, 0.45);
+      vmGroup.add(bLed);
 
-      const ledRow2 = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.04, 0.02), new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
-      ledRow2.position.set(0, -0.15, 0.45);
-      vendingGroup.add(ledRow2);
+      const rLed = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.03, 0.02), new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
+      rLed.position.set(0, -0.15, 0.45);
+      vmGroup.add(rLed);
 
-      // Retrieval Chamber Flap
-      const vSlot = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.35, 0.08), new THREE.MeshStandardMaterial({ color: 0x18181b }));
-      vSlot.position.set(0, -0.65, 0.43);
-      vendingGroup.add(vSlot);
+      house.add(vmGroup);
 
-      houseGroup.add(vendingGroup);
-
-      // 6. Paper Chouchin Lantern
-      const lantern = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.45, 12), new THREE.MeshStandardMaterial({ color: 0xfef08a, emissive: 0xf59e0b, emissiveIntensity: 0.9 }));
+      // Traditional Paper Lantern
+      const lantern = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.16, 0.16, 0.42, 12),
+        new THREE.MeshStandardMaterial({ color: 0xfef08a, emissive: 0xf59e0b, emissiveIntensity: 0.85 })
+      );
       lantern.position.set(0.6, 2.2, 1.3);
-      houseGroup.add(lantern);
+      house.add(lantern);
 
-      // Simple Pointer Orbit Controls
-      let isDragging = false;
-      let prevMouseX = 0;
-      let prevMouseY = 0;
-      let targetRotY = -0.35;
-      let targetRotX = 0.05;
+      // Gentle Orbit / Drag
+      let isDown = false;
+      let prevX = 0;
+      let rotY = -0.3;
 
       canvas.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        prevMouseX = e.clientX;
-        prevMouseY = e.clientY;
+        isDown = true;
+        prevX = e.clientX;
       });
-
-      window.addEventListener('mouseup', () => isDragging = false);
-
+      window.addEventListener('mouseup', () => isDown = false);
       window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        const deltaX = e.clientX - prevMouseX;
-        const deltaY = e.clientY - prevMouseY;
-        prevMouseX = e.clientX;
-        prevMouseY = e.clientY;
-        targetRotY += deltaX * 0.008;
-        targetRotX = Math.max(-0.2, Math.min(0.35, targetRotX + deltaY * 0.008));
+        if (!isDown) return;
+        const dx = e.clientX - prevX;
+        prevX = e.clientX;
+        rotY += dx * 0.007;
       });
 
-      // Touch Orbit
+      // Touch
       canvas.addEventListener('touchstart', (e) => {
         if (e.touches.length === 1) {
-          isDragging = true;
-          prevMouseX = e.touches[0].clientX;
-          prevMouseY = e.touches[0].clientY;
+          isDown = true;
+          prevX = e.touches[0].clientX;
         }
       });
-      window.addEventListener('touchend', () => isDragging = false);
+      window.addEventListener('touchend', () => isDown = false);
       window.addEventListener('touchmove', (e) => {
-        if (!isDragging || e.touches.length !== 1) return;
-        const deltaX = e.touches[0].clientX - prevMouseX;
-        const deltaY = e.touches[0].clientY - prevMouseY;
-        prevMouseX = e.touches[0].clientX;
-        prevMouseY = e.touches[0].clientY;
-        targetRotY += deltaX * 0.008;
-        targetRotX = Math.max(-0.2, Math.min(0.35, targetRotX + deltaY * 0.008));
+        if (!isDown || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - prevX;
+        prevX = e.touches[0].clientX;
+        rotY += dx * 0.007;
       });
 
-      // Quick POI Zoom Handlers
-      document.getElementById('btn-poi-vending')?.addEventListener('click', () => {
-        targetRotY = 0.45;
-        targetRotX = 0.0;
-        camera.position.set(-1.2, 1.4, 3.2);
-      });
-      document.getElementById('btn-poi-roof')?.addEventListener('click', () => {
-        targetRotY = -0.2;
-        targetRotX = -0.15;
-        camera.position.set(1.5, 4.5, 4.8);
-      });
-      document.getElementById('btn-poi-awning')?.addEventListener('click', () => {
-        targetRotY = -0.1;
-        targetRotX = 0.05;
-        camera.position.set(1.5, 2.3, 3.8);
-      });
-      document.getElementById('btn-poi-reset')?.addEventListener('click', () => {
-        targetRotY = -0.35;
-        targetRotX = 0.05;
-        camera.position.set(4.8, 2.6, 6.2);
+      // Click Canvas directly to enter metaverse
+      canvas.addEventListener('dblclick', () => {
+        window.open('https://kokechan.preattention.ai', '_blank');
       });
 
-      // Twilight / Daytime Lighting Toggle
-      let isTwilight = true;
-      document.getElementById('btn-toggle-time')?.addEventListener('click', () => {
-        isTwilight = !isTwilight;
-        const label = document.getElementById('light-mode-label');
-        if (isTwilight) {
-          ambientLight.color.setHex(0xfff4e6);
-          ambientLight.intensity = 0.85;
-          dirLight.color.setHex(0xffd59e);
-          dirLight.intensity = 1.2;
-          lanternLight.intensity = 2.5;
-          label.textContent = '夕暮れ (Twilight)';
-        } else {
-          ambientLight.color.setHex(0xe0f2fe);
-          ambientLight.intensity = 1.2;
-          dirLight.color.setHex(0xffffff);
-          dirLight.intensity = 1.6;
-          lanternLight.intensity = 0.4;
-          label.textContent = '日中 (Daylight)';
-        }
-      });
-
-      // Animation Loop
       function animate() {
         requestAnimationFrame(animate);
-        
-        // Gentle auto-drift if not dragging
-        if (!isDragging) {
-          targetRotY += 0.0015;
+        if (!isDown) {
+          rotY += 0.001; // gentle meditative drift
         }
-
-        houseGroup.rotation.y += (targetRotY - houseGroup.rotation.y) * 0.08;
-        houseGroup.rotation.x += (targetRotX - houseGroup.rotation.x) * 0.08;
-
-        // Soft lantern flicker
-        lanternLight.intensity = (isTwilight ? 2.5 : 0.4) + Math.sin(Date.now() * 0.005) * 0.2;
-
+        house.rotation.y = rotY;
+        lanternLight.intensity = 2.2 + Math.sin(Date.now() * 0.004) * 0.2;
         renderer.render(scene, camera);
       }
       animate();
 
-      // Handle Resize
       window.addEventListener('resize', () => {
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
@@ -1308,117 +704,130 @@
       });
     }
 
-    // Initialize on DOM Ready
-    window.addEventListener('DOMContentLoaded', () => {
-      init3DHero();
-      // Also wire the portal canvas with an identical interactive view
-      const pCanvas = document.getElementById('portal-3d-canvas');
-      if (pCanvas) {
-        // Shared 3D init
-        const pRenderer = new THREE.WebGLRenderer({ canvas: pCanvas, antialias: true });
-        pRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        pRenderer.setSize(pCanvas.clientWidth, pCanvas.clientHeight);
-        pRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-        pRenderer.toneMappingExposure = 1.2;
+    // -----------------------------------------------------------------
+    // 2. BILINGUAL TRANSLATIONS (TIMELESS JAPANESE & CLASSICAL ENGLISH)
+    // -----------------------------------------------------------------
+    let currentLang = 'ja';
 
-        const pScene = new THREE.Scene();
-        const pCamera = new THREE.PerspectiveCamera(45, pCanvas.clientWidth / pCanvas.clientHeight, 0.1, 100);
-        pCamera.position.set(0, 2.2, 7.5);
-
-        const pAmb = new THREE.AmbientLight(0xfff1e6, 0.9);
-        pScene.add(pAmb);
-        const pDir = new THREE.DirectionalLight(0xffd5a5, 1.4);
-        pDir.position.set(4, 9, 5);
-        pScene.add(pDir);
-
-        const pGroup = new THREE.Group();
-        pScene.add(pGroup);
-
-        // Cloned stylized structure
-        const gMat = new THREE.MeshStandardMaterial({ color: 0x181e2b });
-        const ground2 = new THREE.Mesh(new THREE.BoxGeometry(12, 0.2, 8), gMat);
-        ground2.position.set(0, -0.1, 0);
-        pGroup.add(ground2);
-
-        const bMat = new THREE.MeshStandardMaterial({ color: 0x222a3a });
-        const bldg = new THREE.Mesh(new THREE.BoxGeometry(7, 4.4, 3), bMat);
-        bldg.position.set(0, 2.2, -0.5);
-        pGroup.add(bldg);
-
-        const rMat = new THREE.MeshStandardMaterial({ color: 0x1e2430, roughness: 0.4 });
-        const roof = new THREE.Mesh(new THREE.BoxGeometry(7.6, 0.2, 2.6), rMat);
-        roof.position.set(0, 4.4, 0.6);
-        roof.rotation.x = 0.35;
-        pGroup.add(roof);
-
-        // Vending machine in portal
-        const vmMat = new THREE.MeshStandardMaterial({ color: 0xbe123c, metalness: 0.3 });
-        const vm = new THREE.Mesh(new THREE.BoxGeometry(1.0, 2.1, 0.9), vmMat);
-        vm.position.set(-2.2, 1.05, 1.1);
-        pGroup.add(vm);
-
-        // Awning in portal
-        const awnMat = new THREE.MeshStandardMaterial({ color: 0xe05624 });
-        const awn = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.04, 1.4), awnMat);
-        awn.position.set(1.2, 2.4, 1.1);
-        awn.rotation.x = 0.3;
-        pGroup.add(awn);
-
-        let pRotY = 0;
-        let pDragging = false;
-        let pPrevX = 0;
-
-        pCanvas.addEventListener('mousedown', (e) => {
-          pDragging = true;
-          pPrevX = e.clientX;
-        });
-        window.addEventListener('mouseup', () => pDragging = false);
-        window.addEventListener('mousemove', (e) => {
-          if (!pDragging) return;
-          pRotY += (e.clientX - pPrevX) * 0.008;
-          pPrevX = e.clientX;
-        });
-
-        window.setPortalCamera = function(poi) {
-          const nameEl = document.getElementById('portal-landmark-name');
-          const descEl = document.getElementById('portal-landmark-desc');
-          if (poi === 'vending') {
-            pCamera.position.set(-2.2, 1.4, 3.8);
-            nameEl.textContent = 'Crimson Vending Machine (Obj 01)';
-            descEl.textContent = 'Authentic two-panel showcase housing Boss Coffee, green tea calligraphy, and glowing jewel LEDs.';
-          } else if (poi === 'roof') {
-            pCamera.position.set(0, 4.2, 5.0);
-            nameEl.textContent = 'Kawara Ceramic Roof & Eaves (Obj 03)';
-            descEl.textContent = '24 hon-gawara flute pairs, heavy munegawara ridge crown, and rain gutters protecting the facade.';
-          } else if (poi === 'awning') {
-            pCamera.position.set(1.2, 2.4, 4.0);
-            nameEl.textContent = 'Striped Sun Awning (Obj 04)';
-            descEl.textContent = '6.4m span striped canvas canopy with angled tubular support struts protecting the lattice storefront.';
-          } else if (poi === 'facade') {
-            pCamera.position.set(1.2, 1.5, 4.5);
-            nameEl.textContent = 'Timber Facade & Lattice Doors (Obj 02)';
-            descEl.textContent = 'Hand-planed cedar wood joinery, sliding lattice panels, and traditional shitamachi engawa threshold.';
-          } else {
-            pCamera.position.set(0, 2.2, 7.5);
-            nameEl.textContent = 'Kyojima Eki Composite House';
-            descEl.textContent = 'Full street ensemble uniting Objects 01, 02, 03, and 04 in authentic shitamachi parallax.';
-          }
-        };
-
-        function animatePortal() {
-          requestAnimationFrame(animatePortal);
-          if (!pDragging) pRotY += 0.002;
-          pGroup.rotation.y = pRotY;
-          pRenderer.render(pScene, pCamera);
-        }
-        animatePortal();
-
-        window.addEventListener('resize', () => {
-          pCamera.aspect = pCanvas.clientWidth / pCanvas.clientHeight;
-          pCamera.updateProjectionMatrix();
-          pRenderer.setSize(pCanvas.clientWidth, pCanvas.clientHeight);
-        });
+    const textData = {
+      ja: {
+        'top-rsvp': 'ご返信 · RSVP',
+        'invitation-main-title': '路地と長屋の生きた記憶へ',
+        'invitation-sub-title': 'An Autumn Assembly of Living Corridors',
+        'invitation-letter-body': '謹啓　初秋の候、皆様におかれましてはますますご清祥のこととお慶び申し上げます。<br>墨田区京島の築100年を超える木造長屋と、横浜・黄金町の運河と高架下アート。二つの街が長年培ってきた手仕事、路地の記憶、そして暮らしの知恵を分かち合う、ささやかで温かな集いを開きます。',
+        'date-window': '2026年 10月2日(金) 〜 4日(日) &amp; 12日(月祝)',
+        'venue-summary': '東京・墨田区京島 ／ 東京アメリカンクラブ ／ 横浜・黄金町',
+        'portal-kicker': '生きた景観の窓',
+        'portal-heading': '京島駅・回廊を抜けてメタバースへ',
+        'portal-subtext': '真紅の自販機、瓦屋根の庇、木造格子戸、そして日除け天幕。静かに佇む街角の窓をクリックすると、そのまま広大なメタバースの街（kokechan.preattention.ai）へと歩みを進めることができます。',
+        'portal-hud-label': '京島駅：路地の回廊',
+        'portal-instruction': 'ドラッグで視点を回し、扉から街の中へ',
+        'portal-btn-enter': 'メタバース世界へ入る ↗',
+        'art-section-title': 'この集いに息づく表現と手仕事',
+        'art-section-sub': '技術は静かに背後へと退き、職人の木彫り、音楽の響き、そして生活の記憶が主役となります。',
+        'art-pillar-1-tag': '木工と長屋建築 · Woodcraft &amp; Joinery',
+        'art-pillar-1-title': '京島の大工仕事と路地の再生',
+        'art-pillar-1-desc': '後藤さんをはじめとする京島の職人・アーティストたちによる、長屋の木組みや格子戸の修繕。壊して建て直すのではなく、古材を生かしながら路地に開かれたアトリエや居間を紡ぐ実践に触れます。',
+        'art-pillar-2-tag': '夕暮れの音楽と映像 · Twilight AV Jam',
+        'art-pillar-2-title': 'こけちゃん音響空間と光の即興',
+        'art-pillar-2-desc': '10月3日の夜を彩る、私とSilvanaによる40〜50分のライブパフォーマンス。提灯が灯る薄暮の中で、アンビエントな電子音響と柔らかなプロジェクション映像が長屋の木肌を照らします。',
+        'art-pillar-3-tag': '生活の知恵 · Metabolic Sociology',
+        'art-pillar-3-title': '適応する生態系としての生活空間',
+        'art-pillar-3-desc': '路地の植木鉢、手押しポンプ（路地尊）、軒下の縁台。社会学研究者Yukaさんのフィールドワークを軸に、巨大都市の中で住民の手によって自律的に更新されていく下町生活の代謝を紐解きます。',
+        'art-pillar-4-tag': '工芸と水辺 · Handcrafted Kokeshi &amp; Canal',
+        'art-pillar-4-title': '木地師の轆轤と大岡川の水面',
+        'art-pillar-4-desc': '職人が一本ずつ削り出す木製こけしと、10月12日の祝日に黄金町エリアマネジメント（劉舒佳さん・鈴木亮さん）の案内で巡る大岡川のSUP水上散策。高架下のアートと水辺が交差します。',
+        'itinerary-kicker': '日程のご案内',
+        'itinerary-heading': '四日間の催しと時間',
+        'd1-title': 'オープニング晩餐会 · Welcome Dinner',
+        'd1-body': '6月のパスタの夕べと同じ墨田区京島の会場にて。季節の手料理と下町の酒を酌み交わしながら、集いの始まりを祝うアットホームな前夜祭です。',
+        'd2-title': '本集会：対話・路地歩き・夕暮れの宴と音響ジャム',
+        'd2-body': '13:45〜 長屋と工芸の対話（プレイグラウンド1）／ 15:15〜 メタボリック・ソシオロジー（プレイグラウンド2）／ 16:30〜 後藤さんによる京島路地歩き ／ 18:30〜 下町料理の晩餐 ／ 19:45〜 Me + Silvana 音響・映像ライブ。',
+        'd3-title': '記念晩餐会 &amp; 基調講演 (Tokyo American Club)',
+        'd3-body': '麻布台の東京アメリカンクラブにて。後藤大輔氏による基調講演『京島の路地三十年』、173ヶ所のリビングアーカイブ構想発表、文化保存を支える寄付パッケージのご案内を行います。',
+        'd4-title': '黄金町スタジオ見学 &amp; 大岡川SUP運河ツアー',
+        'd4-body': '黄金町エリアマネジメントの劉舒佳さん・鈴木亮さんのご案内。京急線高架下のアーティストスタジオ見学、大岡川での穏やかなSUP水上散策、そして黄金町バザールでの表現巡り。',
+        'rsvp-title': 'ご出欠・ご返信カード',
+        'rsvp-subtext': 'お手数ながら、ご都合のつきます日程をお知らせくださいますようお願い申し上げます。',
+        'form-name': 'お名前 / Full Name *',
+        'form-email': 'ご連絡先メールアドレス / Email *',
+        'form-days': 'ご参加希望日程 / Days Attending *',
+        'form-notes': 'ご伝言・お食事のご要望 / Notes &amp; Dietary',
+        'form-submit': 'ご出欠を送信する · SEND RSVP'
+      },
+      en: {
+        'top-rsvp': 'Kindly Respond · RSVP',
+        'invitation-main-title': 'Into the Living Corridors of Memory',
+        'invitation-sub-title': 'An Autumn Assembly of Kyojima & Koganecho',
+        'invitation-letter-body': 'You are cordially invited to an intimate cultural assembly honoring living shitamachi craft, metabolic sociology, and grassroots neighborhood memory.<br>Connecting century-old wooden nagaya alleys of Sumida with reclaimed railway arches and canal waters of Yokohama.',
+        'date-window': 'October 2–4 &amp; October 12, 2026',
+        'venue-summary': 'Sumida Kyojima ／ Tokyo American Club ／ Koganecho, Yokohama',
+        'portal-kicker': 'Window to a Living Landscape',
+        'portal-heading': 'Pass through the Kyojima Corridor into the Metaverse',
+        'portal-subtext': 'A crimson vending machine, sheltering ceramic roof, timber lattice doors, and sun awning. Step through this window directly into the full exploratory living world at kokechan.preattention.ai.',
+        'portal-hud-label': 'Kyojima Eki · Living Corridor',
+        'portal-instruction': 'Drag to look around · Step through the doorway into the world',
+        'portal-btn-enter': 'Enter the Metaverse World ↗',
+        'art-section-title': 'Living Expressions &amp; Craft of the Gathering',
+        'art-section-sub': 'Technology gracefully recedes into the background, leaving center stage to carpenters’ joinery, acoustic resonances, and living neighborhood memory.',
+        'art-pillar-1-tag': 'Woodcraft &amp; Joinery',
+        'art-pillar-1-title': 'Nagaya Carpentry &amp; Alley Renewal',
+        'art-pillar-1-desc': 'Curated with Goto-san and local Kyojima artisans. Restoring historic timber joinery without demolition, using reclaimed wood to foster shared studios and open neighborhood living rooms.',
+        'art-pillar-2-tag': 'Twilight AV Jam',
+        'art-pillar-2-title': 'Kokechan Soundscape &amp; Reactive Visuals',
+        'art-pillar-2-desc': 'An evening live set by Me + Silvana (40–50 minutes) on October 3. Ambient electronic vibrations and gentle visual projections casting shifting architectural reflections across the wooden eaves.',
+        'art-pillar-3-tag': 'Metabolic Sociology',
+        'art-pillar-3-title': 'Living Spaces as Adaptive Organisms',
+        'art-pillar-3-desc': 'Potted flora clusters, communal rainwater pumps, and weathered benches. Grounded in ethnographic research by Yuka, tracing how residents organically renew their community without heavy-handed planning.',
+        'art-pillar-4-tag': 'Handcrafted Kokeshi &amp; Canal Waters',
+        'art-pillar-4-title': 'Artisan Lathes &amp; River Reflections',
+        'art-pillar-4-desc': 'Individually turned wooden kokeshi figurines, followed by an October 12 holiday excursion led by Liu Shujia &amp; Ryo Suzuki: exploring Koganecho viaduct studios and an Ōoka River SUP canal paddle.',
+        'itinerary-kicker': 'The Order of Gatherings',
+        'itinerary-heading': 'Four Days of Shared Time',
+        'd1-title': 'Opening Feast · Welcome Dinner',
+        'd1-body': 'At the Sumida Kyojima venue (the site of our June pasta gathering). An intimate welcome dinner with seasonal shitamachi dishes, local sake, and relaxed introductions.',
+        'd2-title': 'The Main Assembly: Panels, Walking Tour &amp; AV Jam',
+        'd2-body': '13:45 Playground 1 (Nagaya Craft) ／ 15:15 Playground 2 (Metabolic Sociology) ／ 16:30 Kyojima Alley Walk led by Goto-san ／ 18:30 Shitamachi Evening Feast ／ 19:45 Live Sound &amp; Visual Jam by Me + Silvana.',
+        'd3-title': 'Gala Dinner &amp; Keynote (Tokyo American Club)',
+        'd3-body': 'At Tokyo American Club in Azabudai. Keynote by Goto-san, presentation of the 173-site Living Archive, and introduction of cultural preservation patronage tiers.',
+        'd4-title': 'Koganecho Studio Walk &amp; SUP Canal Tour',
+        'd4-body': 'Guided by Liu Shujia &amp; Ryo Suzuki (Koganecho Area Management Center). Artist studios beneath the railway arches, gentle SUP paddle along the Ōoka River, and street performances at the Bazaar.',
+        'rsvp-title': 'RSVP &amp; Attendance Card',
+        'rsvp-subtext': 'We kindly request the honor of your reply indicating which gatherings you will attend.',
+        'form-name': 'Full Name / お名前 *',
+        'form-email': 'Email Address / ご連絡先メールアドレス *',
+        'form-days': 'Days Attending / ご参加希望日程 *',
+        'form-notes': 'Notes &amp; Dietary Preferences / 備考・ご要望',
+        'form-submit': 'Send Attendance Card · ご返信送信'
       }
+    };
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'ja' ? 'en' : 'ja';
+      document.getElementById('lang-label').textContent = currentLang === 'ja' ? 'English に切替' : '日本語に切替';
+      
+      const elements = document.querySelectorAll('[data-i18n]');
+      elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (textData[currentLang] && textData[currentLang][key]) {
+          el.innerHTML = textData[currentLang][key];
+        }
+      });
+    }
+
+    document.getElementById('lang-toggle-btn').addEventListener('click', toggleLanguage);
+
+    // -----------------------------------------------------------------
+    // 3. FORM HANDLER
+    // -----------------------------------------------------------------
+    function handleReplySubmit(e) {
+      e.preventDefault();
+      document.getElementById('reply-card-form').classList.add('hidden');
+      document.getElementById('reply-success-msg').classList.remove('hidden');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initCorridor3D();
     });
   </script>
 
